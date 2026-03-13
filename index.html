@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Very Wandr</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232b3a4a'/%3E%3Ccircle cx='16' cy='16' r='10' stroke='%23e8927c' stroke-width='1.5' fill='none'/%3E%3Cellipse cx='16' cy='16' rx='4.5' ry='10' stroke='%23e8927c' stroke-width='1' fill='none' opacity='0.6'/%3E%3Cline x1='6' y1='16' x2='26' y2='16' stroke='%23e8927c' stroke-width='1' opacity='0.6'/%3E%3Cpath d='M7 12 Q16 10.5 25 12' stroke='%23e8927c' stroke-width='0.8' fill='none' opacity='0.4'/%3E%3Cpath d='M7 20 Q16 21.5 25 20' stroke='%23e8927c' stroke-width='0.8' fill='none' opacity='0.4'/%3E%3C/svg%3E">
+</head>
 <style>
   :root {
     --ink: #2b3a4a;
@@ -16,7 +24,10 @@
     --font-display-weight: 400;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
+  html {
+    font-size: 16px;
+    scrollbar-gutter: stable; /* réserve l'espace scrollbar pour éviter les sauts de layout */
+  }
   body {
     font-family: var(--font-body);
     font-size: var(--font-body-size, 0.95rem);
@@ -5202,9 +5213,10 @@ function importTrip(input) {
   input.value = '';
 }
 async function deleteCurrentTrip() {
-  const keys = Object.keys(state.trips);
   confirmDelete(`Supprimer "${trip().name}" définitivement ? Cette action est irréversible.`, () => {
-    delete state.trips[state.currentTrip];
+    const tripId = state.currentTrip;
+    sbDeleteTrip(tripId); // supprime dans Supabase en arrière-plan
+    delete state.trips[tripId];
     const remaining = Object.keys(state.trips);
     if (remaining.length) {
       state.currentTrip = remaining[0];
