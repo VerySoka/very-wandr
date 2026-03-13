@@ -3186,15 +3186,11 @@ async function handleMagicLinkRedirect() {
 async function sbSignOut() {
   if (!sb) return;
   await sb.auth.signOut();
-  currentUser = null;
-  renderAuthBar();
-  // Si on est sur la page de présentation, juste mettre à jour l'UI
-  const welcome = document.getElementById('welcome-screen');
-  if (welcome && welcome.style.display !== 'none') return;
-  // Sinon si aucun voyage local, retourner sur la page de présentation
-  if (!Object.keys(state.trips).length) {
-    showWelcome();
-  }
+  // Vider le localStorage des voyages pour ne pas laisser
+  // de données orphelines visibles après déconnexion
+  localStorage.removeItem(STORAGE_KEY);
+  // Recharger la page — l'utilisateur repart d'une ardoise vierge
+  window.location.reload();
 }
 
 async function sbGetUser() {
