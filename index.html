@@ -27,6 +27,7 @@
   html {
     font-size: 16px;
     overflow-y: scroll; /* scrollbar toujours présente → évite les sauts de layout */
+    background: var(--paper); /* évite le fond système noir sur mobile */
   }
   body {
     font-family: var(--font-body);
@@ -214,7 +215,6 @@
   .search-empty { padding: 1.2rem 0.9rem; font-size: 0.78rem; color: var(--muted); font-style: italic; }
 
   /* ── TRIP COMPLETION SCORE ── */
-  #page-overview .page-subtitle { display: none; }
   .trip-score-bar {
     margin: 0 0 0.5rem 0;
     display: flex;
@@ -553,9 +553,6 @@
     padding: 1.5rem; text-align: center; color: var(--muted);
     font-size: 0.8rem; font-style: italic;
   }
-  .budget-expense-row,
-  .budget-expense-header { grid-template-columns: 2fr 110px 130px 1fr 32px; align-items: center; }
-
   /* ── ÉCRAN IMPORT MINIMAL ── */
   #import-screen {
     position: fixed;
@@ -702,7 +699,6 @@
   /* Btn auth visible sur desktop en mode no-trip */
   #app-header.no-trip #header-auth-btn-wrap { display: flex; align-items: center; }
   #app-header.no-trip .header-auth-welcome-btn { display: flex !important; align-items: center; }
-  #app-header.no-trip .header-new-trip-btn { display: none !important; }
 
   /* ── PULL TO REFRESH — caché par défaut ── */
   #ptr-spinner {
@@ -725,10 +721,44 @@
   #main-layout { display: flex; min-height: calc(100vh - 60px); margin-left: 220px; }
 
   /* ── SIDEBAR ── */
+  .sidebar-brand-c {
+    text-align: center;
+    padding: 0.7rem 1rem 0.4rem;
+    position: relative;
+    display: none;
+  }
+  .sidebar-brand-c::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 1.2rem; right: 1.2rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(232,146,124,0.28), transparent);
+  }
+  .sbc-very {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: rgba(245,240,232,0.88);
+    letter-spacing: 0.02em;
+  }
+  .sbc-dot {
+    color: #a63d2f;
+    font-size: 1.1rem;
+    margin: 0 0.1rem;
+    font-family: var(--font-display);
+  }
+  .sbc-wandr {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: rgba(245,240,232,0.88);
+    letter-spacing: 0.02em;
+  }
+
   #sidebar {
     width: 220px;
     min-width: 220px;
-    background: #263443;
+    background: linear-gradient(160deg, #263443 0%, #1d2a36 100%);
     color: var(--paper);
     padding: 0.75rem 0 0;
     position: fixed;
@@ -742,30 +772,33 @@
     z-index: 1000;
   }
   .sidebar-section-title {
-    font-size: 0.62rem;
-    letter-spacing: 0.15em;
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--muted);
-    padding: 0 1.2rem 0.5rem;
-    margin-top: 1rem;
+    color: rgba(190,201,212,0.28);
+    padding: 0.4rem 1.2rem 0.3rem;
+    margin-top: 0;
   }
   .sidebar-section-title:first-child { margin-top: 0; }
   .sidebar-link {
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    padding: 0.5rem 1.2rem;
+    padding: 0.48rem 0.75rem;
     font-size: 0.78rem;
-    color: rgba(245,240,232,0.7);
     cursor: pointer;
-    border-left: 2px solid transparent;
-    transition: all 0.15s;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: rgba(245,240,232,0.55);
+    border-left: none;
+    border-radius: 7px;
+    margin: 0 0.45rem;
+    transition: background 0.15s, color 0.15s;
   }
-  .sidebar-link:hover { background: rgba(255,255,255,0.05); color: var(--paper); }
-  .sidebar-link.active { border-left-color: var(--gold); color: var(--paper); background: rgba(166,61,47,0.15); }
+  .sidebar-link:hover { background: rgba(255,255,255,0.07); color: rgba(245,240,232,0.9); }
+  .sidebar-link.active {
+    background: rgba(61,81,102,0.55);
+    color: rgba(245,240,232,0.95);
+    border: 1px solid rgba(190,201,212,0.13);
+  }
   .sidebar-link .icon { font-size: 0.9rem; flex-shrink: 0; }
   /* Zone destinations : scrollable indépendamment */
   .sidebar-destinations-wrap {
@@ -775,6 +808,9 @@
     min-height: 0;
     display: flex;
     flex-direction: column;
+    margin-top: 0.75rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 0.5rem;
   }
   .sidebar-destinations-wrap::-webkit-scrollbar { width: 4px; }
   .sidebar-destinations-wrap::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 4px; }
@@ -786,7 +822,6 @@
   .sidebar-city-drag:hover { color: rgba(245,240,232,0.6); }
   .sidebar-city-li.dragging-city { opacity: 0.35; }
   .sidebar-city-li.drag-over-city > .sidebar-link { border-left-color: var(--gold) !important; background: rgba(166,61,47,0.1); }
-  .city-page-header .city-order-hint { font-size: 0.7rem; color: var(--muted); font-style: italic; margin-top: 0.2rem; }
   #add-city-btn {
     margin: 0.5rem 1.2rem;
     width: calc(100% - 2.4rem);
@@ -807,6 +842,7 @@
     flex: 1;
     padding: 2.5rem 3rem;
     max-width: 1220px;
+    overflow-x: hidden;
   }
   .page { display: none; }
   .page.active { display: block; animation: fadeIn 0.25s ease; }
@@ -881,10 +917,14 @@
   .cb-label-only:hover .cb-box { border-color: var(--jade); }
   .cb-box.cb-checked { background: var(--jade); border-color: var(--jade); }
   .cb-box.cb-checked::after { content: '✓'; color: white; font-size: 0.7rem; font-weight: bold; font-family: sans-serif; }
-  .cb-text-input, .cb-text-input:focus {
+  .cb-text-input, .cb-text-input:focus,
+  textarea.cb-text-input, textarea.cb-text-input:focus {
     font-family: var(--font-body); font-size: 0.85rem;
     border: none; background: transparent; outline: none;
     color: var(--ink); flex: 1; width: 100%; padding: 0;
+    resize: none;
+    overflow: hidden;
+    line-height: 1.4;
   }
   .cb-text-input:focus { background: rgba(166,61,47,0.07); border-radius: 3px; padding: 0 4px; }
   .cb-done { text-decoration: line-through; color: var(--muted) !important; }
@@ -895,8 +935,6 @@
   }
   .itin-input:focus { background: rgba(166,61,47,0.1); border-radius: 3px; padding: 0 6px; }
   .itin-input.cb-done { text-decoration: line-through; color: var(--muted); }
-
-  /* ── FONT PICKER ── */
 
   /* ── CARDS / TABLES ── */
   .card {
@@ -962,34 +1000,6 @@
     border-radius: 4px;
     padding: 0 4px;
   }
-  .date-cell {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0;
-    min-width: 110px;
-  }
-  .date-input {
-    font-family: var(--font-body);
-    font-size: 0.78rem;
-    background: transparent;
-    border: none;
-    outline: none;
-    flex: 1;
-    min-width: 0;
-    color: var(--ink);
-    cursor: text;
-    padding: 0;
-  }
-  .date-input:focus { background: rgba(166,61,47,0.1); border-radius: 3px; padding: 0 4px; }
-  .date-hidden {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-    width: 1px; height: 1px;
-    left: 0; bottom: 0;
-    overflow: hidden;
-  }
   /* Force date/time native inputs to remove internal padding in tables */
   table.data-table input[type="date"],
   table.data-table input[type="time"] {
@@ -1031,7 +1041,7 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    margin-top: 0.8rem;
+    margin-top: 0.3rem;
     font-family: var(--font-body);
     font-size: 0.72rem;
     color: var(--jade);
@@ -1143,18 +1153,7 @@
     align-items: center;
     gap: 0.4rem;
   }
-  .day-date-range input[type="date"] {
-    font-family: var(--font-body);
-    font-size: 0.78rem;
-    border: none;
-    border-bottom: 1px dashed var(--border);
-    background: transparent;
-    outline: none;
-    padding: 0.15rem 0;
-    color: var(--ink);
-  }
-  .day-date-range input[type="date"]:focus { border-bottom-color: var(--gold); }
-  .drag-over-day .day-main { background: rgba(232,146,124,0.06); border-radius: 6px; }
+
   .day-notes-ta {
     width: 100%;
     font-family: var(--font-body);
@@ -1194,12 +1193,6 @@
 
   /* ── CHECKLISTS ── */
   .checklist-section { margin-bottom: 1.5rem; }
-  .checklist-section-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
   .checklist-item {
     display: flex;
     align-items: center;
@@ -1217,8 +1210,6 @@
     border-radius: 20px;
     letter-spacing: 0.05em;
   }
-  .tag-jade { background: rgba(61,81,102,0.12); color: var(--jade); }
-  .tag-gold { background: rgba(201,151,58,0.15); color: #8a6620; }
 
   /* ── FOOD PAGE ── */
   .food-card {
@@ -1317,14 +1308,6 @@
     transition: background 0.15s;
   }
   .itin-item:hover { background: rgba(201,151,58,0.05); }
-  .itin-rank {
-    font-size: 0.65rem;
-    color: var(--muted);
-    width: 20px;
-    text-align: right;
-    flex-shrink: 0;
-  }
-  /* .itin-input — défini plus haut */
   .itin-notes-input {
     font-family: var(--font-body);
     font-size: 0.82rem;
@@ -1409,7 +1392,7 @@
   .docs-textarea {
     width: 100%;
     min-height: 280px;
-    border: 1px dashed var(--border);
+    border: 1px solid rgba(43,58,74,0.15);
     border-radius: 6px;
     padding: 0.75rem 1rem;
     font-family: var(--font-body);
@@ -1489,18 +1472,10 @@
   }
   .btn-confirm:hover { background: var(--rust); }
 
-  /* ── EMPTY STATE ── */
-  .empty-state {
-    text-align: center;
-    padding: 3rem 1rem;
-    color: var(--muted);
-  }
-  .empty-state p { font-size: 0.82rem; font-style: italic; }
-
   /* ── BUDGET ── */
   .budget-summary-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 1rem;
     margin-bottom: 1.5rem;
   }
@@ -1559,7 +1534,6 @@
   }
   .exp-currency { font-size: 0.72rem; color: var(--muted); }
   .exp-cat-wrap { flex: 1; }
-  .exp-row-person { display: flex; align-items: center; }
   .exp-del-btn { margin-left: auto; flex-shrink: 0; }
   .budget-expense-row:last-child { border-bottom: none; }
   .budget-expense-row:hover { background: rgba(201,151,58,0.03); }
@@ -1625,7 +1599,6 @@
   /* Droite : montant ou badge, ancré à droite */
 
   .balance-amount { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; white-space: nowrap; display: block; }
-  .balance-count  { font-size: 0.68rem; color: var(--muted); white-space: nowrap; display: block; }
   .balance-arrow {
     display: inline-block;
     font-size: 0.72rem;
@@ -1823,7 +1796,6 @@
   .map-city-table tr:hover td { background: rgba(166,61,47,0.06); cursor: pointer; }
   .coord-status { font-size: 0.68rem; }
   .coord-ok { color: var(--jade); }
-  .coord-pending { color: var(--gold); }
   .coord-error { color: var(--rust); }
 
   /* ── DRAG ROWS (vols / hôtels) ── */
@@ -1928,7 +1900,6 @@
     flex-shrink: 0;
   }
 
-
   /* ── BOUTON RESET D'URGENCE ── */
   /* ── BACK TO TOP ── */
   #back-to-top {
@@ -1954,7 +1925,6 @@
   }
   #back-to-top.visible { opacity: 1; pointer-events: auto; }
   #back-to-top:hover { background: var(--gold); }
-  /* ── RESPONSIVE ── */
   /* ══════════════════════════════════════════════
      MOBILE — max-width 768px
      ══════════════════════════════════════════════ */
@@ -1970,22 +1940,17 @@
   }
   #sidebar-overlay.open { display: block; }
 
-  /* ── Bandeau voyage mobile (caché sur desktop) ── */
-  .sidebar-trip-controls { display: none; }
-
   /* ── Hamburger (caché sur desktop) ── */
   .hamburger-btn { display: none; }
-  /* ── Pill bouton mobile-only (caché sur desktop) ── */
-  .pill-btn-mobile-only { display: none; }
-  .pill-btn-new-trip { display: none; }
   /* ── Sidebar trip controls (caché sur desktop) ── */
   .sidebar-trip-controls { display: none; }
   /* ── Bouton nouveau séjour header (caché sur desktop) ── */
   .header-new-trip-btn { display: none; }
 
   @media (max-width: 768px) {
+    .sidebar-brand-c { display: block; }
 
-    /* ── Header mobile : logo gauche, pill droite ── */
+        /* ── Header mobile : logo gauche, pill droite ── */
     #app-header {
       padding: 0 0.75rem;
       height: 52px;
@@ -2019,16 +1984,9 @@
     /* Cacher le sélecteur de voyage du header → bandeau dédié */
     .trip-selector-wrap { display: none; }
     /* Bouton impression → caché sur mobile */
-    #btn-print { display: none; }
     /* Contrôles sidebar desktop : visibles */
-    .sidebar-trip-controls { display: flex; }
     /* Pill : pas de bouton mobile-only dedans */
-    .pill-btn-mobile-only { display: none; }
-    .pill-btn-new-trip { display: none !important; }
-    /* Bouton Nouveau séjour : caché sur mobile (disponible dans la sidebar) */
-    .header-new-trip-btn { display: none !important; }
-    /* En mode no-trip : cacher new-trip, afficher btn auth */
-    #app-header.no-trip .header-new-trip-btn { display: none !important; }
+
     #app-header.no-trip .header-auth-welcome-btn {
       display: flex !important;
       align-items: center;
@@ -2042,10 +2000,14 @@
 
     /* ── Sidebar trip controls (mobile) ── */
     .sidebar-trip-controls {
-      border-top: 1px solid rgba(255,255,255,0.08);
+      border-top: none;
       padding: 0 0 0.75rem;
+      margin-top: 0.75rem;
       display: flex;
       flex-direction: column;
+    }
+    .sidebar-trip-controls .sidebar-section-title {
+      margin-top: 0;
     }
     .sidebar-trip-row {
       display: flex;
@@ -2056,15 +2018,22 @@
     .sidebar-trip-select {
       flex: 1;
       min-width: 0;
-      background: rgba(255,255,255,0.06) !important;
+      background: rgba(255,255,255,0.06) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(245,240,232,0.55)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 0.45rem center !important;
       color: rgba(245,240,232,0.75) !important;
       border: none !important;
       border-bottom: 1px solid rgba(255,255,255,0.15) !important;
       border-radius: 0;
-      padding: 0.3rem 0.2rem;
+      padding: 0.3rem 1.6rem 0.3rem 0.2rem;
       font-size: 0.76rem;
       font-family: var(--font-body);
       outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+    }
+    .sidebar-select-wrap {
+      flex: 1;
+      min-width: 0;
     }
     .sidebar-trip-btn {
       flex-shrink: 0;
@@ -2095,7 +2064,7 @@
     }
     .sidebar-trip-del:hover { background: rgba(61,81,102,0.9); color: var(--paper); }
 
-    /* ── Sidebar → drawer ── */
+    /* ── Sidebar → drawer mobile (reset complet des styles desktop) ── */
     #sidebar {
       position: fixed;
       top: 0;
@@ -2104,29 +2073,35 @@
       width: 80vw;
       max-width: 300px;
       min-width: 0;
-      z-index: 1100;
+      z-index: 1200;
       transform: translateX(-100%);
       transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+      overflow: hidden;
       overflow-y: auto;
-      padding-top: 1rem;
+      padding-top: 0;
       box-shadow: 4px 0 24px rgba(0,0,0,0.35);
+      background: #263443;
     }
     #sidebar.mobile-open {
       transform: translateX(0);
     }
+    /* Masquer la sidebar destinations-wrap sur mobile quand fermée */
+    .sidebar-destinations-wrap {
+      overflow-y: auto;
+    }
 
     /* ── Layout principal ── */
+    html { overflow-y: auto; background: var(--paper); }
+    body { padding-top: 52px; background: var(--paper); }
+    .card { padding: 0.85rem 1rem; margin-bottom: 1rem; }
+    #welcome-screen { inset: 52px 0 0 0; }
     #main-layout {
       flex-direction: column;
       margin-left: 0;
+      min-height: calc(100vh - 52px);
+      background: var(--paper);
     }
-    #sidebar {
-      position: relative;
-      top: 0;
-      height: auto;
-      overflow: visible;
-    }
-    #content {
+        #content {
       padding: 1rem 0.75rem 5rem;
       min-width: 0;
       width: 100%;
@@ -2134,7 +2109,8 @@
 
     /* ── Titres ── */
     .page-title { font-size: 1.25rem !important; }
-    .card-title { font-size: 0.85rem; }
+    .overview-title-input { font-size: 1.55rem !important; }
+    .card-title { font-size: 0.85rem; margin-bottom: 0.4rem; }
 
     /* ── Inputs — éviter zoom iOS (min 16px) ── */
     input, select, textarea {
@@ -2166,6 +2142,14 @@
       align-items: center;
       justify-content: space-between;
       gap: 0.5rem;
+    }
+    /* Carte itinéraire : aligner la croix avec le label */
+    #itinerary-mobile .mob-card-header {
+      align-items: flex-start;
+    }
+    #itinerary-mobile .mob-card-header .btn-del-row {
+      margin-top: 0.15rem;
+      flex-shrink: 0;
     }
     .mob-card-type {
       font-size: 0.68rem;
@@ -2222,42 +2206,6 @@
     }
 
     /* ── Itinéraire mobile : carte par étape ── */
-    .itinerary-grid {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0;
-      margin-bottom: 0.6rem;
-      box-shadow: 0 1px 4px rgba(43,58,74,0.07);
-      display: flex;
-    }
-        .day-main {
-      padding: 0.85rem 1rem !important;
-      gap: 0.6rem !important;
-    }
-    .day-top-row {
-      align-items: flex-start !important;
-    }
-    .day-city-input {
-      font-size: 0.9rem !important;
-      max-width: none !important;
-      width: 100% !important;
-      font-weight: 400 !important;
-    }
-      .day-date-range input[type="date"] {
-      flex: 1;
-      min-width: 0;
-      font-size: 0.82rem !important;
-      padding: 0.25rem 0.3rem !important;
-      border: 1px solid var(--border) !important;
-      border-bottom: 1px solid var(--border) !important;
-      border-radius: 6px !important;
-      background: var(--paper) !important;
-    }
-    .day-notes-ta {
-      min-height: 3.5rem !important;
-      font-size: 0.9rem !important;
-    }
 
     /* ── Budget ── */
 
@@ -2274,26 +2222,29 @@
     .budget-chart-wrap { flex-direction: column; align-items: center; }
 
     /* ── Budget dépenses mobile ── */
-    .budget-expense-header { display: none; }
-    .budget-expense-row {
+    body.mob .budget-expense-header { display: none !important; visibility: hidden; height: 0; overflow: hidden; padding: 0; margin: 0; border: none; }
+
+    body.mob .budget-expense-row {
       /* Écraser la grille desktop */
       display: block !important;
       grid-template-columns: none !important;
-      position: relative;
+      position: static;
       background: white;
       border: 1px solid var(--border);
       border-radius: 10px;
       margin-bottom: 0.6rem;
-      overflow: visible;
+      overflow: hidden;
       box-shadow: 0 1px 3px rgba(43,58,74,0.06);
     }
     /* Ligne 1 : intitulé */
-    .exp-row-label {
-      display: block !important;
-      padding: 0.6rem 2.4rem 0.5rem 0.85rem;
+    body.mob .exp-row-label {
+      display: flex !important;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 0.6rem 0.5rem 0.5rem 0.85rem;
       border-bottom: 1px solid rgba(43,58,74,0.06);
     }
-    .exp-row-label .budget-input {
+    body.mob .exp-row-label .budget-input {
       display: block;
       width: 100% !important;
       font-size: 0.92rem !important;
@@ -2301,16 +2252,17 @@
       color: var(--ink);
       text-align: left !important;
       box-sizing: border-box;
+      min-height: 1.4em;
     }
-    /* ✕ top-right absolu */
-    .exp-del-btn {
-      position: absolute !important;
-      top: 0.5rem !important;
-      right: 0.6rem !important;
-      margin: 0 !important;
+    /* ✕ à droite de l'intitulé */
+    body.mob .exp-del-btn {
+      position: static !important;
+      margin-left: auto !important;
+      align-self: flex-start;
+      flex-shrink: 0;
     }
     /* Ligne 2 : montant + catégorie + payé par sur une ligne */
-    .exp-row-mid {
+    body.mob .exp-row-mid {
       display: flex !important;
       flex-direction: row !important;
       align-items: center;
@@ -2319,29 +2271,29 @@
       box-sizing: border-box;
       width: 100%;
     }
-    .exp-amount-wrap {
+    body.mob .exp-amount-wrap {
       display: flex;
       align-items: center;
       gap: 0.2rem;
       flex-shrink: 0;
     }
-    .exp-amount-wrap .budget-amount-input {
+    body.mob .exp-amount-wrap .budget-amount-input {
       width: 56px !important;
       font-size: 0.85rem !important;
       text-align: left !important;
     }
-    .exp-currency { font-size: 0.75rem; color: var(--muted); flex-shrink: 0; }
+    body.mob .exp-currency { font-size: 0.75rem; color: var(--muted); flex-shrink: 0; }
     /* Catégorie : taille au contenu */
-    .exp-cat-wrap {
+    body.mob .exp-cat-wrap {
       flex-shrink: 0;
       flex-grow: 0;
     }
-    .exp-cat-wrap .cat-dot { display: none; }
-    .exp-cat-wrap .csel {
+    body.mob .exp-cat-wrap .cat-dot { display: none; }
+    body.mob .exp-cat-wrap .csel {
       display: inline-block !important;
       width: auto !important;
     }
-    .exp-cat-wrap .csel-trigger {
+    body.mob .exp-cat-wrap .csel-trigger {
       min-height: 28px !important;
       font-size: 0.78rem !important;
       padding: 0.25rem 0.35rem !important;
@@ -2349,28 +2301,27 @@
       white-space: nowrap;
     }
     /* Payé par : prend le reste */
-    .exp-row-person { display: none !important; }
-    .exp-row-mid-person {
+    body.mob .exp-row-mid-person {
       flex: 1;
       min-width: 0;
     }
-    .exp-row-mid-person .csel {
+    body.mob .exp-row-mid-person .csel {
       display: block !important;
       width: 100% !important;
     }
-    .exp-row-mid-person .csel-trigger {
+    body.mob .exp-row-mid-person .csel-trigger {
       min-height: 28px !important;
       font-size: 0.78rem !important;
       padding: 0.25rem 0.35rem !important;
     }
-    .exp-row-mid-person .budget-input {
+    body.mob .exp-row-mid-person .budget-input {
       display: block;
       width: 100% !important;
       font-size: 0.8rem !important;
       font-style: italic;
       color: var(--muted);
     }
-    .budget-amount-input { font-size: 16px !important; text-align: left; }
+    body.mob .budget-amount-input { font-size: 16px !important; text-align: left; }
 
 /* Balance */
     .balance-row {
@@ -2384,8 +2335,17 @@
     .checklist-item {
       padding: 0.55rem 0.75rem !important;
       gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: flex-start;
     }
-    .cb-text-input { font-size: 16px !important; flex: 1; min-width: 0; }
+    .checklist-item .cb-label-only { padding-top: 0.1rem; }
+    .cb-label-only { flex-shrink: 0; }
+    .cb-text-input {
+      font-size: 0.82rem !important;
+      flex: 1 1 0;
+      min-width: 0;
+      width: 100%;
+    }
     .checklist-section { border-radius: 10px; margin-bottom: 0.75rem; }
 
     /* ── Food mobile ── */
@@ -2456,16 +2416,11 @@
     .io-grid { grid-template-columns: 1fr; }
 
     /* ── Score / barre complétion ── */
-    .trip-score-wrap { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
 
     /* ── Bouton back-to-top ── */
     #back-to-top { bottom: 1.2rem; right: 1rem; }
 
     /* ── Timeline ── */
-    #timeline-overlay .timeline-inner {
-      padding: 1rem 0.75rem;
-      overflow-x: auto;
-    }
 
     /* ── Recherche mobile ── */
     /* Quand la recherche est ouverte : le header devient le champ de recherche */
@@ -2507,7 +2462,7 @@
     }
     /* Bouton imprimer → partage natif sur mobile */
     .pill-divider { display: none; }
-    #btn-print { font-size: 0.9rem; }
+    #btn-print { display: none; font-size: 0.9rem; }
 
     /* ── Pull to refresh ── */
     #ptr-spinner.ptr-visible {
@@ -2520,17 +2475,28 @@
     @keyframes ptr-spin { to { transform: rotate(360deg); } }
 
     /* ── Checklist mobile ── */
-    .checklist-item {
-      flex-wrap: nowrap;
-      gap: 0.5rem;
-    }
-    .cb-text-input { font-size: 16px !important; flex: 1; min-width: 0; }
 
     /* ── Destinations mobile ── */
     .itin-item {
       flex-wrap: wrap !important;
       gap: 0.35rem 0.5rem;
       padding: 0.55rem 0.75rem !important;
+      align-items: flex-start;
+    }
+    .itin-item .cb-label-only { padding-top: 0.1rem; }
+    /* Checkbox, rank, label restent en order naturel (0) */
+    .itin-item .itin-input {
+      order: 1;
+      flex: 1 1 0 !important;
+      min-width: 0 !important;
+    }
+    .itin-item .btn-del-row {
+      order: 2;
+      flex-shrink: 0;
+    }
+    .itin-item .itin-notes-input {
+      order: 3;
+      flex: 1 1 100% !important;
     }
     .itin-input {
       flex: 1 1 55% !important;
@@ -2551,6 +2517,13 @@
 
     /* ── Documents mobile → cartes JS ── */
     .docs-col-header { display: none !important; }
+    #docs-notes {
+      margin: 0 -0.75rem;
+      width: calc(100% + 1.5rem);
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+    }
     .docs-person-row, .docs-booking-row { display: none !important; }
     .docs-mobile-cards { display: flex; flex-direction: column; gap: 0.6rem; }
     .docs-mob-card {
@@ -2596,9 +2569,6 @@
   }
 
 /* ── Auth bar ── */
-/* auth sidebar supprimée → styles retirés */
-
-
 
 /* ── Bouton auth dans le header (mode no-trip) ── */
 .header-auth-welcome-btn {
@@ -2625,7 +2595,6 @@
 }
 .header-auth-welcome-btn.header-auth-signout:hover { opacity: 1; }
 
-
 /* ── Itinéraire desktop — inputs dans data-table ── */
 #itinerary-table input.day-input {
   font-family: var(--font-body);
@@ -2642,9 +2611,6 @@
 #itinerary-table input[type="date"].day-input { min-width: 120px; }
 #itinerary-table tr.dragging { opacity: 0.4; }
 #itinerary-table tr.drag-over-day td { background: rgba(232,146,124,0.08); }
-
-
-
 
   /* Bouton auth dans la pill — ☁️ */
   .pill-btn-auth {
@@ -2681,6 +2647,95 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.25);
   }
   .pill-btn[data-tip]:hover::after { opacity: 1; }
+
+  /* ── Textarea auto-resize (remplace input sur mobile) ── */
+  textarea.ta-auto:not(#docs-notes) {
+    resize: none;
+    overflow: hidden;
+    line-height: 1.4;
+    font-family: var(--font-body);
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    width: 100%;
+    display: block;
+  }
+  /* Sur desktop : se comporte comme un input (1 ligne) */
+  @media (min-width: 769px) {
+    textarea.ta-auto {
+      height: auto !important;
+      min-height: 0;
+    }
+  }
+
+  /* ── Textarea intitulé dépense ── */
+  .budget-label-ta {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: var(--ink);
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+    padding: 0;
+    line-height: 1.4;
+  }
+
+  /* ── Assistant IA ── */
+  .btn-ai {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.7rem; font-family: var(--font-body);
+    color: var(--jade); background: rgba(61,81,102,0.07);
+    border: 1px solid rgba(61,81,102,0.2); border-radius: 20px;
+    padding: 0.2rem 0.65rem; cursor: pointer;
+    letter-spacing: 0.02em; transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .btn-ai:hover { background: rgba(61,81,102,0.13); border-color: var(--jade); }
+  .btn-ai.loading { opacity: 0.6; pointer-events: none; }
+  #ai-modal {
+    display: none; position: fixed; inset: 0; z-index: 2000;
+    background: rgba(43,58,74,0.45); backdrop-filter: blur(3px);
+    align-items: center; justify-content: center; padding: 1rem;
+  }
+  #ai-modal.open { display: flex; }
+  #ai-modal-box {
+    background: var(--paper); border-radius: 14px;
+    box-shadow: 0 8px 40px rgba(43,58,74,0.22);
+    width: 100%; max-width: 560px; max-height: 85vh;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  #ai-modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.2rem 0.8rem; border-bottom: 1px solid var(--border); flex-shrink: 0;
+  }
+  #ai-modal-title { font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); display: flex; align-items: center; gap: 0.4rem; }
+  #ai-modal-close { background: none; border: none; font-size: 1.1rem; color: var(--muted); cursor: pointer; padding: 0.2rem; line-height: 1; }
+  #ai-modal-body { padding: 1rem 1.2rem; overflow-y: auto; flex: 1; }
+  #ai-modal-context { font-size: 0.75rem; color: var(--muted); font-style: italic; margin-bottom: 0.8rem; }
+  #ai-modal-loading { display: flex; align-items: center; gap: 0.6rem; color: var(--muted); font-size: 0.82rem; padding: 1rem 0; }
+  .ai-spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--jade); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #ai-suggestions { display: flex; flex-direction: column; gap: 0.6rem; }
+  .ai-suggestion { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 0.75rem 2.2rem 0.75rem 1rem; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; position: relative; }
+  .ai-suggestion:hover { border-color: var(--jade); box-shadow: 0 2px 8px rgba(61,81,102,0.1); }
+  .ai-suggestion-label { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.25rem; }
+  .ai-suggestion-text { font-size: 0.85rem; color: var(--ink); line-height: 1.4; }
+  .ai-suggestion-add { position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); font-size: 1.1rem; color: var(--jade); opacity: 0; transition: opacity 0.15s; }
+  .ai-suggestion:hover .ai-suggestion-add { opacity: 1; }
+  .ai-suggestion.added { border-color: #5aab85; background: rgba(90,171,133,0.05); cursor: default; }
+  .ai-suggestion.added .ai-suggestion-add { opacity: 1; color: #5aab85; }
+  #ai-modal-error { color: var(--rust); font-size: 0.82rem; padding: 0.5rem 0; }
+  #ai-modal-footer { padding: 0.75rem 1.2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  #ai-modal-retry { font-size: 0.75rem; color: var(--jade); background: none; border: none; cursor: pointer; padding: 0; text-decoration: underline; }
+  #ai-modal-footer-note { font-size: 0.65rem; color: var(--muted); font-style: italic; }
+  @media (max-width: 768px) {
+    #ai-modal { align-items: flex-end; padding: 0; }
+    #ai-modal-box { max-height: 90vh; border-radius: 14px 14px 0 0; position: fixed; bottom: 0; left: 0; right: 0; max-width: 100%; }
+  }
 </style>
 
   <!-- Leaflet -->
@@ -2735,7 +2790,6 @@
     <button class="btn-delete-trip" onclick="deleteCurrentTrip()" title="Supprimer ce voyage">🗑</button>
   </div>
 </header>
-
 
 
 <!-- ÉCRAN IMPORT MINIMAL (aucun voyage, accès depuis welcome) -->
@@ -2793,11 +2847,26 @@
 <div id="main-layout">
   <!-- SIDEBAR -->
   <nav id="sidebar" class="no-trip">
+    <!-- Brand -->
+    <div class="sidebar-brand-c">
+      <span class="sbc-very">Very</span><span class="sbc-dot">·</span><span class="sbc-wandr">Wandr</span>
+    </div>
     <!-- Sélecteur voyage + actions -->
     <div class="sidebar-trip-controls" id="sidebar-trip-controls">
       <div class="sidebar-section-title" style="margin-top:0">Séjour</div>
+      <div id="sidebar-trip-progress" style="padding:0 1.2rem 0.5rem;display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.25rem">
+          <span id="sidebar-progress-label" style="font-size:0.65rem;color:rgba(245,240,232,0.5);font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px"></span>
+          <span id="sidebar-progress-pct" style="font-size:0.65rem;font-weight:600;color:var(--gold);flex-shrink:0;margin-left:0.4rem"></span>
+        </div>
+        <div style="height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden">
+          <div id="sidebar-progress-fill" style="height:100%;width:0%;background:var(--gold);border-radius:2px;transition:width 0.4s ease"></div>
+        </div>
+      </div>
       <div class="sidebar-trip-row">
-        <select class="trip-select sidebar-trip-select" id="trip-select-mobile" onchange="switchTrip(this.value)"></select>
+        <div class="sidebar-select-wrap">
+          <select class="trip-select sidebar-trip-select" id="trip-select-mobile" onchange="switchTrip(this.value)"></select>
+        </div>
         <button class="sidebar-trip-btn sidebar-trip-new" id="btn-new-trip-sidebar" onclick="openNewTripModal()" title="Nouveau séjour">+</button>
         <button class="sidebar-trip-btn sidebar-trip-del" onclick="deleteCurrentTrip()" title="Supprimer ce séjour">🗑</button>
       </div>
@@ -2822,15 +2891,16 @@
     <div class="sidebar-link" data-page="map" onclick="showPage('map',this);initMap()">
       <span class="icon">🗺</span> Carte itinéraire
     </div>
-    <div class="sidebar-destinations-wrap">
-      <div class="sidebar-section-title">Destinations</div>
+    <div class="sidebar-destinations-wrap" style="margin-bottom:0">
+      <div class="sidebar-section-title" style="margin-top:0.4rem">Destinations</div>
       <ul class="sidebar-city-list" id="sidebar-cities"></ul>
       <button id="add-city-btn" onclick="openAddCityModal()">+ Ajouter une ville</button>
     </div>
-    <div class="sidebar-section-title" style="margin-top:0">Général</div>
+    <div class="sidebar-section-title" style="margin-top:0;padding-top:0.5rem">Général</div>
     <div class="sidebar-link" data-page="importexport" onclick="showPage('importexport',this)">
       <span class="icon">🔄</span> Import / Export
     </div>
+    <div style="height:0.8rem"></div>
   </nav>
 
   <!-- CONTENT -->
@@ -2842,7 +2912,7 @@
         title="Cliquez pour renommer ce voyage"
         onchange="renameTripInline(this.value)"
         onkeydown="if(event.key==='Enter')this.blur()" />
-      <div class="page-subtitle" id="overview-subtitle" style="margin-top:0.4rem;margin-bottom:1rem"></div>
+      <div id="overview-countdown" style="font-size:0.82rem;font-weight:500;margin-top:0.3rem;margin-bottom:0.8rem;display:none"></div>
       <div class="trip-score-bar" id="trip-score-bar" style="display:none">
         <div class="trip-score-track"><div class="trip-score-fill" id="trip-score-fill"></div></div>
         <div class="trip-score-pct" id="trip-score-pct"></div>
@@ -2866,7 +2936,13 @@
 
       <!-- ITINERARY DAYS -->
       <div class="card">
-        <div class="card-title">📅 Itinéraire jour par jour<button class="btn-timeline" onclick="openTimeline()">📅 Vue timeline</button></div>
+        <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.4rem">
+          <span>📅 Itinéraire jour par jour</span>
+          <div style="display:flex;gap:0.5rem;align-items:center">
+            <button class="btn-ai" onclick="openAiModal('itinerary')">✨ Suggestions</button>
+            <button class="btn-timeline" onclick="openTimeline()">📅 Vue timeline</button>
+          </div>
+        </div>
         <div id="itinerary-days"></div>
         <div id="itinerary-mobile" class="mobile-cards" style="display:none"></div>
         <button class="btn-add-row" onclick="addDay()">+ Ajouter un jour</button>
@@ -2884,12 +2960,13 @@
             <col style="width:12%"><!-- Check-out -->
             <col style="width:8%"> <!-- Nuits -->
             <col>                  <!-- Commentaire (flex) -->
+            <col style="width:70px"><!-- Lien -->
             <col style="width:22px"><!-- Warn -->
             <col style="width:32px">
           </colgroup>
           <thead>
             <tr>
-              <th style="width:24px"></th><th>Hôtel / Logement</th><th>Ville</th><th>Check-in</th><th>Check-out</th><th>Nuits</th><th>Commentaire</th><th style="width:22px"></th><th></th>
+              <th style="width:24px"></th><th>Hôtel / Logement</th><th>Ville</th><th>Check-in</th><th>Check-out</th><th>Nuits</th><th>Commentaire</th><th style="width:70px">Lien</th><th style="width:22px"></th><th></th>
             </tr>
           </thead>
           <tbody id="hotels-tbody"></tbody>
@@ -2901,7 +2978,10 @@
 
     <!-- PAGE: CHECKLIST -->
     <div class="page" id="page-checklist">
-      <div class="page-title">À prévoir</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem">
+        <div class="page-title" style="margin-bottom:0">À prévoir</div>
+        <button class="btn-ai" onclick="openAiModal('checklist')">✨ Suggestions</button>
+      </div>
       <div class="page-subtitle">Tout ce qu'il faut organiser avant de partir</div>
       <div class="checklist-global-bar" id="checklist-global-bar">
         <div class="checklist-global-label" id="checklist-global-label">Chargement…</div>
@@ -2914,7 +2994,10 @@
 
     <!-- PAGE: FOOD -->
     <div class="page" id="page-food">
-      <div class="page-title">À goûter</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem">
+        <div class="page-title" style="margin-bottom:0">À goûter</div>
+        <button class="btn-ai" onclick="openAiModal('food')">✨ Suggestions</button>
+      </div>
       <div class="page-subtitle">Plats et spécialités à ne pas manquer</div>
       <div class="card">
         <div class="food-header">
@@ -2964,11 +3047,9 @@
 
       <!-- SUBTOTALS PER PERSON -->
       <div class="card">
-        <div class="card-title" style="justify-content:space-between">
-          <span>👤 Sous-totaux par personne</span>
-          <button class="btn-add-row" style="margin:0" onclick="openAddPersonModal()">+ Ajouter un voyageur</button>
-        </div>
+        <div class="card-title">👤 Sous-totaux par personne</div>
         <div id="budget-subtotals"></div>
+        <button class="btn-add-row" onclick="openAddPersonModal()">+ Ajouter un voyageur</button>
       </div>
 
       <!-- BALANCE -->
@@ -3006,7 +3087,7 @@
 
       <div class="card">
         <div class="card-title">📋 Notes &amp; informations diverses</div>
-        <textarea id="docs-notes" class="docs-textarea" placeholder="Adresse, numéro d urgence, code wifi, infos pratiques..." oninput="saveDocNotes(this.value)"></textarea>
+        <textarea id="docs-notes" class="docs-textarea ta-auto" placeholder="Adresse, numéro d urgence, code wifi, infos pratiques..." oninput="saveDocNotes(this.value);autoResizeTA(this)"></textarea>
       </div>
     </div>
 
@@ -3245,7 +3326,7 @@ async function sbGetUser() {
   return session?.user || null;
 }
 
-// ─── Sync Supabase ─── 
+// ─── Sync Supabase ───
 
 // Pousse vers Supabase tous les voyages locaux sans _sbId
 async function sbSyncLocalTrips() {
@@ -3373,6 +3454,27 @@ let state = {
   currentTrip: null,
   trips: {}
 };
+
+// ── Helper : textarea auto-resize (remplace input pour les champs longs) ──
+
+function autoResizeTA(ta) {
+  ta.style.height = 'auto';
+  ta.style.height = (ta.scrollHeight || 24) + 'px';
+}
+
+// Recalculer toutes les ta-auto visibles (appelé après render)
+function resizeAllTA(container) {
+  const selector = container || document;
+  setTimeout(() => {
+    selector.querySelectorAll('textarea.ta-auto').forEach(ta => {
+      if (ta.dataset.val !== undefined && ta.value === '') {
+        ta.value = ta.dataset.val;
+      }
+      ta.style.height = 'auto';
+      ta.style.height = (ta.scrollHeight || 24) + 'px';
+    });
+  }, 30);
+}
 
 const STORAGE_KEY = 'voyage_planner_v2';
 
@@ -3559,7 +3661,6 @@ async function init() {
 }
 
 
-
 // ════════════════════════════════════════════
 //  RENDER
 // ════════════════════════════════════════════
@@ -3611,16 +3712,26 @@ function renderTripSelector() {
 }
 
 // ── OVERVIEW ──
+function getDepartureCountdown(t) {
+  // Utiliser uniquement la date du vol aller (type 'Aller' ou premier vol)
+  const allers = (t.flights || []).filter(f => f.date && f.type === 'Aller');
+  if (!allers.length) return null;
+  allers.sort((a, b) => a.date.localeCompare(b.date));
+  const depDate = new Date(allers[0].date + 'T00:00:00');
+  const today   = new Date(); today.setHours(0,0,0,0);
+  return Math.round((depDate - today) / 86400000);
+}
+
 function renderOverview() {
   const t = trip();
   const titleEl = document.getElementById('overview-title-input');
   if (titleEl) titleEl.value = t.name;
-  const subEl = document.getElementById('overview-subtitle');
-  if (subEl) subEl.textContent = '';
   renderFlights();
   renderDays();
   renderHotels();
   renderTripScore();
+
+  // Countdown géré par renderTripScore (appelé juste avant)
   validateDates();
   renderMobileCards();
 }
@@ -3637,7 +3748,7 @@ function renderTripScore() {
   const criteria = [
     { label: 'Vol aller',       done: (t.flights||[]).some(f => f.type && f.date && f.from && f.to), weight: 2 },
     { label: 'Vol retour',      done: (t.flights||[]).some(f => f.date && f.from && f.to && f !== (t.flights||[])[0]), weight: 2 },
-    { label: 'Itinéraire',      done: (t.days||[]).length >= 3, weight: 2 },
+    { label: 'Itinéraire',      done: (t.days||[]).length >= 1, weight: 2 },
     { label: 'Hébergement',     done: (t.hotels||[]).some(h => h.name && h.checkin && h.checkout), weight: 2 },
     { label: 'Checklist',       done: (() => { const all = (t.checklistSections||[]).flatMap(s=>s.items||[]); return all.length > 0 && all.filter(x=>x.done).length / all.length >= 0.5; })(), weight: 3 },
     { label: 'Destinations',    done: (t.cities||[]).length >= 1, weight: 1 },
@@ -3656,9 +3767,49 @@ function renderTripScore() {
   lbl.textContent   = labelTxt;
 
   // Couleur selon avancement
+  const color = pct >= 80 ? '#5aab85' : pct >= 40 ? 'var(--gold)' : 'var(--rust)';
   if (pct >= 80) { fill.style.background = 'linear-gradient(90deg,#3d7a5f,#5aab85)'; pctEl.style.color = '#3d7a5f'; }
   else if (pct >= 40) { fill.style.background = 'linear-gradient(90deg,var(--jade),var(--gold))'; pctEl.style.color = 'var(--jade)'; }
   else { fill.style.background = 'linear-gradient(90deg,var(--gold),var(--rust))'; pctEl.style.color = 'var(--rust)'; }
+
+  // Mettre à jour la sidebar
+  const sbProg = document.getElementById('sidebar-trip-progress');
+  const sbFill = document.getElementById('sidebar-progress-fill');
+  const sbPct  = document.getElementById('sidebar-progress-pct');
+  const sbLbl  = document.getElementById('sidebar-progress-label');
+  if (sbProg && sbFill && sbPct && sbLbl) {
+    sbProg.style.display = 'block';
+    sbFill.style.width   = pct + '%';
+    sbFill.style.background = color;
+    sbPct.textContent    = pct + '%';
+    sbPct.style.color    = color;
+    sbLbl.textContent    = pct === 100 ? '🎉 Prêt !' : 'Manque : ' + missing.slice(0,2).join(', ') + (missing.length > 2 ? '…' : '');
+  }
+
+  // Mettre à jour le compteur de jours
+  const cdEl = document.getElementById('overview-countdown');
+  if (cdEl) {
+    const cd = getDepartureCountdown(t);
+    if (cd !== null) {
+      cdEl.style.display = 'block';
+      if (cd > 0) {
+        cdEl.textContent = `✈️ Départ dans ${cd} jour${cd > 1 ? 's' : ''}`;
+        cdEl.style.color = cd <= 7 ? 'var(--rust)' : cd <= 30 ? 'var(--gold)' : 'var(--ink)';
+      } else if (cd === 0) {
+        cdEl.textContent = "🟢 C'est le grand jour !";
+        cdEl.style.color = '#5aab85';
+      } else if (cd >= -30) {
+        cdEl.textContent = `🌍 Voyage en cours (J${cd})`;
+        cdEl.style.color = '#5aab85';
+      } else {
+        cdEl.textContent = `✓ Voyage terminé il y a ${Math.abs(cd)} jours`;
+        cdEl.style.color = 'var(--muted)';
+      }
+    } else {
+      cdEl.style.display = 'none';
+      cdEl.textContent = '';
+    }
+  }
 }
 function renameTripInline(val) {
   const name = (val || '').trim();
@@ -3709,6 +3860,34 @@ function toDateV(iso) {
 }
 
 let _validateTimer = null;
+function onDateChange(input, callback) {
+  const val = input.value;
+  if (!val) return;
+  if (input.dataset.focusLock === '1') return;
+  const prev = input.dataset.prevVal ?? '';
+  if (val === prev) return;
+  input.dataset.prevVal = val;
+  callback(val);
+}
+
+function onDateFocus(input) {
+  // Appelé en onfocus — peut arriver après onchange sur iOS
+  // Le vrai verrou est posé par onDateTouch (touchstart)
+  if (input.dataset.focusLock !== '1') {
+    input.dataset.prevVal = input.value ?? '';
+  }
+}
+
+function onDateTouch(input) {
+  // touchstart se déclenche AVANT change et focus sur iOS
+  input.dataset.prevVal = input.value ?? '';
+  input.dataset.focusLock = '1';
+  clearTimeout(input._lockTimer);
+  input._lockTimer = setTimeout(() => {
+    input.dataset.focusLock = '0';
+  }, 800);
+}
+
 function validateDatesDebounced() {
   clearTimeout(_validateTimer);
   _validateTimer = setTimeout(validateDates, 400);
@@ -3891,6 +4070,32 @@ function validateDates() {
     }
   });
 
+  // ── MOBILE : propager les warnings dans les mob-card-warn ──
+  // Vols
+  (t.flights||[]).forEach((f, i) => {
+    const el = document.getElementById('flight-warn-mob-' + i);
+    if (!el) return;
+    const msgs = flightMsgs[i] || [];
+    el.textContent = msgs.length ? '⚠️ ' + msgs[0] : '';
+  });
+  // Hôtels
+  hotelsData.forEach(d => {
+    const el = document.getElementById('hotel-warn-mob-' + d.i);
+    if (!el) return;
+    el.textContent = d.msgs.length ? '⚠️ ' + d.msgs[0] : '';
+  });
+  // Itinéraire mobile
+  (t.days||[]).forEach((d, i) => {
+    const el = document.getElementById('day-warn-mob-' + i);
+    if (!el) return;
+    const msgs = [];
+    const df = toDateV(d.dateFrom), dt = toDateV(d.dateTo);
+    if (df && dt && dt < df) msgs.push('Date de fin avant la date de début');
+    if (dateAller && df && df < dateAller) msgs.push('Étape avant le vol aller');
+    if (dateRetour && dt && dt > dateRetour) msgs.push('Étape après le vol retour');
+    el.textContent = msgs.length ? '⚠️ ' + msgs[0] : '';
+  });
+
   // ── Nuits sans hébergement → icône sur le card-title ──
   const diffJours = dateAller && dateRetour ? Math.round((dateRetour - dateAller) / 86400000) : 0;
   if (dateAller && dateRetour && dateRetour > dateAller && valides.length > 0 && diffJours <= 365) {
@@ -3933,10 +4138,10 @@ function renderFlights() {
     tr.innerHTML = `
       <td class="drag-td" title="Glisser pour réordonner">⠿</td>
       <td class="csel-flight-td" data-label="Type" style="width:90px;padding:0.25rem 0.4rem"></td>
-      <td data-label="Dép." style="padding:0 0.3rem;white-space:nowrap"><input type="date" value="${f.date||''}" onchange="updateFlight(${i},'date',this.value);validateDatesDebounced()" style="width:120px;font-size:0.72rem;padding:0.18rem 0.25rem" /></td>
+      <td data-label="Dép." style="padding:0 0.3rem;white-space:nowrap"><input type="date" value="${f.date||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateFlight(${i},'date',v);validateDatesDebounced()})" style="width:120px;font-size:0.72rem;padding:0.18rem 0.25rem" /></td>
       <td data-label="H. dép." style="padding:0 0.2rem"><input type="time" value="${f.time||''}" onchange="updateFlight(${i},'time',this.value)" style="width:72px;font-size:0.72rem;padding:0.18rem 0.25rem" /></td>
       <td data-label="De"><input value="${f.from||''}" placeholder="CDG, Paris…" oninput="updateFlight(${i},'from',this.value)" /></td>
-      <td data-label="Arr." style="padding:0 0.3rem;white-space:nowrap"><input type="date" value="${f.arrivalDate||''}" onchange="updateFlight(${i},'arrivalDate',this.value);validateDatesDebounced()" style="width:120px;font-size:0.72rem;padding:0.18rem 0.25rem" /></td>
+      <td data-label="Arr." style="padding:0 0.3rem;white-space:nowrap"><input type="date" value="${f.arrivalDate||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateFlight(${i},'arrivalDate',v);validateDatesDebounced()})" style="width:120px;font-size:0.72rem;padding:0.18rem 0.25rem" /></td>
       <td data-label="H. arr." style="padding:0 0.2rem"><input type="time" value="${f.arrivalTime||''}" onchange="updateFlight(${i},'arrivalTime',this.value)" style="width:72px;font-size:0.72rem;padding:0.18rem 0.25rem" /></td>
       <td data-label="À"><input value="${f.to||''}" placeholder="NRT, Tokyo…" oninput="updateFlight(${i},'to',this.value)" /></td>
       <td class="warn-td"></td>
@@ -4365,12 +4570,12 @@ function renderDays() {
         <input class="day-input" style="max-width:120px;flex:0 0 auto" value="${escHtml(d.city)}" placeholder="Ville / Lieu" oninput="updateDay(${i},'city',this.value)" />
         <div class="day-date-range">
           <span class="day-field-lbl">Du</span>
-          <input type="date" value="${d.dateFrom||''}" onchange="updateDay(${i},'dateFrom',this.value);validateDatesDebounced()" />
+          <input type="date" value="${d.dateFrom||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateDay(${i},'dateFrom',v);validateDatesDebounced()})" />
           <span class="day-date-sep">→</span>
           <span class="day-field-lbl">au</span>
-          <input type="date" value="${d.dateTo||''}" onchange="updateDay(${i},'dateTo',this.value);validateDatesDebounced()" />
+          <input type="date" value="${d.dateTo||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateDay(${i},'dateTo',v);validateDatesDebounced()})" />
         </div>
-        <input class="day-input day-note" style="color:var(--muted);font-style:italic;flex:1 1 0;min-width:80px" value="${escHtml(d.notes&&d.notes[0]||'')}" placeholder="Notes, activités…" oninput="updateDayNote(${i},0,this.value)" />
+        <textarea class="day-input day-note ta-auto" style="color:var(--muted);font-style:italic;flex:1 1 0;min-width:80px" placeholder="Notes, activités…" rows="1" data-val="${d.notes&&d.notes[0]||''}" oninput="updateDayNote(${i},0,this.value);autoResizeTA(this)"></textarea>
         <button class="btn-del-row" style="align-self:center;flex-shrink:0" onclick="deleteDay(${i})">✕</button>
       </div>
     `;
@@ -4392,32 +4597,34 @@ function renderDays() {
     // ── Mobile : cartes ──
     if (mobCont) {
       const card = document.createElement('div');
-      card.className = 'itinerary-grid';
+      card.className = 'mob-card';
       card.innerHTML = `
-        <div class="day-main">
-          <div class="day-top-row">
+          <div class="mob-card-header">
             <div class="mob-card-field" style="flex:1;min-width:0">
               <label>Ville / Lieu</label>
               <input class="day-input day-city-input" value="${escHtml(d.city)}" placeholder="Ex : Tokyo, Kyoto…" oninput="updateDay(${i},'city',this.value)" />
             </div>
-            <button class="btn-del-row day-del-btn" onclick="deleteDay(${i})" title="Supprimer">✕</button>
+            <button class="btn-del-row" onclick="deleteDay(${i})" title="Supprimer" >✕</button>
           </div>
           <div class="mob-card-row">
             <div class="mob-card-field">
               <label>Du</label>
-              <input type="date" value="${d.dateFrom||''}" onchange="updateDay(${i},'dateFrom',this.value);validateDatesDebounced()" />
+              <input type="date" value="${d.dateFrom||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateDay(${i},'dateFrom',v);validateDatesDebounced()})" />
             </div>
             <div class="mob-card-field">
               <label>Au</label>
-              <input type="date" value="${d.dateTo||''}" onchange="updateDay(${i},'dateTo',this.value);validateDatesDebounced()" />
+              <input type="date" value="${d.dateTo||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateDay(${i},'dateTo',v);validateDatesDebounced()})" />
             </div>
           </div>
           <div class="mob-card-field" style="width:100%">
             <label>Notes &amp; activités</label>
-            <textarea class="day-notes-ta" rows="2" placeholder="Restaurants, musées, activités…" oninput="updateDayNote(${i},0,this.value)">${(d.notes&&d.notes[0]||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</textarea>
+            <textarea class="day-notes-ta ta-auto" rows="1" placeholder="Restaurants, musées, activités…" data-val="${d.notes&&d.notes[0]||''}" oninput="updateDayNote(${i},0,this.value);autoResizeTA(this)"></textarea>
           </div>
-        </div>
+          <div class="mob-card-warn" id="day-warn-mob-${i}"></div>
       `;
+      // Assigner valeurs textarea
+      card.querySelectorAll('textarea.ta-auto[data-val]').forEach(ta => { ta.value = ta.dataset.val; });
+      resizeAllTA(card);
       mobCont.appendChild(card);
     }
   });
@@ -4443,87 +4650,51 @@ function renderHotels() {
     tr.dataset.idx = i;
     tr.innerHTML = `
       <td class="drag-td" title="Glisser pour réordonner">⠿</td>
-      <td data-label="Hôtel"><input value="${h.name}" placeholder="Nom de l'hôtel" oninput="updateHotel(${i},'name',this.value)" /></td>
+      <td data-label="Hôtel"><textarea class="ta-auto" placeholder="Nom de l'hôtel" rows="1" data-val="${h.name}" oninput="updateHotel(${i},'name',this.value);autoResizeTA(this)"></textarea></td>
       <td data-label="Ville"><input value="${h.city}" placeholder="Ville" oninput="updateHotel(${i},'city',this.value)" /></td>
-      <td data-label="Arrivée"><input type="date" value="${h.checkin||''}" onchange="updateHotel(${i},'checkin',this.value);validateDatesDebounced()" /></td>
-      <td data-label="Départ"><input type="date" value="${h.checkout||''}" onchange="updateHotel(${i},'checkout',this.value);validateDatesDebounced()" /></td>
+      <td data-label="Arrivée"><input type="date" value="${h.checkin||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateHotel(${i},'checkin',v);validateDatesDebounced()})" /></td>
+      <td data-label="Départ"><input type="date" value="${h.checkout||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateHotel(${i},'checkout',v);validateDatesDebounced()})" /></td>
       <td data-label="Nuits">${nights !== null ? `<span class="nights-badge">${nights} nuit${nights>1?'s':''}</span>` : '—'}</td>
-      <td data-label="Notes"><input value="${h.comment||''}" placeholder="Notes libres…" oninput="updateHotel(${i},'comment',this.value)" style="font-style:italic;color:var(--muted)" /></td>
+      <td data-label="Notes"><textarea class="ta-auto" placeholder="Notes libres…" rows="1" style="font-style:italic;color:var(--muted)" data-val="${h.comment||''}" oninput="updateHotel(${i},'comment',this.value);autoResizeTA(this)"></textarea></td>
+      <td style="padding:0 0.4rem">
+        ${h.url
+          ? `<span style="display:flex;align-items:center;gap:0.4rem">
+               <a href="${h.url}" target="_blank" rel="noopener" title="Accéder à la page de l'hébergement" style="color:var(--jade);font-size:1rem;text-decoration:none" onclick="event.stopPropagation()">🔗</a>
+               <button onclick="editHotelUrl(${i})" title="Modifier l'URL" style="background:none;border:none;cursor:pointer;font-size:0.72rem;color:var(--muted);padding:0;line-height:1">✎</button>
+             </span>`
+          : `<button onclick="editHotelUrl(${i})" title="Ajouter un lien de réservation" style="background:none;border:none;cursor:pointer;font-size:0.72rem;color:var(--muted);padding:0.1rem;border-bottom:1px dashed var(--border)">+ Lien</button>`}
+      </td>
       <td class="warn-td"></td>
       <td><button class="btn-del-row" onclick="deleteHotel(${i})">✕</button></td>
     `;
     addRowDrag(tr, t.hotels, renderHotels);
+    // Assigner valeurs textarea depuis data-val
+    tr.querySelectorAll('textarea.ta-auto').forEach(ta => { if (ta.dataset.val !== undefined) ta.value = ta.dataset.val; });
     tbody.appendChild(tr);
   });
+  resizeAllTA(tbody);
 }
 // Format ISO date to DD/MM/YYYY for display
-function fmtDate(iso) {
-  if (!iso) return '';
-  const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  return m ? `${m[3]}/${m[2]}/${m[1]}` : iso;
-}
 // Parse DD/MM/YYYY (or DD/MM with current/next year) → ISO
-function parseDate(input, hotelIdx, key) {
-  const raw = input.value.trim();
-  if (!raw) { updateHotel(hotelIdx, key, ''); renderHotels(); return; }
-  // Accept: DD/MM/YYYY, DD-MM-YYYY, DD/MM, YYYY-MM-DD
-  let d, m, y;
-  let match = raw.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})$/);
-  if (match) {
-    d = match[1].padStart(2,'0'); m = match[2].padStart(2,'0');
-    y = match[3].length === 2 ? '20'+match[3] : match[3];
-  } else {
-    match = raw.match(/^(\d{1,2})[\/\-\.](\d{1,2})$/);
-    if (match) {
-      d = match[1].padStart(2,'0'); m = match[2].padStart(2,'0');
-      const now = new Date();
-      y = now.getFullYear().toString();
-      // If that date has passed, assume next year
-      if (new Date(`${y}-${m}-${d}`) < new Date(now.toDateString())) y = (parseInt(y)+1).toString();
-    } else {
-      // Try ISO
-      match = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-      if (match) { y=match[1]; m=match[2]; d=match[3]; }
-    }
-  }
-  if (d && m && y && y.length === 4) {
-    const iso = `${y}-${m}-${d}`;
-    const valid = !isNaN(new Date(iso).getTime());
-    updateHotel(hotelIdx, key, valid ? iso : '');
-    input.value = valid ? fmtDate(iso) : raw;
-    if (valid) renderHotels();
-  }
-}
 // Called when user picks from the hidden calendar — syncs text input
-function applyCalDate(calInput, hotelIdx, key) {
-  const iso = calInput.value; // YYYY-MM-DD
-  if (!iso) return;
-  updateHotel(hotelIdx, key, iso);
-  // Sync the sibling text input
-  const cell = calInput.closest('.date-cell');
-  if (cell) {
-    const textInput = cell.querySelector('.date-input');
-    if (textInput) textInput.value = fmtDate(iso);
-  }
-  renderHotels();
-}
 // Programmatically opens the hidden date picker
-function openCal(btn) {
-  const cell = btn.closest('.date-cell');
-  if (!cell) return;
-  const cal = cell.querySelector('.date-hidden');
-  if (cal) {
-    if (cal.showPicker) { try { cal.showPicker(); } catch(e) { cal.click(); } }
-    else cal.click();
-  }
-}
 function calcNights(cin, cout) {
   if (!cin || !cout) return null;
   const d = (new Date(cout) - new Date(cin)) / 86400000;
   return d >= 0 ? d : null;
 }
+function editHotelUrl(i) {
+  const h = trip().hotels[i];
+  const current = h.url || '';
+  const val = window.prompt('Lien de réservation :', current);
+  if (val === null) return; // annulé
+  const url = val.trim();
+  updateHotel(i, 'url', url && !url.startsWith('http') ? 'https://' + url : url);
+  renderHotels();
+}
+
 function addHotel() { if (!requireTrip()) return;
-  trip().hotels.push({ id: uid(), name: '', city: '', checkin: '', checkout: '', checkin_time: '', checkout_time: '' });
+  trip().hotels.push({ id: uid(), name: '', city: '', checkin: '', checkout: '', checkin_time: '', checkout_time: '', url: '' });
   save(); renderHotels(); renderMobileCards();
 }
 function deleteHotel(i) { confirmDelete('Supprimer cet hébergement ?', () => { trip().hotels.splice(i,1); save(); renderHotels(); renderMobileCards(); renderTripScore(); validateDates(); }); }
@@ -4583,16 +4754,36 @@ function renderChecklist() {
     section.items.forEach((item, ii) => {
       const row = document.createElement('div');
       row.className = 'checklist-item';
-      row.innerHTML = `
-        <input type="checkbox" class="fancy-cb" id="cb-${si}-${ii}" ${item.done?'checked':''} onchange="toggleCheck(${si},${ii},this.checked)" />
-        <label class="cb-label-only" for="cb-${si}-${ii}"><div class="cb-box${item.done?' cb-checked':''}" ></div></label>
-        <input class="cb-text-input${item.done?' cb-done':''}" value="${escHtml(item.text)}" placeholder="Élément…" onchange="updateCheckItem(${si},${ii},this.value)" />
-        <button class="btn-del-row" onclick="deleteCheckItem(${si},${ii})">✕</button>
-      `;
+      // Construire la ligne via JS pour éviter tout problème d'encodage
+      const cbId = `cb-${si}-${ii}`;
+      const cb = Object.assign(document.createElement('input'), {type:'checkbox', className:'fancy-cb', id:cbId, checked:!!item.done});
+      cb.onchange = () => toggleCheck(si, ii, cb.checked);
+      const lbl = document.createElement('label');
+      lbl.className = 'cb-label-only';
+      lbl.htmlFor = cbId;
+      lbl.innerHTML = `<div class="cb-box${item.done?' cb-checked':''}"></div>`;
+      const ta = document.createElement('textarea');
+      ta.className = 'cb-text-input' + (item.done ? ' cb-done' : '');
+      ta.placeholder = 'Élément…';
+      ta.rows = 1;
+      ta.value = item.text || '';
+      ta.oninput = function() { this.style.height='auto'; this.style.height=this.scrollHeight+'px'; updateCheckItem(si,ii,this.value); };
+      const del = document.createElement('button');
+      del.className = 'btn-del-row';
+      del.textContent = '✕';
+      del.onclick = () => deleteCheckItem(si, ii);
+      row.append(cb, lbl, ta, del);
       itemsCont.appendChild(row);
     });
   });
   renderChecklistGlobalBar();
+  // Recalculer la hauteur de tous les textarea après rendu complet
+  setTimeout(() => {
+    document.querySelectorAll('#checklist-sections textarea.cb-text-input').forEach(ta => {
+      ta.style.height = 'auto';
+      ta.style.height = ta.scrollHeight + 'px';
+    });
+  }, 50);
 }
 function renderChecklistGlobalBar() {
   const all   = (trip().checklistSections||[]).flatMap(s => s.items||[]);
@@ -4655,14 +4846,16 @@ function renderFood() {
       <div style="display:flex;align-items:center;gap:0.5rem">
         <input type="checkbox" class="fancy-cb" id="food-cb-${i}" ${f.done?'checked':''} onchange="toggleFood(${i},this.checked)" />
         <label class="cb-label-only" for="food-cb-${i}"><div class="cb-box${f.done?' cb-checked':''}" ></div></label>
-        <input class="food-input${f.done?' cb-done':''}" value="${escHtml(f.name)}" placeholder="Nom du plat" onchange="updateFood(${i},'name',this.value)" />
+        <textarea class="food-input${f.done?' cb-done':''} ta-auto" placeholder="Nom du plat" rows="1" data-val="${f.name}" oninput="updateFood(${i},'name',this.value);autoResizeTA(this)"></textarea>
       </div>
-      <div><input class="food-input" value="${escHtml(f.desc)}" placeholder="Description" onchange="updateFood(${i},'desc',this.value)" style="color:var(--muted);font-style:italic" /></div>
-      <div><input class="food-input" value="${escHtml(f.location)}" placeholder="Ville – Restaurant" onchange="updateFood(${i},'location',this.value)" /></div>
+      <div><textarea class="food-input ta-auto" placeholder="Description" rows="1" style="color:var(--muted)" data-val="${f.desc}" oninput="updateFood(${i},'desc',this.value);autoResizeTA(this)"></textarea></div>
+      <div><textarea class="food-input ta-auto" placeholder="Ville – Restaurant" rows="1" data-val="${f.location}" oninput="updateFood(${i},'location',this.value);autoResizeTA(this)"></textarea></div>
       <button class="btn-del-row" onclick="deleteFood(${i})">✕</button>
     `;
+    div.querySelectorAll('textarea.ta-auto').forEach(ta => { if (ta.dataset.val !== undefined) ta.value = ta.dataset.val; });
     list.appendChild(div);
   });
+  resizeAllTA(list);
 }
 function addFood() { if (!requireTrip()) return;
   trip().food.push({ id: uid(), name: '', desc: '', location: '', done: false });
@@ -4758,10 +4951,9 @@ function renderCities() {
       row.className = 'itin-item';
       row.innerHTML = `
         <input type="checkbox" class="fancy-cb" id="city-cb-${city.id}-${ii}" ${item.done?'checked':''} onchange="toggleCityItem('${city.id}',${ii},this.checked)" />
-        <span class="itin-rank">${ii+1}</span>
         <label class="cb-label-only" for="city-cb-${city.id}-${ii}"><div class="cb-box${item.done?' cb-checked':''}" ></div></label>
-        <input class="itin-input${item.done?' cb-done':''}" value="${escHtml(item.text)}" placeholder="Lieu, monument, activité…" onchange="updateCityItem('${city.id}',${ii},'text',this.value)" />
-        <input class="itin-notes-input" value="${escHtml(item.note||'')}" placeholder="Notes, horaires…" onchange="updateCityItem('${city.id}',${ii},'note',this.value)" />
+        <textarea class="itin-input${item.done?' cb-done':''} ta-auto" placeholder="Lieu, monument, activité…" rows="1" data-val="${item.text}" oninput="updateCityItem('${city.id}',${ii},'text',this.value);autoResizeTA(this)"></textarea>
+        <textarea class="itin-notes-input ta-auto" placeholder="Notes, horaires…" rows="1" data-val="${item.note||''}" oninput="updateCityItem('${city.id}',${ii},'note',this.value);autoResizeTA(this)"></textarea>
         <button class="btn-del-row" onclick="deleteCityItem('${city.id}',${ii})">✕</button>
       `;
       itemsCont.appendChild(row);
@@ -4837,6 +5029,7 @@ function toggleCityItem(cityId, ii, val) {
 function budgetData() {
   if (!trip().budget) trip().budget = { currency: '€', persons: [], expenses: [], localCurrency: '', exchangeRate: 0 };
   return trip().budget;
+  resizeAllTA();
 }
 
 // ══════════════════════════════════════════
@@ -5015,7 +5208,7 @@ function renderBudget() {
       row.className = 'budget-expense-row';
       row.innerHTML = `
         <div class="exp-row-label">
-          <input class="budget-input" value="${escHtml(exp.label)}" placeholder="Intitulé de la dépense" onchange="updateExpense(${i},'label',this.value)" />
+          <textarea class="budget-input budget-label-ta" placeholder="Intitulé de la dépense" rows="1" oninput="updateExpense(${i},'label',this.value);if(window.innerWidth<=768){this.style.height='auto';this.style.height=Math.max(24,this.scrollHeight)+'px'}"></textarea>
           <button class="btn-del-row exp-del-btn" onclick="deleteExpense(${i})">✕</button>
         </div>
         <div class="exp-row-mid">
@@ -5034,7 +5227,16 @@ function renderBudget() {
           </div>
         </div>
       `;
+      // Assigner valeurs
+      row.querySelectorAll('textarea.ta-auto[data-val]').forEach(ta => { ta.value = ta.dataset.val; });
+      const labelTa = row.querySelector('.budget-label-ta');
+      if (labelTa) labelTa.value = exp.label || '';
       listEl.appendChild(row);
+      // Resize textarea intitulé APRÈS insertion dans le DOM
+      if (labelTa && window.innerWidth <= 768) {
+        labelTa.style.height = 'auto';
+        labelTa.style.height = Math.max(24, labelTa.scrollHeight) + 'px';
+      }
       // Injecter csel catégorie
       const catCell = row.querySelector('.csel-cat-cell');
       if (catCell) {
@@ -5181,7 +5383,15 @@ function addExpense() { if (!requireTrip()) return;
 function deleteExpense(i) { budgetData().expenses.splice(i,1); save(); renderBudget(); }
 function updateExpense(i, key, val) {
   budgetData().expenses[i][key] = key === 'amount' ? (parseFloat(val)||0) : val;
-  save(); renderBudget();
+  save();
+  // Ne pas re-rendre toute la page à chaque frappe (perte de focus)
+  // Uniquement mettre à jour le total sidebar
+  const total = (budgetData().expenses || []).reduce((s,e) => s+(parseFloat(e.amount)||0), 0);
+  const cur = budgetData().currency || '€';
+  const sidebarTotal = document.getElementById('sidebar-budget-total');
+  if (sidebarTotal) sidebarTotal.textContent = total > 0 ? fmtAmt(total, cur) : '';
+  // Re-rendre uniquement pour les champs non-texte (montant, catégorie, personne)
+  if (key !== 'label') renderBudget();
 }
 function updateCurrency(val) { budgetData().currency = val; save(); renderBudget(); }
 
@@ -5289,6 +5499,27 @@ function showPage(pageId, clickedEl) {
     if (match) match.classList.add('active');
   }
   if (pageId === 'documents') renderDocuments();
+  // Recalculer les hauteurs des textarea checklist quand la page devient visible
+  // Recalculer textarea auto-resize quand on navigue vers une page
+  const taPages = ['checklist', 'food', 'budget', 'overview', 'documents'];
+  if (taPages.includes(pageId) || pageId.startsWith('city-')) {
+    setTimeout(() => {
+      document.querySelectorAll('.page.active textarea.ta-auto, #checklist-sections textarea.cb-text-input').forEach(ta => {
+        if (ta.dataset.val !== undefined && ta.value === '') ta.value = ta.dataset.val;
+        ta.style.height = 'auto';
+        ta.style.height = (ta.scrollHeight || 24) + 'px';
+      });
+    }, 60);
+    // Resize spécifique textarea budget
+    if (pageId === 'budget' && window.innerWidth <= 768) {
+      setTimeout(() => {
+        document.querySelectorAll('.budget-label-ta').forEach(ta => {
+          ta.style.height = 'auto';
+          ta.style.height = Math.max(24, ta.scrollHeight) + 'px';
+        });
+      }, 100);
+    }
+  }
   window.scrollTo({ top: 0, behavior: 'instant' });
   if (window.innerWidth <= 768) closeMobileMenu();
 }
@@ -5591,6 +5822,7 @@ function renderCoordTable(resolved) {
 function docsData() {
   if (!trip().docs) trip().docs = { persons: [], bookings: [], notes: '' };
   return trip().docs;
+  resizeAllTA();
 }
 
 function renderDocuments() {
@@ -5609,12 +5841,16 @@ function renderDocuments() {
       var ePass = escHtml(p.passport||'');
       var eExp  = escHtml(p.expiry||'');
       row.innerHTML = [
-        '<input class="docs-input" value="' + eName + '" placeholder="Prenom Nom" onchange="updateDocPerson(' + i + ',&quot;name&quot;,this.value)" onkeydown="if(event.key===\'Enter\')this.blur()" />',
-        '<input class="docs-input" value="' + ePass + '" placeholder="AB123456" onchange="updateDocPerson(' + i + ',&quot;passport&quot;,this.value)" onkeydown="if(event.key===\'Enter\')this.blur()" />',
+        '<textarea class="docs-input ta-auto" rows="1" placeholder="Prenom Nom" oninput="updateDocPerson(' + i + ',&quot;name&quot;,this.value);autoResizeTA(this)" data-val="' + eName + '"></textarea>',
+        '<textarea class="docs-input ta-auto" rows="1" placeholder="AB123456" oninput="updateDocPerson(' + i + ',&quot;passport&quot;,this.value);autoResizeTA(this)" data-val="' + ePass + '"></textarea>',
         '<input class="docs-input" value="' + eExp  + '" placeholder="JJ/MM/AAAA" onchange="updateDocPerson(' + i + ',&quot;expiry&quot;,this.value)" onkeydown="if(event.key===\'Enter\')this.blur()" />',
         '<button class="btn-del-row" onclick="deleteDocPerson(' + i + ')">&#x2715;</button>'
       ].join('');
       pList.appendChild(row);
+      row.querySelectorAll('textarea.ta-auto').forEach(function(ta) {
+        ta.value = ta.dataset.val || '';
+        autoResizeTA(ta);
+      });
     });
   }
 
@@ -5631,18 +5867,25 @@ function renderDocuments() {
       var eRef    = escHtml(b.ref||'');
       var eDetail = escHtml(b.detail||'');
       row.innerHTML = [
-        '<input class="docs-input" value="' + eLabel  + '" placeholder="Vol, Hotel, Location..." onchange="updateDocBooking(' + i + ',&quot;label&quot;,this.value)" onkeydown="if(event.key===\'Enter\')this.blur()" />',
-        '<input class="docs-input" value="' + eRef    + '" placeholder="No de confirmation" onchange="updateDocBooking(' + i + ',&quot;ref&quot;,this.value)" onkeydown="if(event.key===\'Enter\')this.blur()" />',
-        '<input class="docs-input" value="' + eDetail + '" placeholder="Compagnie, adresse, notes..." onchange="updateDocBooking(' + i + ',&quot;detail&quot;,this.value)" onkeydown="if(event.key===\'Enter\')this.blur()" />',
+        '<textarea class="docs-input ta-auto" rows="1" placeholder="Vol, Hotel, Location..." oninput="updateDocBooking(' + i + ',&quot;label&quot;,this.value);autoResizeTA(this)" data-val="' + eLabel + '"></textarea>',
+        '<textarea class="docs-input ta-auto" rows="1" placeholder="No de confirmation" oninput="updateDocBooking(' + i + ',&quot;ref&quot;,this.value);autoResizeTA(this)" data-val="' + eRef + '"></textarea>',
+        '<textarea class="docs-input ta-auto" placeholder="Compagnie, adresse, notes..." rows="1" data-val="' + eDetail.replace(/"/g, '&quot;') + '" oninput="updateDocBooking(' + i + ',\'detail\',this.value);autoResizeTA(this)"></textarea>',
         '<button class="btn-del-row" onclick="deleteDocBooking(' + i + ')">&#x2715;</button>'
       ].join('');
       bList.appendChild(row);
+      row.querySelectorAll('textarea.ta-auto').forEach(function(ta) {
+        ta.value = ta.dataset.val || '';
+        autoResizeTA(ta);
+      });
     });
   }
 
   // Notes
   var notesEl = document.getElementById('docs-notes');
-  if (notesEl) notesEl.value = d.notes || '';
+  if (notesEl) {
+    notesEl.value = d.notes || '';
+    autoResizeTA(notesEl);
+  }
   renderDocsMobile();
 }
 function updateDocPerson(i, k, v)  { docsData().persons[i][k]  = v; save(); }
@@ -5724,12 +5967,13 @@ function renderDocsMobile() {
         </div>
         <div class="docs-mob-field">
           <label>Détail</label>
-          <input value="${b.detail||''}" placeholder="Compagnie, adresse, notes…" onchange="updateDocBooking(${i},'detail',this.value)" />
+          <textarea class="ta-auto" data-val="${b.detail||''}" placeholder="Compagnie, adresse, notes…" rows="1" oninput="updateDocBooking(${i},'detail',this.value);autoResizeTA(this)"></textarea>
         </div>
       `;
       bkCont.appendChild(card);
     });
   }
+  resizeAllTA();
 }
 
 // ── BOOT ──
@@ -5783,15 +6027,14 @@ function renderFlightsMobile() {
           <label>Aéroport arr.</label>
           <input value="${f.to||''}" placeholder="NRT…" onchange="updateFlight(${i},'to',this.value)" style="text-transform:uppercase" />
         </div>
-        ${f.type === 'Aller' || !f.type ? `
         <div class="mob-card-field">
           <label>Arrivée (date)</label>
-          <input type="date" value="${f.arrivalDate||''}" onchange="updateFlight(${i},'arrivalDate',this.value);validateDatesDebounced()" />
+          <input type="date" value="${f.arrivalDate||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateFlight(${i},'arrivalDate',v);validateDatesDebounced()})" />
         </div>
         <div class="mob-card-field">
           <label>H. arrivée</label>
           <input type="time" value="${f.arrivalTime||''}" onchange="updateFlight(${i},'arrivalTime',this.value)" />
-        </div>` : ''}
+        </div>
       </div>
       <div class="mob-card-warn" id="flight-warn-mob-${i}"></div>
     `;
@@ -5817,17 +6060,16 @@ function renderHotelsMobile() {
     const card = document.createElement('div');
     card.className = 'mob-card';
     card.innerHTML = `
-      <div class="mob-card-header">
-        <span style="font-weight:500;font-size:0.88rem;color:var(--ink)">${h.name || 'Hébergement'}</span>
-        <div style="display:flex;align-items:center;gap:0.5rem">
-          ${nights !== null ? `<span class="mob-nights">${nights} nuit${nights>1?'s':''}</span>` : ''}
-          <button class="btn-del-row" onclick="deleteHotel(${i})">✕</button>
-        </div>
-      </div>
       <div class="mob-card-row">
         <div class="mob-card-field" style="grid-column:1/-1">
-          <label>Hôtel / Logement</label>
-          <input value="${h.name||''}" placeholder="Nom de l'établissement" onchange="updateHotel(${i},'name',this.value);renderHotelsMobile()" />
+          <label style="display:flex;align-items:center;justify-content:space-between">
+            <span>Hôtel / Logement</span>
+            <div style="display:flex;align-items:center;gap:0.5rem">
+              ${nights !== null ? `<span class="mob-nights">${nights} nuit${nights>1?'s':''}</span>` : ''}
+              <button class="btn-del-row" onclick="deleteHotel(${i})">✕</button>
+            </div>
+          </label>
+          <textarea class="ta-auto" data-val="${h.name||''}" placeholder="Nom de l'établissement" rows="1" oninput="updateHotel(${i},'name',this.value);autoResizeTA(this)"></textarea>
         </div>
         <div class="mob-card-field" style="grid-column:1/-1">
           <label>Ville</label>
@@ -5843,12 +6085,32 @@ function renderHotelsMobile() {
         </div>
         <div class="mob-card-field" style="grid-column:1/-1">
           <label>Notes</label>
-          <input value="${h.comment||''}" placeholder="Notes libres…" onchange="updateHotel(${i},'comment',this.value)" style="font-style:italic" />
+          <textarea class="ta-auto" data-val="${h.comment||''}" placeholder="Notes libres…" rows="1" style="font-style:italic;font-size:0.78rem;color:var(--muted);margin-bottom:0.4rem" oninput="updateHotel(${i},'comment',this.value);autoResizeTA(this)"></textarea>
+        </div>
+        <div class="mob-card-field" style="grid-column:1/-1">
+          <label>Lien de l'hébergement</label>
+          ${h.url ? `
+          <div style="display:flex;align-items:center;gap:0.6rem">
+            <a href="${h.url}" target="_blank" rel="noopener"
+               title="Accéder à la page de l'hébergement"
+               style="font-size:1.2rem;text-decoration:none;flex-shrink:0;line-height:1">🔗</a>
+            <button onclick="updateHotel(${i},'url','');renderHotelsMobile()"
+              style="font-size:0.72rem;color:var(--muted);background:none;border:none;border-bottom:1px dashed var(--border);cursor:pointer;padding:0;line-height:1.4">
+              Modifier l'URL
+            </button>
+          </div>` : `
+          <input value="" placeholder="https://booking.com/…"
+            onblur="const v=this.value.trim();if(v&&!v.startsWith('http'))this.value='https://'+v;updateHotel(${i},'url',this.value.trim());if(this.value.trim())renderHotelsMobile()"
+            style="font-size:0.82rem;border:none;border-bottom:1px dashed var(--border);background:transparent;outline:none;color:var(--ink);width:100%" />
+          `}
         </div>
       </div>
       <div class="mob-card-warn" id="hotel-warn-mob-${i}"></div>
     `;
     cont.appendChild(card);
+    // Assigner les valeurs et calculer hauteurs
+    card.querySelectorAll('textarea.ta-auto[data-val]').forEach(ta => { ta.value = ta.dataset.val; });
+    resizeAllTA(card);
   });
 }
 
@@ -6329,7 +6591,152 @@ document.addEventListener('keydown', function(e) {
     e.preventDefault();
     el.blur();
   }
+  resizeAllTA();
+  resizeAllTA();
+  resizeAllTA();
 });
+
+
+// ════════════════════════════════════════════════════════════════
+//  ASSISTANT IA
+// ════════════════════════════════════════════════════════════════
+let _aiCurrentMode = null;
+
+function buildAiContext(mode) {
+  const t = trip(); if (!t) return null;
+  const dest  = (t.cities||[]).map(c=>c.name).filter(Boolean).join(', ') || 'destination inconnue';
+  const dates = (() => {
+    const all = [];
+    (t.flights||[]).forEach(f => { if (f.date) all.push(f.date); });
+    (t.days||[]).forEach(d => { if (d.dateFrom) all.push(d.dateFrom); });
+    all.sort();
+    return all.length ? `du ${fmtDV(all[0])} au ${fmtDV(all[all.length-1])}` : '';
+  })();
+  const base = `Séjour "${t.name}"${dest ? ' à ' + dest : ''}${dates ? ' ' + dates : ''}.`;
+
+  if (mode === 'itinerary') {
+    const days = (t.days||[]).map((d,i)=>`J${i+1}${d.city?' '+d.city:''}${d.dateFrom?' ('+fmtDV(d.dateFrom)+')':''}`).join(', ');
+    const existing = days ? `
+Itinéraire actuel : ${days}.` : '';
+    return { context: base+existing, prompt: `Tu es un expert en voyage. ${base}${existing}
+
+Propose 5 idées d'étapes ou d'activités. Réponds en JSON uniquement, sans markdown :
+{"suggestions":[{"label":"Ville / Région","text":"Description courte"},...]}`};
+  }
+  if (mode === 'food') {
+    const existing = (t.food||[]).map(f=>f.name).filter(Boolean).join(', ');
+    const already = existing ? `
+Déjà dans la liste : ${existing}.` : '';
+    return { context: base+already, prompt: `Tu es un expert culinaire. ${base}${already}
+
+Propose 5 plats ou spécialités à ne pas manquer. Réponds en JSON uniquement, sans markdown :
+{"suggestions":[{"label":"Nom du plat","text":"Description courte et lieu si possible"},...]}`};
+  }
+  if (mode === 'checklist') {
+    const existing = (t.checklistSections||[]).flatMap(s=>(s.items||[]).map(i=>i.text)).filter(Boolean).slice(0,15).join(', ');
+    const already = existing ? `
+Déjà dans la checklist : ${existing}.` : '';
+    return { context: base+already, prompt: `Tu es un expert en organisation de voyages. ${base}${already}
+
+Propose 6 éléments essentiels à ajouter à la checklist. Réponds en JSON uniquement, sans markdown :
+{"suggestions":[{"label":"Catégorie","text":"Élément à prévoir"},...]}`};
+  }
+  return null;
+}
+
+async function openAiModal(mode) {
+  if (!requireTrip()) return;
+  _aiCurrentMode = mode;
+  const titles = { itinerary:'Idées pour votre itinéraire', food:'Plats à ne pas manquer', checklist:'À ajouter à la checklist' };
+  document.getElementById('ai-modal-title-text').textContent = titles[mode] || 'Suggestions IA';
+  document.getElementById('ai-modal-error').style.display  = 'none';
+  document.getElementById('ai-suggestions').innerHTML      = '';
+  document.getElementById('ai-modal-retry').style.display  = 'none';
+  document.getElementById('ai-modal').classList.add('open');
+  await fetchAiSuggestions(mode);
+}
+
+function closeAiModal() {
+  document.getElementById('ai-modal').classList.remove('open');
+  _aiCurrentMode = null;
+}
+
+function aiRetry() {
+  if (_aiCurrentMode) {
+    document.getElementById('ai-suggestions').innerHTML = '';
+    document.getElementById('ai-modal-error').style.display = 'none';
+    document.getElementById('ai-modal-retry').style.display = 'none';
+    fetchAiSuggestions(_aiCurrentMode);
+  }
+}
+
+async function fetchAiSuggestions(mode) {
+  const ctx = buildAiContext(mode); if (!ctx) return;
+  const loadEl = document.getElementById('ai-modal-loading');
+  const errEl  = document.getElementById('ai-modal-error');
+  const sugEl  = document.getElementById('ai-suggestions');
+  const ctxEl  = document.getElementById('ai-modal-context');
+  const retryEl= document.getElementById('ai-modal-retry');
+  ctxEl.textContent    = ctx.context;
+  loadEl.style.display = 'flex';
+  errEl.style.display  = 'none';
+  sugEl.innerHTML      = '';
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 600,
+        messages: [{ role: 'user', content: ctx.prompt }] })
+    });
+    loadEl.style.display = 'none';
+    if (!resp.ok) throw new Error('Erreur API (' + resp.status + ')');
+    const data = await resp.json();
+    const raw  = (data.content||[]).map(b=>b.text||'').join('');
+    const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
+    const suggestions = parsed.suggestions || [];
+    if (!suggestions.length) throw new Error('Aucune suggestion reçue');
+    suggestions.forEach(s => {
+      const div = document.createElement('div');
+      div.className = 'ai-suggestion';
+      div.innerHTML = `<div class="ai-suggestion-label">${s.label||''}</div><div class="ai-suggestion-text">${s.text||''}</div><span class="ai-suggestion-add">＋</span>`;
+      div.addEventListener('click', () => {
+        if (div.classList.contains('added')) return;
+        addAiSuggestion(mode, s);
+        div.classList.add('added');
+        div.querySelector('.ai-suggestion-add').textContent = '✓';
+      });
+      sugEl.appendChild(div);
+    });
+    retryEl.style.display = 'inline';
+  } catch(e) {
+    loadEl.style.display = 'none';
+    errEl.style.display  = 'block';
+    errEl.textContent    = '⚠️ ' + (e.message||'Erreur lors de la génération');
+    retryEl.style.display = 'inline';
+  }
+}
+
+function addAiSuggestion(mode, s) {
+  if (!requireTrip()) return;
+  if (mode === 'itinerary') {
+    trip().days.push({ id: uid(), city: s.label||s.text, dateFrom:'', dateTo:'', notes:[s.text||''] });
+    save(); renderDays(); renderTripScore();
+  }
+  if (mode === 'food') {
+    trip().food.push({ id: uid(), name: s.label||'', desc: s.text||'', location:'', done: false });
+    save(); renderFood();
+  }
+  if (mode === 'checklist') {
+    const sections = trip().checklistSections||[];
+    let section = sections.find(sec=>sec.title&&sec.title.toLowerCase()===(s.label||'').toLowerCase());
+    if (!section) section = sections[sections.length-1];
+    if (!section) { section={id:uid(),title:'Suggestions IA',items:[]}; sections.push(section); trip().checklistSections=sections; }
+    section.items.push({ id: uid(), text: s.text||s.label||'', done: false });
+    save(); renderChecklist();
+  }
+}
+
+document.addEventListener('keydown', e => { if (e.key==='Escape') closeAiModal(); });
 
 </script>
 <button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">
@@ -6359,5 +6766,24 @@ document.addEventListener('keydown', function(e) {
   </div>
 </div>
 
+
+  <div id="ai-modal" role="dialog" aria-modal="true" onclick="if(event.target===this)closeAiModal()">
+    <div id="ai-modal-box">
+      <div id="ai-modal-header">
+        <div id="ai-modal-title">✨ <span id="ai-modal-title-text">Assistant IA</span></div>
+        <button id="ai-modal-close" onclick="closeAiModal()">✕</button>
+      </div>
+      <div id="ai-modal-body">
+        <div id="ai-modal-context"></div>
+        <div id="ai-modal-loading" style="display:none"><div class="ai-spinner"></div><span>Claude analyse votre séjour…</span></div>
+        <div id="ai-modal-error" style="display:none"></div>
+        <div id="ai-suggestions"></div>
+      </div>
+      <div id="ai-modal-footer">
+        <button id="ai-modal-retry" onclick="aiRetry()" style="display:none">↺ Nouvelles suggestions</button>
+        <span id="ai-modal-footer-note">Suggestions générées par Claude · Cliquez pour ajouter</span>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
