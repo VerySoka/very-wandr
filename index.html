@@ -4184,7 +4184,6 @@ function renderTripSelector() {
 
   if (t && emojiEl) {
     emojiEl.textContent = t.emoji || '✈️';
-    _tw(emojiEl);
     nameEl.textContent  = t.name  || 'Sans titre';
     const allDates = [...(t.flights||[]).map(f=>f.date),(t.days||[]).map(d=>d.dateFrom)]
       .flat().filter(Boolean).sort();
