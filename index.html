@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Very Wandr</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232b3a4a'/%3E%3Ccircle cx='16' cy='16' r='10' stroke='%23e8927c' stroke-width='1.5' fill='none'/%3E%3Cellipse cx='16' cy='16' rx='4.5' ry='10' stroke='%23e8927c' stroke-width='1' fill='none' opacity='0.6'/%3E%3Cline x1='6' y1='16' x2='26' y2='16' stroke='%23e8927c' stroke-width='1' opacity='0.6'/%3E%3Cpath d='M7 12 Q16 10.5 25 12' stroke='%23e8927c' stroke-width='0.8' fill='none' opacity='0.4'/%3E%3Cpath d='M7 20 Q16 21.5 25 20' stroke='%23e8927c' stroke-width='0.8' fill='none' opacity='0.4'/%3E%3C/svg%3E">
+<script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"></script>
 </head>
 <style>
   :root {
@@ -57,10 +58,7 @@
   }
   /* Pill centrée absolument dans le header */
   #header-pill {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
+    margin-left: auto;
   }
   .header-brand {
     font-size: 1.25rem;
@@ -71,9 +69,7 @@
     color: var(--paper);
   }
   .trip-selector-wrap {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
+    display: none;
   }
   select.trip-select {
     background: #2b3a4a;
@@ -760,7 +756,7 @@
     min-width: 220px;
     background: linear-gradient(160deg, #263443 0%, #1d2a36 100%);
     color: var(--paper);
-    padding: 0.75rem 0 0;
+    padding: 0;
     position: fixed;
     top: 60px;
     left: 0;
@@ -771,6 +767,55 @@
     flex-direction: column;
     z-index: 1000;
   }
+
+  /* ── Bloc séjour ── */
+  .sb-trip-block {
+    padding: 1.1rem 1rem 0.9rem;
+    background: rgba(0,0,0,0.18);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    flex-shrink: 0;
+  }
+  .sb-trip-emoji { font-size: 1.8rem; line-height: 1; margin-bottom: 0.35rem; display: block; }
+  .sb-trip-name { font-size: 0.88rem; font-weight: 500; color: rgba(245,240,232,0.95); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sb-trip-sub { font-size: 0.63rem; color: rgba(245,240,232,0.4); margin-top: 0.15rem; min-height: 0.9rem; }
+  .sb-trip-progress { margin-top: 0.45rem; }
+  .sb-trip-progress-bar { height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+  .sb-trip-progress-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+  .sb-trip-dots { display: flex; gap: 0.35rem; margin-top: 0.55rem; flex-wrap: wrap; }
+  .sb-trip-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.18); cursor: pointer; transition: background 0.15s; flex-shrink: 0; }
+  .sb-trip-dot.active { background: var(--gold); }
+  .sb-trip-dot:hover { background: rgba(255,255,255,0.4); }
+  .sb-trip-actions { display: flex; gap: 0.4rem; margin-top: 0.6rem; }
+  .sb-trip-btn {
+    flex: 1; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px; color: rgba(245,240,232,0.65); font-size: 0.64rem;
+    padding: 0.3rem 0; cursor: pointer; font-family: var(--font-body); transition: background 0.12s, color 0.12s;
+  }
+  .sb-trip-btn:hover { background: rgba(255,255,255,0.13); color: rgba(245,240,232,0.95); }
+
+  .sb-trip-btn-del {
+    background: rgba(166,61,47,0.18);
+    border-color: rgba(232,146,124,0.25);
+    color: rgba(232,146,124,0.85);
+  }
+  .sb-trip-btn-del:hover {
+    background: rgba(166,61,47,0.32);
+    border-color: rgba(232,146,124,0.45);
+    color: rgba(232,146,124,1);
+  }
+  .sb-trip-btn-del:hover { background: rgba(166,61,47,0.25); color: var(--gold); }
+
+  /* ── Navigation ── */
+  .sb-nav-wrap { padding: 0.7rem 0 0.1rem; flex-shrink: 0; }
+  .sb-section-label { font-size: 0.5rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(190,201,212,0.28); padding: 0.1rem 1.2rem 0.35rem; }
+
+  /* ── Badge sidebar ── */
+  .sb-badge { margin-left: auto; font-size: 0.6rem; background: rgba(232,146,124,0.18); color: var(--gold); padding: 0.1rem 0.45rem; border-radius: 8px; white-space: nowrap; font-weight: 400; }
+
+  /* ── Bas ── */
+  .sb-bottom { margin-top: auto; padding: 0.4rem 0 0.6rem; border-top: 1px solid rgba(255,255,255,0.07); background: rgba(0,0,0,0.12); flex-shrink: 0; }
+  .sb-bottom .sidebar-link { color: rgba(245,240,232,0.35); font-size: 0.74rem; }
+  .sb-bottom .sidebar-link:hover { color: rgba(245,240,232,0.7); }
   .sidebar-section-title {
     font-size: 0.55rem;
     letter-spacing: 0.18em;
@@ -801,6 +846,19 @@
   }
   .sidebar-link .icon { font-size: 0.9rem; flex-shrink: 0; }
   /* Zone destinations : scrollable indépendamment */
+  .sb-dest-outer {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.75rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 0.4rem;
+  }
+  .sb-dest-header {
+    flex-shrink: 0;
+    padding: 0 0 0.25rem;
+  }
   .sidebar-destinations-wrap {
     flex: 1;
     overflow-y: auto;
@@ -808,9 +866,6 @@
     min-height: 0;
     display: flex;
     flex-direction: column;
-    margin-top: 0.75rem;
-    border-top: 1px solid rgba(255,255,255,0.07);
-    padding-top: 0.5rem;
   }
   .sidebar-destinations-wrap::-webkit-scrollbar { width: 4px; }
   .sidebar-destinations-wrap::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 4px; }
@@ -822,6 +877,7 @@
   .sidebar-city-drag:hover { color: rgba(245,240,232,0.6); }
   .sidebar-city-li.dragging-city { opacity: 0.35; }
   .sidebar-city-li.drag-over-city > .sidebar-link { border-left-color: var(--gold) !important; background: rgba(166,61,47,0.1); }
+  .city-page-header .city-order-hint { font-size: 0.7rem; color: var(--muted); font-style: italic; margin-top: 0.2rem; }
   #add-city-btn {
     margin: 0.5rem 1.2rem;
     width: calc(100% - 2.4rem);
@@ -936,6 +992,8 @@
   .itin-input:focus { background: rgba(166,61,47,0.1); border-radius: 3px; padding: 0 6px; }
   .itin-input.cb-done { text-decoration: line-through; color: var(--muted); }
 
+  /* ── FONT PICKER ── */
+
   /* ── CARDS / TABLES ── */
   .card {
     background: white;
@@ -999,6 +1057,34 @@
     outline-offset: 1px;
     border-radius: 4px;
     padding: 0 4px;
+  }
+  .date-cell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    min-width: 110px;
+  }
+  .date-input {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    background: transparent;
+    border: none;
+    outline: none;
+    flex: 1;
+    min-width: 0;
+    color: var(--ink);
+    cursor: text;
+    padding: 0;
+  }
+  .date-input:focus { background: rgba(166,61,47,0.1); border-radius: 3px; padding: 0 4px; }
+  .date-hidden {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 1px; height: 1px;
+    left: 0; bottom: 0;
+    overflow: hidden;
   }
   /* Force date/time native inputs to remove internal padding in tables */
   table.data-table input[type="date"],
@@ -1154,6 +1240,7 @@
     gap: 0.4rem;
   }
 
+  .drag-over-day .day-main { background: rgba(232,146,124,0.06); border-radius: 6px; }
   .day-notes-ta {
     width: 100%;
     font-family: var(--font-body);
@@ -1193,6 +1280,12 @@
 
   /* ── CHECKLISTS ── */
   .checklist-section { margin-bottom: 1.5rem; }
+  .checklist-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
   .checklist-item {
     display: flex;
     align-items: center;
@@ -1210,13 +1303,15 @@
     border-radius: 20px;
     letter-spacing: 0.05em;
   }
+  .tag-jade { background: rgba(61,81,102,0.12); color: var(--jade); }
+  .tag-gold { background: rgba(201,151,58,0.15); color: #8a6620; }
 
   /* ── FOOD PAGE ── */
   .food-card {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr auto;
     gap: 0.75rem;
-    align-items: center;
+    align-items: start;
     padding: 0.75rem;
     border-bottom: 1px solid rgba(26,24,20,0.06);
     font-size: 0.8rem;
@@ -1251,7 +1346,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     gap: 1rem;
   }
   .city-edit-name {
@@ -1300,7 +1395,7 @@
   /* ── ITINERARY ITEM ── */
   .itin-item {
     display: flex;
-    align-items: center;
+    align-items: start;
     gap: 0.7rem;
     padding: 0.5rem 0.6rem;
     border-radius: 5px;
@@ -1391,7 +1486,7 @@
   .docs-col-header-booking { grid-template-columns: 1.2fr 1fr 1.5fr auto; }
   .docs-textarea {
     width: 100%;
-    min-height: 280px;
+    min-height: 220px;
     border: 1px solid rgba(43,58,74,0.15);
     border-radius: 6px;
     padding: 0.75rem 1rem;
@@ -1400,7 +1495,8 @@
     color: var(--ink);
     background: transparent;
     outline: none;
-    resize: vertical;
+    resize: none;
+    overflow: hidden;
     line-height: 1.6;
   }
   .docs-textarea:focus { border-color: var(--rust); background: rgba(166,61,47,0.03); }
@@ -1472,6 +1568,14 @@
   }
   .btn-confirm:hover { background: var(--rust); }
 
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--muted);
+  }
+  .empty-state p { font-size: 0.82rem; font-style: italic; }
+
   /* ── BUDGET ── */
   .budget-summary-grid {
     display: grid;
@@ -1508,7 +1612,7 @@
   }
   .budget-expense-row {
     display: grid;
-    grid-template-columns: 3fr 2fr 1.5fr;
+    grid-template-columns: 3fr 0.7fr 1.8fr 1fr auto;
     gap: 0.5rem;
     align-items: center;
     padding: 0.5rem 0.75rem;
@@ -1519,8 +1623,13 @@
   .exp-row-label {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    min-width: 0;
+    align-self: stretch;
   }
+  .exp-row-label .budget-label-ta { flex: 1; min-width: 0; align-self: center; }
+
+  /* Auto-resize textarea desktop */
+  textarea.ta-auto { resize: none !important; overflow: hidden !important; }
   .exp-row-mid {
     display: flex;
     align-items: center;
@@ -1533,13 +1642,19 @@
     flex-shrink: 0;
   }
   .exp-currency { font-size: 0.72rem; color: var(--muted); }
-  .exp-cat-wrap { flex: 1; }
-  .exp-del-btn { margin-left: auto; flex-shrink: 0; }
+  .exp-cat-wrap { flex: 1; display: flex; align-items: center; gap: 0.4rem; }
+  .exp-row-person { display: flex; align-items: center; }
+  .exp-del-btn { margin-left: auto; flex-shrink: 0; align-self: start; }
+  .exp-row-person-del {
+    display: flex; align-items: center; gap: 0.3rem;
+  }
+  .exp-row-person-del .exp-del-btn { margin-left: auto; }
+  .exp-row-person-del .budget-input { flex: 1; min-width: 0; }
   .budget-expense-row:last-child { border-bottom: none; }
   .budget-expense-row:hover { background: rgba(201,151,58,0.03); }
   .budget-expense-header {
     display: grid;
-    grid-template-columns: 3fr 0.7fr 1.8fr auto;
+    grid-template-columns: 3fr 0.7fr 1.8fr 1fr auto;
     gap: 0.75rem;
     font-size: 0.62rem;
     letter-spacing: 0.1em;
@@ -1664,10 +1779,12 @@
   .io-notice {
     font-size: 0.72rem;
     color: var(--muted);
-    padding: 0.6rem 0.9rem;
+    padding: 0.75rem 1rem;
     background: var(--cream);
     border-radius: 5px;
     border-left: 3px solid var(--rust);
+    font-style: italic;
+    line-height: 1.75;
   }
 
   /* ── MAP PAGE ── */
@@ -1796,6 +1913,7 @@
   .map-city-table tr:hover td { background: rgba(166,61,47,0.06); cursor: pointer; }
   .coord-status { font-size: 0.68rem; }
   .coord-ok { color: var(--jade); }
+  .coord-pending { color: var(--gold); }
   .coord-error { color: var(--rust); }
 
   /* ── DRAG ROWS (vols / hôtels) ── */
@@ -1866,19 +1984,13 @@
     display: flex;
     align-items: center;
     align-self: center;
-    background: rgba(61,81,102,0.55);
-    border: 1px solid rgba(255,255,255,0.18);
-    border-radius: 20px;
-    padding: 0 0.2rem;
-    gap: 0;
-    flex-shrink: 0;
-    backdrop-filter: blur(4px);
-    transition: background 0.2s;
+    gap: 0.15rem;
+    background: none;
+    border: none;
+    padding: 0;
   }
   .search-wrap.open ~ * { opacity: 1; }
-  .header-pill.search-open {
-    background: rgba(61,81,102,0.85);
-  }
+  
   .pill-btn {
     background: none;
     border: none;
@@ -1893,12 +2005,87 @@
     border-radius: 20px;
   }
   .pill-btn:hover { color: var(--gold); }
+
+  .hdr-btn, #header-pill .hdr-btn {
+    display: flex; align-items: center; gap: 0.38rem;
+    background: none; border: none; color: rgba(245,240,232,0.7);
+    cursor: pointer; font-size: 0.78rem; padding: 0.38rem 0.8rem;
+    border-radius: 8px; line-height: 1; font-family: var(--font-body);
+    transition: background 0.12s, color 0.12s; white-space: nowrap;
+  }
+  .hdr-btn:hover, #header-pill .hdr-btn:hover { background: rgba(255,255,255,0.09); color: rgba(245,240,232,0.95); }
+  .hdr-divider { width:1px; height:18px; background:rgba(255,255,255,0.15); flex-shrink:0; }
+  #btn-pill-auth, .header-pill #btn-pill-auth {
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    background: rgba(255,255,255,0.06) !important; border: 1px solid rgba(255,255,255,0.14) !important;
+    border-radius: 8px !important; color: rgba(245,240,232,0.65) !important;
+    font-size: 0.75rem !important; padding: 0.35rem 0.85rem !important;
+    cursor: pointer !important; font-family: var(--font-body) !important;
+    margin-left: 0.4rem !important; white-space: nowrap !important; min-width: 100px !important;
+    transition: background 0.15s, color 0.15s, border-color 0.15s !important;
+  }
+  #btn-pill-auth.btn-login:hover { background: rgba(255,255,255,0.16) !important; color: rgba(245,240,232,0.95) !important; }
+  #btn-pill-auth.btn-logout:hover { background: rgba(166,61,47,0.35) !important; border-color: rgba(232,146,124,0.4) !important; color: #f0c0a8 !important; }
+  /* ── Boutons Connexion / Déconnexion ── */
+  #btn-pill-auth,
+  .header-pill #btn-pill-auth {
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.14) !important;
+    border-radius: 8px !important;
+    color: rgba(245,240,232,0.65) !important;
+    font-size: 0.75rem !important;
+    padding: 0.35rem 0.85rem !important;
+    cursor: pointer !important;
+    font-family: var(--font-body) !important;
+    margin-left: 0.4rem !important;
+    white-space: nowrap !important;
+    min-width: 100px !important;
+    transition: background 0.15s, color 0.15s, border-color 0.15s !important;
+  }
+  #btn-pill-auth.btn-login:hover {
+    background: rgba(255,255,255,0.16) !important;
+    border-color: rgba(255,255,255,0.28) !important;
+    color: rgba(245,240,232,0.95) !important;
+  }
+  #btn-pill-auth.btn-logout:hover {
+    background: rgba(166,61,47,0.35) !important;
+    border-color: rgba(232,146,124,0.4) !important;
+    color: #f0c0a8 !important;
+  }
+  /* ── Header boutons style 2 ── */
+  .hdr-btn,
+  #header-pill .hdr-btn {
+    display: flex; align-items: center; gap: 0.38rem;
+    background: none; border: none;
+    color: rgba(245,240,232,0.7); cursor: pointer;
+    font-size: 0.78rem; padding: 0.38rem 0.8rem;
+    border-radius: 8px; line-height: 1;
+    font-family: var(--font-body);
+    transition: background 0.12s, color 0.12s; white-space: nowrap;
+  }
+  .hdr-btn:hover,
+  #header-pill .hdr-btn:hover { background: rgba(255,255,255,0.09); color: rgba(245,240,232,0.95); }
+  .hdr-btn-auth,
+  #header-pill .hdr-btn-auth {
+    margin-left: 0.5rem !important;
+    border: none !important;
+    border-radius: 20px !important;
+    padding: 0.35rem 1.1rem !important;
+    color: #2b3a4a !important;
+    background: var(--gold) !important;
+    font-weight: 500 !important;
+  }
+  .hdr-btn-auth:hover,
+  #header-pill .hdr-btn-auth:hover { background: #d47a62 !important; }
+  .hdr-divider { width:1px; height:18px; background:rgba(255,255,255,0.15); flex-shrink:0; }
   .pill-divider {
     width: 1px;
     height: 16px;
     background: rgba(255,255,255,0.2);
     flex-shrink: 0;
   }
+
 
   /* ── BOUTON RESET D'URGENCE ── */
   /* ── BACK TO TOP ── */
@@ -1925,6 +2112,7 @@
   }
   #back-to-top.visible { opacity: 1; pointer-events: auto; }
   #back-to-top:hover { background: var(--gold); }
+  /* ── RESPONSIVE ── */
   /* ══════════════════════════════════════════════
      MOBILE — max-width 768px
      ══════════════════════════════════════════════ */
@@ -1942,10 +2130,14 @@
 
   /* ── Hamburger (caché sur desktop) ── */
   .hamburger-btn { display: none; }
-  /* ── Sidebar trip controls (caché sur desktop) ── */
-  .sidebar-trip-controls { display: none; }
+  .pill-btn-new-trip { display: none; }
+  /* ── Sidebar trip controls visible sur desktop ── */
+  #sidebar-trip-controls { display: block; }
+  /* Sur desktop : masquer le bouton Changer (géré différemment) */
+   }
   /* ── Bouton nouveau séjour header (caché sur desktop) ── */
-  .header-new-trip-btn { display: none; }
+  .header-new-trip-btn { display: none !important; }
+  #sb-trip-switcher-wrap { display: block !important; }
 
   @media (max-width: 768px) {
     .sidebar-brand-c { display: block; }
@@ -1986,6 +2178,7 @@
     /* Bouton impression → caché sur mobile */
     /* Contrôles sidebar desktop : visibles */
     /* Pill : pas de bouton mobile-only dedans */
+    .pill-btn-new-trip { display: none !important; }
 
     #app-header.no-trip .header-auth-welcome-btn {
       display: flex !important;
@@ -2207,6 +2400,10 @@
 
     /* ── Itinéraire mobile : carte par étape ── */
 
+
+
+
+
     /* ── Budget ── */
 
     /* Stats résumé : 2 colonnes compactes */
@@ -2301,6 +2498,7 @@
       white-space: nowrap;
     }
     /* Payé par : prend le reste */
+    body.mob .exp-row-person { display: none !important; }
     body.mob .exp-row-mid-person {
       flex: 1;
       min-width: 0;
@@ -2416,11 +2614,16 @@
     .io-grid { grid-template-columns: 1fr; }
 
     /* ── Score / barre complétion ── */
+    .trip-score-wrap { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
 
     /* ── Bouton back-to-top ── */
     #back-to-top { bottom: 1.2rem; right: 1rem; }
 
     /* ── Timeline ── */
+    #timeline-overlay .timeline-inner {
+      padding: 1rem 0.75rem;
+      overflow-x: auto;
+    }
 
     /* ── Recherche mobile ── */
     /* Quand la recherche est ouverte : le header devient le champ de recherche */
@@ -2463,6 +2666,8 @@
     /* Bouton imprimer → partage natif sur mobile */
     .pill-divider { display: none; }
     #btn-print { display: none; font-size: 0.9rem; }
+    .hdr-btn:not(#btn-pill-auth) { display: none !important; }
+    .hdr-divider { display: none !important; }
 
     /* ── Pull to refresh ── */
     #ptr-spinner.ptr-visible {
@@ -2475,6 +2680,7 @@
     @keyframes ptr-spin { to { transform: rotate(360deg); } }
 
     /* ── Checklist mobile ── */
+
 
     /* ── Destinations mobile ── */
     .itin-item {
@@ -2500,7 +2706,7 @@
     }
     .itin-input {
       flex: 1 1 55% !important;
-      min-width: 120px !important;
+      min-width: 100px !important;
       white-space: normal !important;
       word-break: break-word !important;
       overflow-wrap: break-word !important;
@@ -2570,6 +2776,7 @@
 
 /* ── Auth bar ── */
 
+
 /* ── Bouton auth dans le header (mode no-trip) ── */
 .header-auth-welcome-btn {
   display: none;
@@ -2595,6 +2802,7 @@
 }
 .header-auth-welcome-btn.header-auth-signout:hover { opacity: 1; }
 
+
 /* ── Itinéraire desktop — inputs dans data-table ── */
 #itinerary-table input.day-input {
   font-family: var(--font-body);
@@ -2611,6 +2819,7 @@
 #itinerary-table input[type="date"].day-input { min-width: 120px; }
 #itinerary-table tr.dragging { opacity: 0.4; }
 #itinerary-table tr.drag-over-day td { background: rgba(232,146,124,0.08); }
+
 
   /* Bouton auth dans la pill — ☁️ */
   .pill-btn-auth {
@@ -2662,12 +2871,8 @@
     display: block;
   }
   /* Sur desktop : se comporte comme un input (1 ligne) */
-  @media (min-width: 769px) {
-    textarea.ta-auto {
-      height: auto !important;
-      min-height: 0;
-    }
-  }
+  
+
 
   /* ── Textarea intitulé dépense ── */
   .budget-label-ta {
@@ -2684,57 +2889,109 @@
     line-height: 1.4;
   }
 
-  /* ── Assistant IA ── */
-  .btn-ai {
-    display: inline-flex; align-items: center; gap: 0.3rem;
-    font-size: 0.7rem; font-family: var(--font-body);
-    color: var(--jade); background: rgba(61,81,102,0.07);
-    border: 1px solid rgba(61,81,102,0.2); border-radius: 20px;
-    padding: 0.2rem 0.65rem; cursor: pointer;
-    letter-spacing: 0.02em; transition: background 0.15s, border-color 0.15s;
-    white-space: nowrap; flex-shrink: 0;
+
+  /* ── Emoji Picker ── */
+  .ep-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px; flex-shrink: 0;
+    border-radius: 8px; border: 1px solid var(--border);
+    background: var(--cream); cursor: pointer; font-size: 20px;
+    transition: background 0.12s;
   }
-  .btn-ai:hover { background: rgba(61,81,102,0.13); border-color: var(--jade); }
-  .btn-ai.loading { opacity: 0.6; pointer-events: none; }
-  #ai-modal {
-    display: none; position: fixed; inset: 0; z-index: 2000;
-    background: rgba(43,58,74,0.45); backdrop-filter: blur(3px);
-    align-items: center; justify-content: center; padding: 1rem;
+  .ep-btn:hover { background: var(--sand); }
+  .ep-btn img { width: 22px; height: 22px; pointer-events: none; }
+  .ep-wrap { position: relative; display: inline-block; }
+  .ep-picker {
+    position: absolute; left: 0; top: calc(100% + 6px); z-index: 800;
+    background: white; border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
+    width: 280px; max-height: 320px;
+    display: none; flex-direction: column;
+    box-shadow: 0 6px 24px rgba(43,58,74,0.15);
   }
-  #ai-modal.open { display: flex; }
-  #ai-modal-box {
-    background: var(--paper); border-radius: 14px;
-    box-shadow: 0 8px 40px rgba(43,58,74,0.22);
-    width: 100%; max-width: 560px; max-height: 85vh;
+  .ep-picker.open { display: flex; }
+  .ep-search { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  .ep-search input {
+    width: 100%; border: 1px solid var(--border); border-radius: 7px;
+    background: var(--cream); font-size: 13px; padding: 5px 9px; outline: none;
+  }
+  .ep-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+    gap: 2px; padding: 8px; overflow-y: auto; overflow-x: hidden; flex: 1;
+    -webkit-overflow-scrolling: touch;
+  }
+  .ep-cell {
+    display: flex; align-items: center; justify-content: center;
+    padding: 4px; border-radius: 6px; cursor: pointer;
+    min-height: 34px; font-size: 18px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ep-cell img { width: 22px; height: 22px; pointer-events: none; }
+  .ep-cell:hover { background: var(--cream); }
+  .ep-cell.active { background: rgba(61,81,102,0.12); }
+  .ep-section {
+    grid-column: 1/-1; font-size: 10px; font-weight: 600;
+    color: var(--muted); padding: 5px 3px 2px;
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  /* ── Assistant IA conversationnel ── */
+  #ai-chat-btn {
+    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 1100;
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--jade); color: white; border: none; cursor: pointer;
+    font-size: 1.4rem; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(61,81,102,0.35); transition: transform 0.15s, background 0.15s;
+  }
+  #ai-chat-btn:hover { transform: scale(1.08); background: #2b3a4a; }
+  #ai-chat-panel {
+    position: fixed; bottom: 4.5rem; right: 1.5rem; z-index: 1100;
+    width: 340px; max-width: calc(100vw - 2rem);
+    background: var(--paper); border: 1px solid var(--border);
+    border-radius: 14px; box-shadow: 0 8px 40px rgba(43,58,74,0.2);
     display: flex; flex-direction: column; overflow: hidden;
+    max-height: calc(100vh - 120px);
+    transform: scale(0.95) translateY(8px); opacity: 0;
+    pointer-events: none; transition: transform 0.2s, opacity 0.2s;
   }
-  #ai-modal-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1rem 1.2rem 0.8rem; border-bottom: 1px solid var(--border); flex-shrink: 0;
+  #ai-chat-panel.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+  #ai-chat-header {
+    background: var(--jade); color: white; padding: 0.7rem 1rem;
+    display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
   }
-  #ai-modal-title { font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); display: flex; align-items: center; gap: 0.4rem; }
-  #ai-modal-close { background: none; border: none; font-size: 1.1rem; color: var(--muted); cursor: pointer; padding: 0.2rem; line-height: 1; }
-  #ai-modal-body { padding: 1rem 1.2rem; overflow-y: auto; flex: 1; }
-  #ai-modal-context { font-size: 0.75rem; color: var(--muted); font-style: italic; margin-bottom: 0.8rem; }
-  #ai-modal-loading { display: flex; align-items: center; gap: 0.6rem; color: var(--muted); font-size: 0.82rem; padding: 1rem 0; }
-  .ai-spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--jade); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  #ai-suggestions { display: flex; flex-direction: column; gap: 0.6rem; }
-  .ai-suggestion { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 0.75rem 2.2rem 0.75rem 1rem; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; position: relative; }
-  .ai-suggestion:hover { border-color: var(--jade); box-shadow: 0 2px 8px rgba(61,81,102,0.1); }
-  .ai-suggestion-label { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.25rem; }
-  .ai-suggestion-text { font-size: 0.85rem; color: var(--ink); line-height: 1.4; }
-  .ai-suggestion-add { position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); font-size: 1.1rem; color: var(--jade); opacity: 0; transition: opacity 0.15s; }
-  .ai-suggestion:hover .ai-suggestion-add { opacity: 1; }
-  .ai-suggestion.added { border-color: #5aab85; background: rgba(90,171,133,0.05); cursor: default; }
-  .ai-suggestion.added .ai-suggestion-add { opacity: 1; color: #5aab85; }
-  #ai-modal-error { color: var(--rust); font-size: 0.82rem; padding: 0.5rem 0; }
-  #ai-modal-footer { padding: 0.75rem 1.2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-  #ai-modal-retry { font-size: 0.75rem; color: var(--jade); background: none; border: none; cursor: pointer; padding: 0; text-decoration: underline; }
-  #ai-modal-footer-note { font-size: 0.65rem; color: var(--muted); font-style: italic; }
+  #ai-chat-header-title { font-size: 0.88rem; font-weight: 500; display: flex; align-items: center; gap: 0.4rem; }
+  #ai-chat-close { background: none; border: none; color: white; cursor: pointer; font-size: 1rem; padding: 0; opacity: 0.8; }
+  #ai-chat-close:hover { opacity: 1; }
+  #ai-chat-messages {
+    flex: 1; overflow-y: auto; padding: 0.75rem;
+    display: flex; flex-direction: column; gap: 0.6rem;
+    min-height: 180px; max-height: 380px; -webkit-overflow-scrolling: touch;
+  }
+  .ai-msg { max-width: 88%; padding: 0.55rem 0.8rem; border-radius: 10px; font-size: 0.82rem; line-height: 1.5; word-break: break-word; }
+  .ai-msg.user { align-self: flex-end; background: var(--jade); color: white; border-bottom-right-radius: 3px; }
+  .ai-msg.assistant { align-self: flex-start; background: white; color: var(--ink); border: 1px solid var(--border); border-bottom-left-radius: 3px; }
+  .ai-msg.thinking { align-self: flex-start; background: white; border: 1px solid var(--border); color: var(--muted); font-style: italic; font-size: 0.78rem; border-bottom-left-radius: 3px; }
+  #ai-chat-footer { padding: 0.6rem 0.75rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; flex-shrink: 0; background: white; }
+  #ai-chat-input {
+    flex: 1; border: 1px solid var(--border); border-radius: 20px;
+    padding: 0.45rem 0.85rem; font-size: 0.82rem; font-family: var(--font-body);
+    outline: none; resize: none; background: var(--cream);
+    min-height: 36px; max-height: 100px; overflow-y: auto; line-height: 1.4;
+  }
+  #ai-chat-input:focus { border-color: var(--jade); }
+  #ai-chat-send {
+    width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+    background: var(--jade); color: white; border: none; cursor: pointer;
+    font-size: 0.9rem; display: flex; align-items: center; justify-content: center;
+    align-self: flex-end; transition: background 0.12s;
+  }
+  #ai-chat-send:hover { background: #2b3a4a; }
+  #ai-chat-send:disabled { background: var(--sand); cursor: default; }
+  .ai-suggestions-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; padding: 0 0.75rem 0.5rem; flex-shrink: 0; }
+  .ai-chip { font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 12px; border: 1px solid var(--border); background: white; cursor: pointer; color: var(--jade); transition: background 0.12s; }
+  .ai-chip:hover { background: var(--cream); }
   @media (max-width: 768px) {
-    #ai-modal { align-items: flex-end; padding: 0; }
-    #ai-modal-box { max-height: 90vh; border-radius: 14px 14px 0 0; position: fixed; bottom: 0; left: 0; right: 0; max-width: 100%; }
+    #ai-chat-panel { bottom: 4.5rem; right: 0.75rem; left: 0.75rem; width: auto; }
+    #ai-chat-btn { bottom: 5rem; right: 0.75rem; }
   }
 </style>
 
@@ -2774,11 +3031,10 @@
         <div class="search-results" id="search-results"></div>
       </div>
     </div>
-    <button class="pill-btn" onclick="toggleSearch()" data-tip="Rechercher">🔍</button>
-    <div class="pill-divider"></div>
-    <button class="pill-btn" id="btn-print" onclick="handlePrintShare()" data-tip="Imprimer / Partager">🖨️</button>
-    <div class="pill-divider"></div>
-    <button class="pill-btn pill-btn-auth" id="btn-pill-auth" data-tip="Se connecter"></button>
+    <button class="hdr-btn" onclick="toggleSearch()">🔍 Rechercher</button>
+    <div class="hdr-divider"></div>
+    <button class="hdr-btn" id="btn-print" onclick="exportTripPDF()">🖨️ Exporter PDF</button>
+    <button class="btn-auth btn-login pill-btn-auth" id="btn-pill-auth">Connexion</button>
   </div>
   <div id="header-auth-btn-wrap">
     <button class="header-new-trip-btn" id="btn-new-trip-mobile" onclick="openNewTripModal()" title="Nouveau séjour">+ Nouveau séjour</button>
@@ -2847,71 +3103,113 @@
 <div id="main-layout">
   <!-- SIDEBAR -->
   <nav id="sidebar" class="no-trip">
-    <!-- Brand -->
-    <div class="sidebar-brand-c">
-      <span class="sbc-very">Very</span><span class="sbc-dot">·</span><span class="sbc-wandr">Wandr</span>
-    </div>
-    <!-- Sélecteur voyage + actions -->
-    <div class="sidebar-trip-controls" id="sidebar-trip-controls">
-      <div class="sidebar-section-title" style="margin-top:0">Séjour</div>
-      <div id="sidebar-trip-progress" style="padding:0 1.2rem 0.5rem;display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.25rem">
-          <span id="sidebar-progress-label" style="font-size:0.65rem;color:rgba(245,240,232,0.5);font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px"></span>
-          <span id="sidebar-progress-pct" style="font-size:0.65rem;font-weight:600;color:var(--gold);flex-shrink:0;margin-left:0.4rem"></span>
-        </div>
-        <div style="height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden">
-          <div id="sidebar-progress-fill" style="height:100%;width:0%;background:var(--gold);border-radius:2px;transition:width 0.4s ease"></div>
+
+    <!-- ── BLOC SÉJOUR ── -->
+    <div class="sb-trip-block" id="sidebar-trip-controls">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:0.5rem">
+        <div class="sb-trip-emoji" id="sb-trip-emoji">✈️</div>
+        <div id="sb-trip-switcher-wrap" style="display:none;position:relative">
+          <button onclick="document.getElementById('sb-trip-dropdown').style.display=document.getElementById('sb-trip-dropdown').style.display==='block'?'none':'block'"
+            style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:5px;color:rgba(245,240,232,0.6);font-size:0.62rem;padding:0.2rem 0.5rem;cursor:pointer">
+            ⇅ Changer
+          </button>
+          <div id="sb-trip-dropdown" style="display:none;position:absolute;top:100%;right:0;margin-top:4px;background:#1d2a36;border:1px solid rgba(255,255,255,0.12);border-radius:8px;min-width:160px;z-index:200;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.3)"></div>
         </div>
       </div>
-      <div class="sidebar-trip-row">
-        <div class="sidebar-select-wrap">
-          <select class="trip-select sidebar-trip-select" id="trip-select-mobile" onchange="switchTrip(this.value)"></select>
+      <div class="sb-trip-name" id="sb-trip-name">Aucun séjour</div>
+      <div class="sb-trip-sub" id="sb-trip-sub"></div>
+      <div class="sb-trip-progress" id="sb-trip-progress" style="display:none">
+        <div class="sb-trip-progress-bar">
+          <div class="sb-trip-progress-fill" id="sb-trip-progress-fill"></div>
         </div>
-        <button class="sidebar-trip-btn sidebar-trip-new" id="btn-new-trip-sidebar" onclick="openNewTripModal()" title="Nouveau séjour">+</button>
-        <button class="sidebar-trip-btn sidebar-trip-del" onclick="deleteCurrentTrip()" title="Supprimer ce séjour">🗑</button>
+      </div>
+      <div class="sb-trip-dots" id="sb-trip-dots"></div>
+      <div class="sb-trip-actions">
+        <button class="sb-trip-btn" id="btn-new-trip-sidebar" onclick="openNewTripModal()" title="Nouveau séjour">+ Nouveau</button>
+        <button class="sb-trip-btn sb-trip-btn-del" onclick="deleteCurrentTrip()" title="Supprimer">🗑 Supprimer</button>
+      </div>
+      <select class="trip-select sidebar-trip-select" id="trip-select-mobile" onchange="switchTrip(this.value)" style="display:none"></select>
+    </div>
+
+    <!-- ── NAVIGATION ── -->
+    <div class="sb-nav-wrap">
+      <div class="sb-section-label">Navigation</div>
+      <div class="sidebar-link active" data-page="overview" onclick="showPage('overview',this)">
+        <span class="icon">📋</span> Vue générale
+      </div>
+      <div class="sidebar-link" data-page="documents" onclick="showPage('documents',this)">
+        <span class="icon">📁</span> Documents
+      </div>
+      <div class="sidebar-link" data-page="checklist" onclick="showPage('checklist',this)">
+        <span class="icon">✅</span> À prévoir
+        <span id="sidebar-checklist-pct" class="sb-badge" style="display:none"></span>
+      </div>
+      <div class="sidebar-link" data-page="food" onclick="showPage('food',this)">
+        <span class="icon">🍜</span> À goûter
+      </div>
+      <div class="sidebar-link" data-page="budget" onclick="showPage('budget',this)">
+        <span class="icon">💴</span> Budget
+        <span id="sidebar-budget-total" class="sb-badge"></span>
+      </div>
+      <div class="sidebar-link" data-page="map" onclick="showPage('map',this);initMap()">
+        <span class="icon">🗺</span> Carte itinéraire
       </div>
     </div>
-    <div class="sidebar-section-title">Navigation</div>
-    <div class="sidebar-link active" data-page="overview" onclick="showPage('overview',this)">
-      <span class="icon">📋</span> Vue générale
+
+    <!-- ── DESTINATIONS ── -->
+    <div class="sb-dest-outer">
+      <div class="sb-dest-header">
+        <div class="sb-section-label" style="padding-bottom:0">Destinations</div>
+      </div>
+      <div class="sidebar-destinations-wrap">
+        <ul class="sidebar-city-list" id="sidebar-cities"></ul>
+        <button id="add-city-btn" onclick="openAddCityModal()">+ Ajouter une ville</button>
+      </div>
     </div>
-    <div class="sidebar-link" data-page="documents" onclick="showPage('documents',this)">
-      <span class="icon">📁</span> Documents
+
+    <!-- ── GÉNÉRAL ── -->
+    <div class="sb-bottom">
+      <div class="sidebar-link" data-page="importexport" onclick="showPage('importexport',this)">
+        <span class="icon">🔄</span> Import / Export
+      </div>
     </div>
-    <div class="sidebar-link" data-page="checklist" onclick="showPage('checklist',this)">
-      <span class="icon">✅</span> À prévoir
-    </div>
-    <div class="sidebar-link" data-page="food" onclick="showPage('food',this)">
-      <span class="icon">🍜</span> À goûter
-    </div>
-    <div class="sidebar-link" data-page="budget" onclick="showPage('budget',this)">
-      <span class="icon">💴</span> Budget
-      <span id="sidebar-budget-total" style="margin-left:auto;font-size:0.62rem;color:rgba(245,240,232,0.45);font-weight:400;white-space:nowrap"></span>
-    </div>
-    <div class="sidebar-link" data-page="map" onclick="showPage('map',this);initMap()">
-      <span class="icon">🗺</span> Carte itinéraire
-    </div>
-    <div class="sidebar-destinations-wrap" style="margin-bottom:0">
-      <div class="sidebar-section-title" style="margin-top:0.4rem">Destinations</div>
-      <ul class="sidebar-city-list" id="sidebar-cities"></ul>
-      <button id="add-city-btn" onclick="openAddCityModal()">+ Ajouter une ville</button>
-    </div>
-    <div class="sidebar-section-title" style="margin-top:0;padding-top:0.5rem">Général</div>
-    <div class="sidebar-link" data-page="importexport" onclick="showPage('importexport',this)">
-      <span class="icon">🔄</span> Import / Export
-    </div>
-    <div style="height:0.8rem"></div>
+
   </nav>
 
   <!-- CONTENT -->
+  <button id="ai-chat-btn" onclick="toggleAiChat()" title="Assistant voyage IA">✦</button>
+  <div id="ai-chat-panel">
+    <div id="ai-chat-header">
+      <div id="ai-chat-header-title">✦ Assistant Very Wandr</div>
+      <button id="ai-chat-close" onclick="toggleAiChat()">✕</button>
+    </div>
+    <div id="ai-chat-messages"></div>
+    <div class="ai-suggestions-chips" id="ai-chips"></div>
+    <div id="ai-chat-footer">
+      <textarea id="ai-chat-input" placeholder="Posez une question sur votre séjour…" rows="1"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAiMessage()}"
+        oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+      <button id="ai-chat-send" onclick="sendAiMessage()">➤</button>
+    </div>
+  </div>
   <main id="content">
 
     <!-- PAGE: OVERVIEW -->
     <div class="page active" id="page-overview">
-      <input class="overview-title-input" id="overview-title-input" value=""
-        title="Cliquez pour renommer ce voyage"
-        onchange="renameTripInline(this.value)"
-        onkeydown="if(event.key==='Enter')this.blur()" />
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="ep-wrap">
+          <button class="ep-btn" id="overview-emoji-btn" data-emoji="🌍" type="button" style="width:40px;height:40px;font-size:24px;background:transparent;border-color:rgba(43,58,74,0.12);margin-bottom:0.25rem">🌍</button>
+          <div class="ep-picker" id="overview-emoji-picker">
+            <div class="ep-search"><input id="overview-emoji-search" placeholder="Rechercher…" autocomplete="off"/></div>
+            <div class="ep-grid" id="overview-emoji-grid"></div>
+          </div>
+        </div>
+        <input class="overview-title-input" id="overview-title-input" value=""
+          title="Cliquez pour renommer ce voyage"
+          onchange="renameTripInline(this.value)"
+          onkeydown="if(event.key==='Enter')this.blur()"
+          style="flex:1;min-width:200px" />
+      </div>
       <div id="overview-countdown" style="font-size:0.82rem;font-weight:500;margin-top:0.3rem;margin-bottom:0.8rem;display:none"></div>
       <div class="trip-score-bar" id="trip-score-bar" style="display:none">
         <div class="trip-score-track"><div class="trip-score-fill" id="trip-score-fill"></div></div>
@@ -2939,7 +3237,6 @@
         <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.4rem">
           <span>📅 Itinéraire jour par jour</span>
           <div style="display:flex;gap:0.5rem;align-items:center">
-            <button class="btn-ai" onclick="openAiModal('itinerary')">✨ Suggestions</button>
             <button class="btn-timeline" onclick="openTimeline()">📅 Vue timeline</button>
           </div>
         </div>
@@ -2980,7 +3277,6 @@
     <div class="page" id="page-checklist">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem">
         <div class="page-title" style="margin-bottom:0">À prévoir</div>
-        <button class="btn-ai" onclick="openAiModal('checklist')">✨ Suggestions</button>
       </div>
       <div class="page-subtitle">Tout ce qu'il faut organiser avant de partir</div>
       <div class="checklist-global-bar" id="checklist-global-bar">
@@ -2996,7 +3292,6 @@
     <div class="page" id="page-food">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem">
         <div class="page-title" style="margin-bottom:0">À goûter</div>
-        <button class="btn-ai" onclick="openAiModal('food')">✨ Suggestions</button>
       </div>
       <div class="page-subtitle">Plats et spécialités à ne pas manquer</div>
       <div class="card">
@@ -3015,7 +3310,7 @@
     <div class="page" id="page-budget">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem;flex-wrap:wrap;gap:0.75rem">
         <div class="page-title">Budget</div>
-        <div style="display:flex;align-items:center;gap:0.5rem">
+        <div style="display:flex;align-items:start;gap:0.5rem">
           <span style="font-size:0.72rem;color:var(--muted)">Devise :</span>
           <div id="budget-currency-csel" style="min-width:130px"></div>
         </div>
@@ -3115,7 +3410,7 @@
         </div>
         <div class="io-card">
           <div class="io-card-title">🔗 Partager ce voyage</div>
-          <div class="io-card-desc">Génère un <strong>lien de partage</strong> contenant l'intégralité du voyage encodé. Envoyez-le à vos compagnons de voyage — ils pourront l'importer en un clic sans fichier.</div>
+          <div class="io-card-desc">Génère un <strong>lien de consultation</strong> en lecture seule. Le destinataire peut voir l'itinéraire, les vols, les hébergements et le budget, sans pouvoir modifier votre séjour. Il peut aussi choisir de l'importer dans sa propre application.</div>
           <button class="btn-io btn-export" onclick="generateShareLink()">🔗 Générer le lien</button>
           <div id="share-link-result" style="display:none;margin-top:0.5rem">
             <div style="font-size:0.68rem;color:var(--muted);margin-bottom:0.3rem">Lien généré — copiez et partagez :</div>
@@ -3133,7 +3428,9 @@
         </div>
       </div>
       <div class="io-notice">
-        💡 Toutes les données sont stockées localement dans votre navigateur (localStorage). Elles ne sont jamais envoyées sur un serveur. Pour ne pas les perdre, exportez régulièrement votre fichier.
+        💡 <strong>Stockage des données</strong><br>
+        Si vous êtes <strong>connecté</strong>, vos voyages sont synchronisés de manière sécurisée sur nos serveurs via votre compte, et accessibles depuis n'importe quel appareil.<br>
+        Si vous n'êtes <strong>pas connecté</strong>, les données restent uniquement dans le localStorage de votre navigateur — pensez à exporter régulièrement en .json pour éviter toute perte.
       </div>
     </div>
 
@@ -3183,7 +3480,16 @@
     <div class="modal-title">Nouveau voyage</div>
     <div class="form-group">
       <label class="form-label">Nom du voyage</label>
-      <input class="form-input" id="new-trip-name" placeholder="ex: Japon 2025"  />
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="ep-wrap">
+          <button class="ep-btn" id="new-trip-emoji-btn" data-emoji="🌍" type="button">🌍</button>
+          <div class="ep-picker" id="new-trip-emoji-picker">
+            <div class="ep-search"><input id="new-trip-emoji-search" placeholder="Rechercher…" autocomplete="off"/></div>
+            <div class="ep-grid" id="new-trip-emoji-grid"></div>
+          </div>
+        </div>
+        <input class="form-input" id="new-trip-name" placeholder="ex: Japon 2025" style="flex:1" />
+      </div>
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal('modal-new-trip')">Annuler</button>
@@ -3388,13 +3694,13 @@ function renderAuthBar() {
   const pillAuth = document.getElementById('btn-pill-auth');
   if (pillAuth) {
     if (currentUser) {
-      pillAuth.textContent = '🔓';
-      pillAuth.className = 'pill-btn pill-btn-auth is-connected';
+      pillAuth.textContent = 'Déconnexion';
+      pillAuth.className = 'btn-auth btn-logout pill-btn-auth is-connected';
       pillAuth.onclick = () => sbSignOut();
       pillAuth.dataset.tip = `${currentUser.email} · Déconnecter`;
     } else {
-      pillAuth.textContent = '🔒';
-      pillAuth.className = 'pill-btn pill-btn-auth';
+      pillAuth.textContent = 'Connexion';
+      pillAuth.className = 'btn-auth btn-login pill-btn-auth';
       pillAuth.onclick = () => openLoginModal();
       pillAuth.dataset.tip = 'Se connecter pour sauvegarder';
     }
@@ -3409,16 +3715,16 @@ function renderAuthBar() {
       btnNewTripMobile.style.display = 'none';
       btnHeaderAuth.style.display = '';
       if (currentUser) {
-        btnHeaderAuth.textContent = '🔓 Déconnecter';
+        btnHeaderAuth.textContent = 'Déconnecter';
         btnHeaderAuth.onclick = () => sbSignOut();
         btnHeaderAuth.className = 'header-auth-welcome-btn header-auth-signout';
       } else {
-        btnHeaderAuth.textContent = '🔒 Se connecter';
+        btnHeaderAuth.textContent = 'Se connecter';
         btnHeaderAuth.onclick = () => openLoginModal();
         btnHeaderAuth.className = 'header-auth-welcome-btn';
       }
     } else {
-      btnNewTripMobile.style.display = '';
+      btnNewTripMobile.style.display = window.innerWidth <= 768 ? '' : 'none';
       btnHeaderAuth.style.display = 'none';
     }
   }
@@ -3698,17 +4004,324 @@ function syncTripSelects() {
 }
 
 // ── TRIP SELECTOR ──
+
+// ════════════════════════════════════════════════════════════════
+//  EMOJI PICKER
+// ════════════════════════════════════════════════════════════════
+const SECTIONS = [
+  {label:'Globe & monde', e:['🌍','🌎','🌏','🗺️','🧭','✈️','🌐','🛫','🛬','🛩️']},
+  {label:'Europe', e:['🇫🇷','🇲🇨','🇪🇸','🇦🇩','🇮🇹','🇸🇲','🇻🇦','🇵🇹','🇬🇷','🇩🇪','🇦🇹','🇨🇭','🇱🇮','🇳🇱','🇧🇪','🇱🇺','🇬🇧','🇮🇪','🇸🇪','🇳🇴','🇩🇰','🇫🇮','🇮🇸','🇵🇱','🇭🇺','🇨🇿','🇸🇰','🇷🇴','🇧🇬','🇭🇷','🇸🇮','🇷🇸','🇲🇪','🇦🇱','🇲🇰','🇧🇦','🇺🇦','🇧🇾','🇱🇹','🇱🇻','🇪🇪','🇲🇹','🇨🇾']},
+  {label:'Asie — Est & Sud-Est', e:['🇯🇵','🇨🇳','🇰🇷','🇰🇵','🇹🇭','🇻🇳','🇰🇭','🇱🇦','🇲🇲','🇮🇩','🇵🇭','🇲🇾','🇸🇬','🇧🇳','🇹🇱','🇹🇼','🇭🇰','🇲🇴','🇲🇳']},
+  {label:'Asie — Sud & Centre', e:['🇮🇳','🇳🇵','🇱🇰','🇧🇩','🇵🇰','🇦🇫','🇰🇿','🇺🇿','🇹🇲','🇰🇬','🇹🇯']},
+  {label:'Caucase', e:['🇬🇪','🇦🇲','🇦🇿']},
+  {label:'Moyen-Orient', e:['🇹🇷','🇮🇱','🇵🇸','🇯🇴','🇸🇾','🇱🇧','🇮🇶','🇮🇷','🇸🇦','🇦🇪','🇶🇦','🇴🇲','🇾🇪','🇰🇼','🇧🇭']},
+  {label:'Afrique — Nord', e:['🇲🇦','🇹🇳','🇩🇿','🇱🇾','🇪🇬','🇸🇩','🇪🇭']},
+  {label:'Afrique — Ouest', e:['🇸🇳','🇬🇳','🇬🇭','🇨🇮','🇳🇬','🇧🇯','🇹🇬','🇧🇫','🇲🇱','🇳🇪','🇨🇲','🇬🇦','🇨🇬','🇨🇩']},
+  {label:'Afrique — Est & Sud', e:['🇪🇹','🇸🇴','🇩🇯','🇪🇷','🇰🇪','🇹🇿','🇺🇬','🇷🇼','🇧🇮','🇲🇿','🇿🇲','🇿🇼','🇿🇦','🇳🇦','🇧🇼','🇸🇿','🇱🇸','🇲🇬','🇲🇺','🇷🇪','🇾🇹','🇸🇨','🇨🇻','🇸🇹']},
+  {label:'Amériques — Nord', e:['🇺🇸','🇨🇦','🇲🇽']},
+  {label:'Amériques — Caraïbes', e:['🇨🇺','🇯🇲','🇩🇴','🇭🇹','🇵🇷','🇬🇵','🇲🇶','🇧🇧','🇹🇹','🇱🇨','🇻🇨','🇬🇩','🇦🇼','🇧🇸']},
+  {label:'Amériques — Centre & Sud', e:['🇬🇹','🇧🇿','🇭🇳','🇸🇻','🇳🇮','🇨🇷','🇵🇦','🇨🇴','🇻🇪','🇬🇾','🇸🇷','🇧🇷','🇪🇨','🇵🇪','🇧🇴','🇵🇾','🇺🇾','🇦🇷','🇨🇱']},
+  {label:'Océanie', e:['🇦🇺','🇳🇿','🇵🇫','🇳🇨','🇫🇯','🇵🇬','🇸🇧','🇻🇺','🇼🇸','🇹🇴','🇰🇮','🇲🇭','🇫🇲','🇵🇼','🇳🇷']},
+  {label:'Paysages naturels', e:['🏖️','🏝️','🌊','🌅','🌄','🌇','🌆','🌃','🏙️','🌉','🏔️','⛰️','🗻','🌋','🏕️','🏜️','🌾','🌿','🌲','🌴','🌵','🌸','🍂']},
+  {label:'Monuments & lieux', e:['🏛️','🏰','🏯','🗼','⛩️','🕌','🕍','🛕','🗽','🗿','🎡','🎠','⛪','🕋','🏟️','🎪','🌁']},
+  {label:'Transport', e:['🚂','🚃','🚄','🚅','🚇','🚊','🚞','🚢','⛵','🛥️','🚤','⛴️','🚗','🚌','🚎','🚐','🏎️','🚕','🛻','🚙','🚴','🛺','🛵','🏍️','🛤️','🛣️','⛽','🎒','🧳','🚀','🚁','🛸','🪂']},
+  {label:'Gastronomie', e:['🍕','🍝','🍜','🍱','🌮','🌯','🍣','🍤','🥘','🫕','🥗','🍲','🫔','🥐','🥖','🧇','🥞','🧆','🫓','🥨','🍷','🍾','🍸','🍹','🍺','🫖','☕','🧃','🍵','🍫','🍦','🧁','🎂','🍰','🍮','🍡','🍧','🫒','🧄','🌶️','🥭','🍍','🥥','🍊','🍋','🍇']},
+  {label:'Animaux', e:['🦁','🐯','🐆','🐘','🦏','🦛','🦒','🦓','🐫','🦙','🐻','🐼','🦘','🦔','🐒','🦍','🦧','🦊','🐺','🐊','🦎','🐍','🐉','🦕','🦅','🦜','🦚','🦩','🦢','🕊️','🐠','🐟','🦭','🐋','🦈','🐙','🦑','🦞']},
+  {label:'Activités outdoor', e:['⛷️','🏂','🏄','🤿','🧗','🚵','🤸','🏊','🤽','🎣','🏹','🤺','🥋','🧘','🏇','🛶','🚣','🏋️','⛳','🎿']},
+  {label:'Culture & art', e:['🎨','🖼️','🎭','🎬','🎤','🎵','🎶','🎷','🎸','🥁','🎹','🪗','📸','📷','🎞️','🎯','🏺']},
+  {label:'Shopping & lifestyle', e:['🛍️','👗','👠','💄','💍','💎','🕶️','👒','🎩','🧣','🧤','🧥','🏪','🏬','🏦','💶','💳','🎁','🛒']},
+  {label:'Célébration & émotion', e:['🎉','🎊','🥳','🎈','🎀','🎆','🎇','✨','💫','❤️','🧡','💛','💚','💙','💜','🩷','🤍','🖤','💑','👫','💏','👨‍👩‍👧','💒','🥂','🌹']},
+  {label:'Météo & nature', e:['☀️','🌤️','⛅','🌥️','☁️','🌦️','🌧️','⛈️','🌩️','🌨️','❄️','☃️','⛄','🌬️','🌪️','🌫️','🌈','🌙','🌛','⭐','🌟','💧','🔥']},
+];
+
+const KEYWORDS = {
+  '🌍':'monde terre globe','🌎':'monde amerique','🌏':'monde asie','🗺️':'carte monde itineraire',
+  '🧭':'boussole direction orientation','✈️':'avion vol voyage transport','🌐':'internet monde',
+  '🛫':'avion depart','🛬':'avion arrivee atterrissage','🛩️':'avion petit',
+  '🇫🇷':'france francais paris','🇪🇸':'espagne espagnol madrid barcelone',
+  '🇮🇹':'italie italien rome florence venise','🇵🇹':'portugal lisbonne porto algarve',
+  '🇬🇷':'grece grec athenes santorin','🇩🇪':'allemagne allemand berlin munich',
+  '🇦🇹':'autriche vienne salzbourg','🇨🇭':'suisse zurich geneve berne',
+  '🇳🇱':'pays-bas hollande amsterdam','🇧🇪':'belgique bruxelles bruges',
+  '🇱🇺':'luxembourg','🇬🇧':'angleterre royaume-uni londre ecosse',
+  '🇮🇪':'irlande dublin','🇸🇪':'suede stockholm','🇳🇴':'norvege oslo fjord',
+  '🇩🇰':'danemark copenhague','🇫🇮':'finlande helsinki laponie',
+  '🇮🇸':'islande reykjavik volcan','🇵🇱':'pologne varsovie cracovie',
+  '🇭🇺':'hongrie budapest','🇨🇿':'tcheque prague','🇸🇰':'slovaquie',
+  '🇷🇴':'roumanie bucarest','🇧🇬':'bulgarie sofia','🇭🇷':'croatie dubrovnik',
+  '🇸🇮':'slovenie','🇷🇸':'serbie belgrade','🇲🇪':'montenegro',
+  '🇦🇱':'albanie','🇲🇰':'macedoine','🇧🇦':'bosnie','🇺🇦':'ukraine',
+  '🇱🇹':'lituanie','🇱🇻':'lettonie','🇪🇪':'estonie','🇲🇹':'malte',
+  '🇨🇾':'chypre','🇹🇷':'turquie istanbul cappadoce',
+  '🇯🇵':'japon tokyo kyoto osaka hiroshima','🇨🇳':'chine beijing shanghai pekin',
+  '🇰🇷':'coree seoul busan','🇹🇭':'thailande bangkok phuket',
+  '🇻🇳':'vietnam hanoi ho chi minh hoi an','🇰🇭':'cambodge angkor',
+  '🇱🇦':'laos vientiane','🇲🇲':'birmanie myanmar','🇮🇩':'indonesie bali',
+  '🇵🇭':'philippines manille','🇲🇾':'malaisie kuala lumpur',
+  '🇸🇬':'singapour','🇹🇼':'taiwan taipei','🇭🇰':'hong kong','🇲🇳':'mongolie',
+  '🇮🇳':'inde mumbai delhi goa rajasthan kerala','🇳🇵':'nepal katmandou everest',
+  '🇱🇰':'sri lanka','🇵🇰':'pakistan','🇰🇿':'kazakhstan',
+  '🇺🇿':'ouzbekistan samarcande','🇬🇪':'georgie tbilissi',
+  '🇦🇲':'armenie erevan','🇦🇿':'azerbaidjan bakou',
+  '🇮🇱':'israel tel aviv jerusalem','🇯🇴':'jordanie petra amman',
+  '🇱🇧':'liban beyrouth','🇮🇷':'iran teheran ispahan',
+  '🇸🇦':'arabie saoudite','🇦🇪':'emirats dubai abou dabi',
+  '🇶🇦':'qatar doha','🇴🇲':'oman mascate','🇰🇼':'koweit','🇧🇭':'bahrein',
+  '🇲🇦':'maroc marrakech fes casablanca agadir','🇹🇳':'tunisie tunis',
+  '🇩🇿':'algerie alger','🇪🇬':'egypte caire louxor assouan pyramide',
+  '🇸🇳':'senegal dakar','🇬🇭':'ghana','🇨🇮':'cote ivoire abidjan',
+  '🇳🇬':'nigeria lagos','🇨🇲':'cameroun','🇪🇹':'ethiopie addis abeba',
+  '🇰🇪':'kenya nairobi masai mara safari','🇹🇿':'tanzanie serengeti zanzibar',
+  '🇺🇬':'ouganda','🇷🇼':'rwanda','🇲🇿':'mozambique','🇿🇦':'afrique du sud cape town',
+  '🇳🇦':'namibie desert','🇧🇼':'botswana','🇲🇬':'madagascar',
+  '🇲🇺':'ile maurice','🇷🇪':'reunion','🇸🇨':'seychelles','🇨🇻':'cap vert',
+  '🇺🇸':'usa etats-unis new york los angeles californie miami chicago hawaii',
+  '🇨🇦':'canada montreal toronto vancouver quebec','🇲🇽':'mexique mexico cancun',
+  '🇨🇺':'cuba la havane','🇩🇴':'dominicaine punta cana',
+  '🇬🇵':'guadeloupe','🇲🇶':'martinique','🇧🇧':'barbade','🇧🇸':'bahamas',
+  '🇨🇷':'costa rica','🇵🇦':'panama','🇨🇴':'colombie bogota',
+  '🇵🇪':'perou lima machu picchu cusco','🇧🇴':'bolivie la paz',
+  '🇨🇱':'chili santiago patagonie','🇦🇷':'argentine buenos aires',
+  '🇧🇷':'bresil rio sao paulo amazonie','🇪🇨':'equateur galapagos',
+  '🇦🇺':'australie sydney melbourne','🇳🇿':'nouvelle zelande auckland',
+  '🇵🇫':'polynesie tahiti bora bora','🇳🇨':'nouvelle caledonie','🇫🇯':'fidji',
+  '🏖️':'plage mer sable soleil vacances','🏝️':'ile tropicale',
+  '🌊':'mer ocean vague surf','🌅':'lever soleil aube',
+  '🌄':'coucher soleil crepuscule','🌇':'ville soir',
+  '🌆':'ville skyline','🌃':'ville nuit','🏙️':'metropole ville',
+  '🌉':'pont nuit ville','🏔️':'montagne sommet neige alpes',
+  '⛰️':'montagne colline','🗻':'fuji japon',
+  '🌋':'volcan eruption lave','🏕️':'camping tente nature foret',
+  '🏜️':'desert sable aride','🌾':'campagne champs',
+  '🌿':'nature foret jungle vert','🌲':'arbre foret sapin',
+  '🌴':'palmier tropical plage','🌵':'cactus desert',
+  '🌸':'cerisier printemps fleur japon','🍂':'automne feuilles',
+  '❄️':'neige hiver froid','☀️':'soleil ete chaud beau',
+  '🌈':'arc en ciel','🌙':'nuit lune','🌟':'etoile ciel',
+  '🏛️':'temple antiquite rome grece histoire',
+  '🏰':'chateau medieval europe','🏯':'chateau japonais fort',
+  '🗼':'tour eiffel paris france','⛩️':'temple shinto japon',
+  '🕌':'mosquee islam','🕍':'synagogue','🛕':'temple hindou bouddhiste',
+  '🗽':'liberte new york','🗿':'moai ile de paques',
+  '🎡':'grande roue','⛪':'eglise cathedrale','🕋':'kaaba mekke',
+  '🚂':'train locomotive','🚄':'tgv grande vitesse',
+  '🚅':'shinkansen japon rapide','🚇':'metro',
+  '🚢':'bateau croisiere','⛵':'voilier',
+  '🛥️':'bateau moteur','⛴️':'ferry traversee',
+  '🚗':'voiture road trip','🚌':'bus autocar',
+  '🛻':'pickup aventure 4x4','🚴':'velo cyclisme',
+  '🛺':'tuk tuk asie','🎒':'sac dos randonnee backpacker',
+  '🧳':'valise bagage','🚀':'fusee espace',
+  '🚁':'helicoptere','🪂':'parachute saut',
+  '🍕':'pizza italie','🍝':'spaghetti pates italie',
+  '🍜':'ramen nouilles japon asie','🍱':'bento japonais',
+  '🌮':'taco mexique','🍣':'sushi japon',
+  '🥘':'paella espagne tajine maroc','🥐':'croissant france',
+  '🥖':'baguette pain france','🧆':'falafel orient',
+  '🍷':'vin rouge','🍾':'champagne','🥂':'toast',
+  '🍺':'biere pub','🫖':'the','☕':'cafe espresso',
+  '🍵':'matcha japonais','🫒':'olive mediterranee',
+  '🌶️':'piment epice','🥥':'coco tropical','🍊':'orange',
+  '🦁':'lion afrique safari','🐯':'tigre asie',
+  '🐆':'leopard guepard','🐘':'elephant afrique asie',
+  '🦒':'girafe afrique','🦓':'zebre savane',
+  '🐫':'chameau desert','🦙':'lama alpaga andes',
+  '🐻':'ours','🐼':'panda chine',
+  '🦘':'kangourou australie','🐒':'singe jungle',
+  '🦍':'gorille afrique','🐊':'crocodile',
+  '🦅':'aigle rapace','🦜':'perroquet tropical',
+  '🦚':'paon inde','🦩':'flamant rose',
+  '🐠':'poisson tropical','🐋':'baleine ocean',
+  '🦈':'requin','🐙':'pieuvre',
+  '⛷️':'ski neige montagne hiver alpes',
+  '🏂':'snowboard snow','🏄':'surf vague ocean',
+  '🤿':'plongee sous-marin snorkeling','🧗':'escalade montagne',
+  '🚵':'vtt montagne','🤸':'gym acrobatie',
+  '🏊':'natation piscine','⛺':'camping',
+  '🎣':'peche poisson','🧘':'yoga meditation bien-etre',
+  '🪂':'parachutisme','🛶':'canoe kayak',
+  '⛳':'golf','🎨':'art peinture musee culture',
+  '🎭':'theatre opera spectacle','🎬':'cinema film',
+  '🎤':'concert musique','🎵':'musique','🎶':'notes musique',
+  '📸':'photo appareil souvenir','🎪':'spectacle cirque',
+  '🛍️':'shopping courses achats mode',
+  '💍':'bijou bague mariage','💎':'diamant luxe',
+  '🎉':'fete celebration soiree','🥳':'anniversaire',
+  '🎆':'feu artifice','✨':'brillant magique',
+  '❤️':'amour coeur','💑':'couple amoureux',
+  '💒':'mariage','🌹':'rose romantisme',
+  '☀️':'soleil ete','🌧️':'pluie','⛈️':'orage',
+  '🌨️':'neige flocon','🌪️':'cyclone tempete',
+  '🌈':'arc ciel beau','🔥':'feu chaud',
+};
+
+const _TW = 'https://cdn.jsdelivr.net/npm/twemoji@14.0.2/assets/';
+function _tw(el) {
+  if(window.twemoji) twemoji.parse(el, {folder:'svg', ext:'.svg', base:_TW});
+}
+
+function _epMatch(emoji, q) {
+  if (!q) return true;
+  return (KEYWORDS[emoji] || '').toLowerCase().includes(q.toLowerCase());
+}
+
+function createEmojiPicker(btnId, pickerId, gridId, searchId, onChange) {
+  const btn    = document.getElementById(btnId);
+  const picker = document.getElementById(pickerId);
+  const grid   = document.getElementById(gridId);
+  const search = document.getElementById(searchId);
+  if(!btn || !picker) return;
+
+  let open = false;
+  let selected = btn.dataset.emoji || '🌍';
+
+  function setEmoji(e, manual) {
+    selected = e;
+    btn.dataset.emoji = e;
+    btn.textContent = e;
+    _tw(btn);
+    if(onChange) onChange(e);
+    renderGrid('');
+  }
+
+  function openPicker() {
+    open = true; picker.classList.add('open');
+    if(search) { search.value=''; renderGrid(''); setTimeout(()=>search.focus(),50); }
+  }
+  function closePicker() { open = false; picker.classList.remove('open'); }
+
+  btn.addEventListener('click', e => { e.stopPropagation(); open ? closePicker() : openPicker(); });
+  document.addEventListener('click', () => { if(open) closePicker(); });
+  picker.addEventListener('click', e => e.stopPropagation());
+  if(search) search.addEventListener('input', () => renderGrid(search.value));
+
+  function renderGrid(q) {
+    grid.innerHTML = '';
+    SECTIONS.forEach(sec => {
+      const emojis = sec.e.filter(e => _epMatch(e, q));
+      if(!emojis.length) return;
+      const lbl = document.createElement('div');
+      lbl.className = 'ep-section'; lbl.textContent = sec.label;
+      grid.appendChild(lbl);
+      emojis.forEach(em => {
+        const el = document.createElement('div');
+        el.className = 'ep-cell' + (em===selected?' active':'');
+        el.textContent = em;
+        let tsY=0, tsMoved=false;
+        el.addEventListener('touchstart', ev=>{ tsY=ev.touches[0].clientY; tsMoved=false; }, {passive:true});
+        el.addEventListener('touchmove',  ev=>{ if(Math.abs(ev.touches[0].clientY-tsY)>6) tsMoved=true; }, {passive:true});
+        el.addEventListener('touchend',   ev=>{ if(tsMoved) return; ev.preventDefault(); ev.stopPropagation(); setEmoji(em); closePicker(); }, {passive:false});
+        el.addEventListener('click', ev=>{ ev.stopPropagation(); setEmoji(em); closePicker(); });
+        grid.appendChild(el);
+      });
+    });
+    _tw(grid);
+  }
+
+  _tw(btn);
+  renderGrid('');
+  return { setEmoji, getEmoji: ()=>selected };
+}
+
+
+// ── Favicon dynamique ──
+function getTripFlag(name) { return ''; }
+
+function updateFavicon(flag) {
+  document.querySelectorAll('link[rel~="icon"]').forEach(el => el.remove());
+  const link = document.createElement('link');
+  link.rel = 'icon';
+  const canvas = document.createElement('canvas');
+  canvas.width = 32; canvas.height = 32;
+  const ctx = canvas.getContext('2d');
+  const t = state.trips && state.trips[state.currentTrip];
+  const emoji = t && t.emoji;
+  if (emoji) {
+    ctx.font = '24px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(emoji, 16, 17);
+  } else {
+    ctx.fillStyle = '#263443';
+    ctx.beginPath(); ctx.roundRect(0,0,32,32,6); ctx.fill();
+    ctx.fillStyle = '#e8927c';
+    ctx.font = 'bold 14px Georgia,serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('VW', 16, 16);
+  }
+  link.href = canvas.toDataURL('image/png');
+  document.head.appendChild(link);
+}
+
 function renderTripSelector() {
-  // sync mobile sera appelé en fin de fonction
-  const sel = document.getElementById('trip-select');
-  sel.innerHTML = '';
+  const sel    = document.getElementById('trip-select');
+  const selMob = document.getElementById('trip-select-mobile');
+  if (sel) sel.innerHTML = '';
+  if (selMob) selMob.innerHTML = '';
+
   Object.entries(state.trips).forEach(([id, t]) => {
-    const opt = document.createElement('option');
-    opt.value = id; opt.textContent = t.name;
-    if (id === state.currentTrip) opt.selected = true;
-    sel.appendChild(opt);
+    const label = t.emoji ? t.emoji + ' ' + t.name : t.name;
+    [sel, selMob].forEach(s => {
+      if (!s) return;
+      const opt = document.createElement('option');
+      opt.value = id; opt.textContent = label;
+      if (id === state.currentTrip) opt.selected = true;
+      s.appendChild(opt);
+    });
   });
+
+  // Bloc séjour sidebar
+  const t        = state.trips[state.currentTrip];
+  const emojiEl  = document.getElementById('sb-trip-emoji');
+  const nameEl   = document.getElementById('sb-trip-name');
+  const subEl    = document.getElementById('sb-trip-sub');
+  const dotsEl   = document.getElementById('sb-trip-dots');
+
+  if (t && emojiEl) {
+    emojiEl.textContent = t.emoji || '✈️';
+    nameEl.textContent  = t.name  || 'Sans titre';
+    const allDates = [...(t.flights||[]).map(f=>f.date),(t.days||[]).map(d=>d.dateFrom)]
+      .flat().filter(Boolean).sort();
+    if (allDates.length) {
+      const diff = Math.ceil((new Date(allDates[0]+'T00:00:00') - new Date()) / 86400000);
+      subEl.textContent = diff > 0 ? `Dans ${diff} jour${diff>1?'s':''}` : diff===0 ? "C'est aujourd'hui !" : 'En cours';
+      subEl.dataset.hasDeparture = '1';
+    } else { subEl.textContent = ''; delete subEl.dataset.hasDeparture; }
+
+    if (dotsEl) {
+      dotsEl.innerHTML = '';
+      const ids = Object.keys(state.trips);
+      if (ids.length > 1) ids.forEach(id => {
+        const dot = document.createElement('span');
+        dot.className = 'sb-trip-dot' + (id === state.currentTrip ? ' active' : '');
+        dot.title = state.trips[id].name;
+        dot.onclick = () => switchTrip(id, window.innerWidth <= 768);
+        dotsEl.appendChild(dot);
+      });
+    }
+    const swWrap = document.getElementById('sb-trip-switcher-wrap');
+    const swDrop = document.getElementById('sb-trip-dropdown');
+    if (swWrap && swDrop) {
+      const ids = Object.keys(state.trips);
+      swWrap.style.display = ids.length > 1 ? 'block' : 'none';
+      swDrop.innerHTML = '';
+      ids.forEach(id => {
+        const tt = state.trips[id];
+        const item = document.createElement('div');
+        item.style.cssText = 'padding:0.5rem 0.85rem;font-size:0.78rem;cursor:pointer;color:rgba(245,240,232,0.8);display:flex;align-items:center;gap:0.5rem;' +
+          (id === state.currentTrip ? 'background:rgba(255,255,255,0.08);font-weight:500;' : '');
+        item.innerHTML = `<span>${tt.emoji||'✈️'}</span><span>${tt.name}</span>`;
+        item.onmouseenter = () => { if(id!==state.currentTrip) item.style.background='rgba(255,255,255,0.06)'; };
+        item.onmouseleave = () => { if(id!==state.currentTrip) item.style.background=''; };
+        item.onclick = () => { swDrop.style.display='none'; switchTrip(id, window.innerWidth <= 768); };
+        swDrop.appendChild(item);
+      });
+    }
+  } else if (emojiEl) {
+    emojiEl.textContent = '✈️'; nameEl.textContent = 'Aucun séjour';
+    subEl.textContent = ''; if (dotsEl) dotsEl.innerHTML = '';
+  }
+
   syncTripSelects();
+  if (t) updateFavicon(getTripFlag(t.name));
 }
 
 // ── OVERVIEW ──
@@ -3726,6 +4339,21 @@ function renderOverview() {
   const t = trip();
   const titleEl = document.getElementById('overview-title-input');
   if (titleEl) titleEl.value = t.name;
+  // Initialiser le picker emoji vue générale
+  const ovBtn = document.getElementById('overview-emoji-btn');
+  if (ovBtn) {
+    const em = t.emoji || '🌍';
+    ovBtn.dataset.emoji = em;
+    ovBtn.textContent = em;
+    _tw(ovBtn);
+    if (!window._overviewEmojiPicker) {
+      window._overviewEmojiPicker = createEmojiPicker(
+        'overview-emoji-btn','overview-emoji-picker',
+        'overview-emoji-grid','overview-emoji-search',
+        (e) => { if(trip()) { trip().emoji = e; save(); renderTripSelector(); } }
+      );
+    }
+  }
   renderFlights();
   renderDays();
   renderHotels();
@@ -3772,18 +4400,17 @@ function renderTripScore() {
   else if (pct >= 40) { fill.style.background = 'linear-gradient(90deg,var(--jade),var(--gold))'; pctEl.style.color = 'var(--jade)'; }
   else { fill.style.background = 'linear-gradient(90deg,var(--gold),var(--rust))'; pctEl.style.color = 'var(--rust)'; }
 
-  // Mettre à jour la sidebar
-  const sbProg = document.getElementById('sidebar-trip-progress');
-  const sbFill = document.getElementById('sidebar-progress-fill');
-  const sbPct  = document.getElementById('sidebar-progress-pct');
-  const sbLbl  = document.getElementById('sidebar-progress-label');
-  if (sbProg && sbFill && sbPct && sbLbl) {
+  // Mettre à jour la sidebar progress
+  const sbProg = document.getElementById('sb-trip-progress');
+  const sbFill = document.getElementById('sb-trip-progress-fill');
+  const sbSub  = document.getElementById('sb-trip-sub');
+  if (sbProg && sbFill) {
     sbProg.style.display = 'block';
     sbFill.style.width   = pct + '%';
     sbFill.style.background = color;
-    sbPct.textContent    = pct + '%';
-    sbPct.style.color    = color;
-    sbLbl.textContent    = pct === 100 ? '🎉 Prêt !' : 'Manque : ' + missing.slice(0,2).join(', ') + (missing.length > 2 ? '…' : '');
+  }
+  if (sbSub && !sbSub.dataset.hasDeparture) {
+    sbSub.textContent = pct === 100 ? '🎉 Tout est prêt !' : `${pct}% complété`;
   }
 
   // Mettre à jour le compteur de jours
@@ -4843,7 +5470,7 @@ function renderFood() {
     const div = document.createElement('div');
     div.className = 'food-card';
     div.innerHTML = `
-      <div style="display:flex;align-items:center;gap:0.5rem">
+      <div style="display:flex;align-items:start;gap:0.5rem">
         <input type="checkbox" class="fancy-cb" id="food-cb-${i}" ${f.done?'checked':''} onchange="toggleFood(${i},this.checked)" />
         <label class="cb-label-only" for="food-cb-${i}"><div class="cb-box${f.done?' cb-checked':''}" ></div></label>
         <textarea class="food-input${f.done?' cb-done':''} ta-auto" placeholder="Nom du plat" rows="1" data-val="${f.name}" oninput="updateFood(${i},'name',this.value);autoResizeTA(this)"></textarea>
@@ -4856,6 +5483,7 @@ function renderFood() {
     list.appendChild(div);
   });
   resizeAllTA(list);
+  resizeAllTA();
 }
 function addFood() { if (!requireTrip()) return;
   trip().food.push({ id: uid(), name: '', desc: '', location: '', done: false });
@@ -4924,7 +5552,7 @@ function renderCities() {
           <input class="city-edit-name" value="${escHtml(city.name)}" onchange="updateCityName('${city.id}',this.value)" />
           <div class="page-subtitle">${done}/${total} visites cochées · étape ${ci+1}/${cities.length}</div>
         </div>
-        <div style="display:flex;align-items:center;gap:0.5rem">
+        <div style="display:flex;align-items:start;gap:0.5rem">
           <button class="city-order-btn" ${isFirst?'disabled':''} onclick="moveCityUp('${city.id}')" title="Remonter dans l'itinéraire">↑</button>
           <button class="city-order-btn" ${isLast?'disabled':''} onclick="moveCityDown('${city.id}')" title="Descendre dans l'itinéraire">↓</button>
           <button class="city-delete-btn" onclick="deleteCity('${city.id}')">🗑 Supprimer</button>
@@ -4959,6 +5587,7 @@ function renderCities() {
       itemsCont.appendChild(row);
     });
   });
+  resizeAllTA();
 }
 
 function openAddCityModal() {
@@ -5208,24 +5837,22 @@ function renderBudget() {
       row.className = 'budget-expense-row';
       row.innerHTML = `
         <div class="exp-row-label">
-          <textarea class="budget-input budget-label-ta" placeholder="Intitulé de la dépense" rows="1" oninput="updateExpense(${i},'label',this.value);if(window.innerWidth<=768){this.style.height='auto';this.style.height=Math.max(24,this.scrollHeight)+'px'}"></textarea>
-          <button class="btn-del-row exp-del-btn" onclick="deleteExpense(${i})">✕</button>
+          <textarea class="budget-input budget-label-ta" placeholder="Intitulé de la dépense" rows="1" oninput="updateExpense(${i},'label',this.value);autoResizeTA(this)"></textarea>
         </div>
-        <div class="exp-row-mid">
-          <div class="exp-amount-wrap">
-            <input class="budget-amount-input" type="number" min="0" step="0.01" value="${exp.amount||''}" placeholder="0" onchange="updateExpense(${i},'amount',this.value)" />
-            <span class="exp-currency">${cur}</span>
-          </div>
-          <div class="csel-cat-cell exp-cat-wrap">
-            <span class="cat-dot" style="background:${catColor(exp.category||'divers')}"></span>
-          </div>
-          <div class="exp-row-mid-person csel-person-cell">
-            ${persons.length
-              ? ``
-              : `<input class="budget-input" value="${escHtml(exp.person||'')} " placeholder="Payé par…" onchange="updateExpense(${i},'person',this.value)" />`
-            }
-          </div>
+        <div class="exp-amount-wrap">
+          <input class="budget-amount-input" type="number" min="0" step="0.01" value="${exp.amount||''}" placeholder="0" onchange="updateExpense(${i},'amount',this.value)" />
+          <span class="exp-currency">${cur}</span>
         </div>
+        <div class="csel-cat-cell exp-cat-wrap">
+          <span class="cat-dot" style="background:${catColor(exp.category||'divers')}"></span>
+        </div>
+        <div class="exp-row-person-del csel-person-cell">
+          ${persons.length
+            ? ``
+            : `<input class="budget-input" value="${escHtml(exp.person||'')}" placeholder="Payé par…" onchange="updateExpense(${i},'person',this.value)" />`
+          }
+        </div>
+        <button class="btn-del-row exp-del-btn" onclick="deleteExpense(${i})">✕</button>
       `;
       // Assigner valeurs
       row.querySelectorAll('textarea.ta-auto[data-val]').forEach(ta => { ta.value = ta.dataset.val; });
@@ -5338,6 +5965,7 @@ function renderBudget() {
       }
     }
   }
+  resizeAllTA();
 }
 
 function computeSettlements(debtors, creditors, cur) {
@@ -5384,14 +6012,50 @@ function deleteExpense(i) { budgetData().expenses.splice(i,1); save(); renderBud
 function updateExpense(i, key, val) {
   budgetData().expenses[i][key] = key === 'amount' ? (parseFloat(val)||0) : val;
   save();
-  // Ne pas re-rendre toute la page à chaque frappe (perte de focus)
-  // Uniquement mettre à jour le total sidebar
+
+  // Mettre à jour le total sidebar
   const total = (budgetData().expenses || []).reduce((s,e) => s+(parseFloat(e.amount)||0), 0);
   const cur = budgetData().currency || '€';
   const sidebarTotal = document.getElementById('sidebar-budget-total');
   if (sidebarTotal) sidebarTotal.textContent = total > 0 ? fmtAmt(total, cur) : '';
-  // Re-rendre uniquement pour les champs non-texte (montant, catégorie, personne)
-  if (key !== 'label') renderBudget();
+
+  if (key === 'label') return; // géré par oninput directement
+
+  // Pour catégorie : mettre à jour uniquement la pastille de couleur
+  if (key === 'category') {
+    const rows = document.querySelectorAll('#budget-expenses-list .budget-expense-row');
+    if (rows[i]) {
+      const dot = rows[i].querySelector('.cat-dot');
+      if (dot) dot.style.background = catColor(val || 'divers');
+      // Reconstruire le csel catégorie
+      const catCell = rows[i].querySelector('.csel-cat-cell');
+      if (catCell) {
+        const existing = catCell.querySelector('.csel');
+        if (existing) existing.remove();
+        const cats = CATEGORIES;
+        const cselEl = createCsel(cats.map(cc => ({value: cc.id, label: cc.label})), val || 'divers', v => updateExpense(i, 'category', v));
+        catCell.appendChild(cselEl);
+      }
+    }
+    // Re-rendre les stats/balance uniquement
+    setTimeout(() => renderBudgetStats(), 30);
+    return;
+  }
+
+  // Pour montant et personne : re-rendre uniquement stats + balance, pas les lignes
+  setTimeout(() => renderBudgetStats(), 30);
+}
+
+function renderBudgetStats() {
+  // Re-rendre uniquement les parties stats, chart, subtotals, balance
+  renderBudget();
+  // Après re-render, restaurer les hauteurs des textareas
+  setTimeout(() => {
+    document.querySelectorAll('#budget-expenses-list textarea.budget-label-ta').forEach(ta => {
+      ta.style.height = 'auto';
+      ta.style.height = (ta.scrollHeight || 24) + 'px';
+    });
+  }, 30);
 }
 function updateCurrency(val) { budgetData().currency = val; save(); renderBudget(); }
 
@@ -5511,7 +6175,7 @@ function showPage(pageId, clickedEl) {
       });
     }, 60);
     // Resize spécifique textarea budget
-    if (pageId === 'budget' && window.innerWidth <= 768) {
+    if (pageId === 'budget') {
       setTimeout(() => {
         document.querySelectorAll('.budget-label-ta').forEach(ta => {
           ta.style.height = 'auto';
@@ -5530,13 +6194,26 @@ function showPage(pageId, clickedEl) {
 function openNewTripModal() {
   document.getElementById('new-trip-name').value = '';
   openModal('modal-new-trip');
-  setTimeout(() => document.getElementById('new-trip-name').focus(), 50);
+  setTimeout(() => {
+    document.getElementById('new-trip-name').focus();
+    if (!window._newTripEmojiPicker) {
+      window._newTripEmojiPicker = createEmojiPicker(
+        'new-trip-emoji-btn','new-trip-emoji-picker',
+        'new-trip-emoji-grid','new-trip-emoji-search', null
+      );
+    }
+    const btn = document.getElementById('new-trip-emoji-btn');
+    if(btn) { btn.dataset.emoji='🌍'; btn.textContent='🌍'; _tw(btn); }
+  }, 50);
 }
 function createNewTrip() {
   const name = document.getElementById('new-trip-name').value.trim();
   if (!name) return;
   const id = 'trip_' + uid();
+  const emojiBtn = document.getElementById('new-trip-emoji-btn');
+  const emoji = emojiBtn ? (emojiBtn.dataset.emoji || '🌍') : '🌍';
   state.trips[id] = defaultTrip(name, name);
+  state.trips[id].emoji = emoji;
   state.currentTrip = id;
   save();
   closeModal('modal-new-trip');
@@ -5553,10 +6230,19 @@ function confirmRenameTrip() {
   save(); renderTripSelector();
   closeModal('modal-rename-trip');
 }
-function switchTrip(id) {
+function switchTrip(id, keepSidebar) {
   state.currentTrip = id;
   save(); renderAll();
-  showPage('overview', document.querySelector('[data-page="overview"]'));
+  if (keepSidebar) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-overview');
+    if (target) target.classList.add('active');
+    document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
+    const match = document.querySelector('[data-page="overview"]');
+    if (match) match.classList.add('active');
+  } else {
+    showPage('overview', document.querySelector('[data-page="overview"]'));
+  }
 }
 
 // ════════════════════════════════════════════
@@ -5887,6 +6573,7 @@ function renderDocuments() {
     autoResizeTA(notesEl);
   }
   renderDocsMobile();
+  resizeAllTA();
 }
 function updateDocPerson(i, k, v)  { docsData().persons[i][k]  = v; save(); }
 function updateDocBooking(i, k, v) { docsData().bookings[i][k] = v; save(); }
@@ -6064,7 +6751,7 @@ function renderHotelsMobile() {
         <div class="mob-card-field" style="grid-column:1/-1">
           <label style="display:flex;align-items:center;justify-content:space-between">
             <span>Hôtel / Logement</span>
-            <div style="display:flex;align-items:center;gap:0.5rem">
+            <div style="display:flex;align-items:start;gap:0.5rem">
               ${nights !== null ? `<span class="mob-nights">${nights} nuit${nights>1?'s':''}</span>` : ''}
               <button class="btn-del-row" onclick="deleteHotel(${i})">✕</button>
             </div>
@@ -6369,33 +7056,32 @@ function copyShareLink() {
   }).catch(() => { document.execCommand('copy'); });
 }
 
-// Import depuis ?vp= dans l'URL au chargement
+// Import/lecture depuis l'URL au chargement
 (function checkShareUrl() {
   const params = new URLSearchParams(window.location.search);
+  const vpRo = params.get('vp_ro');
+  if (vpRo) {
+    try {
+      const data = JSON.parse(decodeURIComponent(escape(atob(vpRo))));
+      if (!data || !data.name) return;
+      window.history.replaceState({}, '', window.location.pathname);
+      setTimeout(() => _showReadonlyTrip(data), 600);
+    } catch(e) { console.warn('Lien lecture seule invalide'); }
+    return;
+  }
   const vp = params.get('vp');
   if (!vp) return;
   try {
-    const json = decodeURIComponent(escape(atob(vp)));
-    const data = JSON.parse(json);
+    const data = JSON.parse(decodeURIComponent(escape(atob(vp))));
     if (!data || !data.name) return;
-    const existing = getAllTrips();
-    const alreadyExists = Object.values(existing).some(t => t.name === data.name);
-    if (alreadyExists) {
-      setTimeout(() => {
-        if (confirm(`Le voyage "${data.name}" existe déjà. Voulez-vous l'importer quand même ?`)) {
-          data.id = 'trip_' + Date.now();
-          importTripData(data);
-        }
-      }, 800);
-    } else {
-      setTimeout(() => {
-        if (confirm(`Importer le voyage partagé "${data.name}" ?`)) {
-          importTripData(data);
-        }
-      }, 800);
-    }
-    // Nettoyer l'URL
     window.history.replaceState({}, '', window.location.pathname);
+    const alreadyExists = Object.values(getAllTrips()).some(t => t.name === data.name);
+    setTimeout(() => {
+      if (confirm(alreadyExists ? `"${data.name}" existe déjà. Importer quand même ?` : `Importer le voyage "${data.name}" ?`)) {
+        if (alreadyExists) data.id = 'trip_' + Date.now();
+        importTripData(data);
+      }
+    }, 800);
   } catch(e) { console.warn('Lien de partage invalide'); }
 })();
 
@@ -6597,146 +7283,279 @@ document.addEventListener('keydown', function(e) {
 });
 
 
+
+
 // ════════════════════════════════════════════════════════════════
-//  ASSISTANT IA
+//  ASSISTANT IA CONVERSATIONNEL
 // ════════════════════════════════════════════════════════════════
-let _aiCurrentMode = null;
+let _aiOpen = false;
+let _aiHistory = [];
+let _aiTyping = false;
 
-function buildAiContext(mode) {
-  const t = trip(); if (!t) return null;
-  const dest  = (t.cities||[]).map(c=>c.name).filter(Boolean).join(', ') || 'destination inconnue';
-  const dates = (() => {
-    const all = [];
-    (t.flights||[]).forEach(f => { if (f.date) all.push(f.date); });
-    (t.days||[]).forEach(d => { if (d.dateFrom) all.push(d.dateFrom); });
-    all.sort();
-    return all.length ? `du ${fmtDV(all[0])} au ${fmtDV(all[all.length-1])}` : '';
-  })();
-  const base = `Séjour "${t.name}"${dest ? ' à ' + dest : ''}${dates ? ' ' + dates : ''}.`;
+const AI_CHIPS_DEFAULT = [
+  'Résume mon séjour', 'Quel est mon budget restant ?',
+  "Idées d'activités", 'Que faire le premier jour ?', 'Restaurants à recommander ?'
+];
 
-  if (mode === 'itinerary') {
-    const days = (t.days||[]).map((d,i)=>`J${i+1}${d.city?' '+d.city:''}${d.dateFrom?' ('+fmtDV(d.dateFrom)+')':''}`).join(', ');
-    const existing = days ? `
-Itinéraire actuel : ${days}.` : '';
-    return { context: base+existing, prompt: `Tu es un expert en voyage. ${base}${existing}
-
-Propose 5 idées d'étapes ou d'activités. Réponds en JSON uniquement, sans markdown :
-{"suggestions":[{"label":"Ville / Région","text":"Description courte"},...]}`};
-  }
-  if (mode === 'food') {
-    const existing = (t.food||[]).map(f=>f.name).filter(Boolean).join(', ');
-    const already = existing ? `
-Déjà dans la liste : ${existing}.` : '';
-    return { context: base+already, prompt: `Tu es un expert culinaire. ${base}${already}
-
-Propose 5 plats ou spécialités à ne pas manquer. Réponds en JSON uniquement, sans markdown :
-{"suggestions":[{"label":"Nom du plat","text":"Description courte et lieu si possible"},...]}`};
-  }
-  if (mode === 'checklist') {
-    const existing = (t.checklistSections||[]).flatMap(s=>(s.items||[]).map(i=>i.text)).filter(Boolean).slice(0,15).join(', ');
-    const already = existing ? `
-Déjà dans la checklist : ${existing}.` : '';
-    return { context: base+already, prompt: `Tu es un expert en organisation de voyages. ${base}${already}
-
-Propose 6 éléments essentiels à ajouter à la checklist. Réponds en JSON uniquement, sans markdown :
-{"suggestions":[{"label":"Catégorie","text":"Élément à prévoir"},...]}`};
-  }
-  return null;
+function toggleAiChat() {
+  _aiOpen = !_aiOpen;
+  document.getElementById('ai-chat-panel').classList.toggle('open', _aiOpen);
+  if (_aiOpen && _aiHistory.length === 0) _aiWelcome();
+  if (_aiOpen) setTimeout(() => document.getElementById('ai-chat-input').focus(), 200);
 }
 
-async function openAiModal(mode) {
-  if (!requireTrip()) return;
-  _aiCurrentMode = mode;
-  const titles = { itinerary:'Idées pour votre itinéraire', food:'Plats à ne pas manquer', checklist:'À ajouter à la checklist' };
-  document.getElementById('ai-modal-title-text').textContent = titles[mode] || 'Suggestions IA';
-  document.getElementById('ai-modal-error').style.display  = 'none';
-  document.getElementById('ai-suggestions').innerHTML      = '';
-  document.getElementById('ai-modal-retry').style.display  = 'none';
-  document.getElementById('ai-modal').classList.add('open');
-  await fetchAiSuggestions(mode);
+function _aiWelcome() {
+  const t = trip();
+  const name = t ? t.name : 'votre séjour';
+  _aiAddMsg('assistant', `Bonjour ! Je suis votre assistant pour **${name}**. Je connais votre itinéraire, vos hébergements, votre budget et vos notes. Comment puis-je vous aider ?`);
+  _renderChips(AI_CHIPS_DEFAULT);
 }
 
-function closeAiModal() {
-  document.getElementById('ai-modal').classList.remove('open');
-  _aiCurrentMode = null;
+function _aiAddMsg(role, text) {
+  _aiHistory.push({role, content: text});
+  _renderMessages();
 }
 
-function aiRetry() {
-  if (_aiCurrentMode) {
-    document.getElementById('ai-suggestions').innerHTML = '';
-    document.getElementById('ai-modal-error').style.display = 'none';
-    document.getElementById('ai-modal-retry').style.display = 'none';
-    fetchAiSuggestions(_aiCurrentMode);
-  }
+function _renderMessages() {
+  const el = document.getElementById('ai-chat-messages');
+  el.innerHTML = '';
+  _aiHistory.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'ai-msg ' + m.role;
+    div.innerHTML = m.content
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+      .replace(/^- (.+)$/gm, '\u2022 $1')
+      .replace(/\\n/g, '<br>');
+    el.appendChild(div);
+  });
+  el.scrollTop = el.scrollHeight;
 }
 
-async function fetchAiSuggestions(mode) {
-  const ctx = buildAiContext(mode); if (!ctx) return;
-  const loadEl = document.getElementById('ai-modal-loading');
-  const errEl  = document.getElementById('ai-modal-error');
-  const sugEl  = document.getElementById('ai-suggestions');
-  const ctxEl  = document.getElementById('ai-modal-context');
-  const retryEl= document.getElementById('ai-modal-retry');
-  ctxEl.textContent    = ctx.context;
-  loadEl.style.display = 'flex';
-  errEl.style.display  = 'none';
-  sugEl.innerHTML      = '';
+function _renderChips(chips) {
+  const el = document.getElementById('ai-chips');
+  el.innerHTML = '';
+  chips.forEach(txt => {
+    const btn = document.createElement('button');
+    btn.className = 'ai-chip';
+    btn.textContent = txt;
+    btn.onclick = () => { document.getElementById('ai-chat-input').value = txt; sendAiMessage(); };
+    el.appendChild(btn);
+  });
+}
+
+function _buildSystemPrompt() {
+  const t = trip();
+  if (!t) return 'Tu es un assistant de voyage.';
+  const dest = (t.cities||[]).map(c=>c.name).filter(Boolean).join(', ') || 'destination non précisée';
+  const flights = (t.flights||[]).map(f=>`${f.type||''} ${f.from||''}→${f.to||''} le ${f.date||''}`).join(', ');
+  const days = (t.days||[]).map((d,i)=>`J${i+1}: ${d.city||''} (${d.dateFrom||'?'}→${d.dateTo||'?'}) notes: ${(d.notes||[]).join(', ')}`).join(' | ');
+  const hotels = (t.hotels||[]).map(h=>`${h.name||''} à ${h.city||''} (${h.checkin||'?'}→${h.checkout||'?'})`).join(', ');
+  const budget = t.budget || {};
+  const cur = budget.currency || '€';
+  const total = (budget.expenses||[]).reduce((s,e)=>s+(parseFloat(e.amount)||0),0);
+  const food = (t.food||[]).map(f=>f.name).filter(Boolean).join(', ');
+  const checklist = (t.checklistSections||[]).flatMap(s=>(s.items||[]).filter(i=>!i.done).map(i=>i.text)).join(', ');
+  return `Tu es un assistant de voyage personnel intégré à Very Wandr.
+Tu connais le séjour "${t.name}". Infos :
+DESTINATIONS : ${dest}
+VOLS : ${flights||'aucun'}
+ITINÉRAIRE : ${days||'non renseigné'}
+HÉBERGEMENTS : ${hotels||'aucun'}
+BUDGET : ${total}${cur} dépensés
+GASTRONOMIE : ${food||'aucune'}
+CHECKLIST restante : ${checklist||'tout coché'}
+Réponds en français, de manière concise et pratique. Utilise **gras** et listes avec - pour structurer.`;
+}
+
+async function sendAiMessage() {
+  if (_aiTyping) return;
+  const input = document.getElementById('ai-chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = ''; input.style.height = 'auto';
+  document.getElementById('ai-chips').innerHTML = '';
+  _aiAddMsg('user', text);
+  _aiTyping = true;
+  document.getElementById('ai-chat-send').disabled = true;
+  const thinkingDiv = document.createElement('div');
+  thinkingDiv.className = 'ai-msg thinking'; thinkingDiv.id = 'ai-thinking';
+  thinkingDiv.textContent = 'Réflexion en cours…';
+  document.getElementById('ai-chat-messages').appendChild(thinkingDiv);
+  document.getElementById('ai-chat-messages').scrollTop = 999999;
   try {
+    const messages = [
+      ..._aiHistory.slice(0,-1).map(m => ({role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content})),
+      {role: 'user', content: text}
+    ];
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 600,
-        messages: [{ role: 'user', content: ctx.prompt }] })
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: _buildSystemPrompt(), messages })
     });
-    loadEl.style.display = 'none';
-    if (!resp.ok) throw new Error('Erreur API (' + resp.status + ')');
+    const thinking = document.getElementById('ai-thinking');
+    if (thinking) thinking.remove();
+    if (!resp.ok) throw new Error('API ' + resp.status);
     const data = await resp.json();
-    const raw  = (data.content||[]).map(b=>b.text||'').join('');
-    const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
-    const suggestions = parsed.suggestions || [];
-    if (!suggestions.length) throw new Error('Aucune suggestion reçue');
-    suggestions.forEach(s => {
-      const div = document.createElement('div');
-      div.className = 'ai-suggestion';
-      div.innerHTML = `<div class="ai-suggestion-label">${s.label||''}</div><div class="ai-suggestion-text">${s.text||''}</div><span class="ai-suggestion-add">＋</span>`;
-      div.addEventListener('click', () => {
-        if (div.classList.contains('added')) return;
-        addAiSuggestion(mode, s);
-        div.classList.add('added');
-        div.querySelector('.ai-suggestion-add').textContent = '✓';
-      });
-      sugEl.appendChild(div);
-    });
-    retryEl.style.display = 'inline';
+    const reply = (data.content||[]).map(b=>b.text||'').join('');
+    _aiAddMsg('assistant', reply);
+    _renderChips(["Dis m'en plus", 'Et pour les repas ?', 'Budget estimé ?', 'Autres idées ?']);
   } catch(e) {
-    loadEl.style.display = 'none';
-    errEl.style.display  = 'block';
-    errEl.textContent    = '⚠️ ' + (e.message||'Erreur lors de la génération');
-    retryEl.style.display = 'inline';
+    const thinking = document.getElementById('ai-thinking');
+    if (thinking) thinking.remove();
+    _aiAddMsg('assistant', '⚠️ Erreur. Vérifiez votre connexion et réessayez.');
+  } finally {
+    _aiTyping = false;
+    document.getElementById('ai-chat-send').disabled = false;
+    document.getElementById('ai-chat-input').focus();
   }
 }
 
-function addAiSuggestion(mode, s) {
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && _aiOpen) toggleAiChat(); });
+
+// ════════════════════════════════════════════════════════════════
+//  EXPORT PDF
+// ════════════════════════════════════════════════════════════════
+function exportTripPDF() {
   if (!requireTrip()) return;
-  if (mode === 'itinerary') {
-    trip().days.push({ id: uid(), city: s.label||s.text, dateFrom:'', dateTo:'', notes:[s.text||''] });
-    save(); renderDays(); renderTripScore();
+  const t = trip();
+  const cur = (t.budget && t.budget.currency) || '€';
+  const fmtDate = d => d ? new Date(d+'T00:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'}) : '—';
+  const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const fmtAmt = n => Number(n||0).toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:2});
+  let html = '';
+  const emoji = t.emoji || '✈️';
+  const dest = (t.cities||[]).map(c=>c.name).filter(Boolean).join(' · ') || '';
+  const allDates = [...(t.flights||[]).map(f=>f.date),(t.days||[]).map(d=>d.dateFrom)].flat().filter(Boolean).sort();
+  const dateRange = allDates.length>=2 ? fmtDate(allDates[0])+' → '+fmtDate(allDates[allDates.length-1]) : allDates.length===1 ? fmtDate(allDates[0]) : '';
+  html += `<div class="cover"><div class="cover-emoji">${emoji}</div><h1>${esc(t.name)}</h1>${dest?`<div class="cover-dest">${esc(dest)}</div>`:''}${dateRange?`<div class="cover-dates">${dateRange}</div>`:''}<div class="cover-meta">Exporté le ${new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'})}</div></div>`;
+  const flights = t.flights||[];
+  if (flights.length) {
+    html += `<div class="section"><h2>✈ Vols</h2><table><thead><tr><th>Type</th><th>Départ</th><th>De</th><th>Arrivée</th><th>À</th><th>Compagnie</th><th>N° vol</th></tr></thead><tbody>`;
+    flights.forEach(f => { html += `<tr><td>${esc(f.type||'')}</td><td>${fmtDate(f.date)}${f.time?' '+f.time:''}</td><td>${esc(f.from||'')}</td><td>${fmtDate(f.arrivalDate)}${f.arrivalTime?' '+f.arrivalTime:''}</td><td>${esc(f.to||'')}</td><td>${esc(f.airline||'')}</td><td>${esc(f.flightNum||'')}</td></tr>`; });
+    html += '</tbody></table></div>';
   }
-  if (mode === 'food') {
-    trip().food.push({ id: uid(), name: s.label||'', desc: s.text||'', location:'', done: false });
-    save(); renderFood();
+  const days = t.days||[];
+  if (days.length) {
+    html += `<div class="section"><h2>📅 Itinéraire</h2>`;
+    days.forEach((d,i) => { html += `<div class="day-row"><div class="day-num">J${i+1}</div><div class="day-body"><strong>${esc(d.city||'')}</strong>${d.dateFrom?`<span class="day-dates">${fmtDate(d.dateFrom)}${d.dateTo&&d.dateTo!==d.dateFrom?' → '+fmtDate(d.dateTo):''}</span>`:''}</div></div>`; });
+    html += '</div>';
   }
-  if (mode === 'checklist') {
-    const sections = trip().checklistSections||[];
-    let section = sections.find(sec=>sec.title&&sec.title.toLowerCase()===(s.label||'').toLowerCase());
-    if (!section) section = sections[sections.length-1];
-    if (!section) { section={id:uid(),title:'Suggestions IA',items:[]}; sections.push(section); trip().checklistSections=sections; }
-    section.items.push({ id: uid(), text: s.text||s.label||'', done: false });
-    save(); renderChecklist();
+  const hotels = (t.hotels||[]).filter(h=>h.name);
+  if (hotels.length) {
+    html += `<div class="section"><h2>🏨 Hébergements</h2><table><thead><tr><th>Hôtel</th><th>Ville</th><th>Arrivée</th><th>Départ</th><th>Nuits</th></tr></thead><tbody>`;
+    hotels.forEach(h => { const nights = h.checkin&&h.checkout ? Math.round((new Date(h.checkout)-new Date(h.checkin))/86400000) : ''; html += `<tr><td><strong>${esc(h.name)}</strong></td><td>${esc(h.city||'')}</td><td>${fmtDate(h.checkin)}</td><td>${fmtDate(h.checkout)}</td><td>${nights||'—'}</td></tr>`; });
+    html += '</tbody></table></div>';
   }
+  const expenses = (t.budget&&t.budget.expenses)||[];
+  const totalExp = expenses.reduce((s,e)=>s+(parseFloat(e.amount)||0),0);
+  if (expenses.length) {
+    html += `<div class="section"><h2>💶 Budget</h2><div class="budget-total">Total : <strong>${fmtAmt(totalExp)} ${cur}</strong></div><table><thead><tr><th>Intitulé</th><th>Montant</th><th>Catégorie</th><th>Payé par</th></tr></thead><tbody>`;
+    expenses.forEach(e => { html += `<tr><td>${esc(e.label||'')}</td><td><strong>${fmtAmt(e.amount)} ${cur}</strong></td><td>${esc(e.category||'')}</td><td>${esc(e.person||'')}</td></tr>`; });
+    html += '</tbody></table></div>';
+  }
+  const sections = t.checklistSections||[];
+  if (sections.some(s=>(s.items||[]).length)) {
+    html += `<div class="section"><h2>✅ À prévoir</h2>`;
+    sections.forEach(sec => { if(!(sec.items||[]).length) return; html += `<div class="cl-section"><h3>${esc(sec.title||'')}</h3><ul>`; sec.items.forEach(item => { html += `<li class="${item.done?'done':''}">${item.done?'☑':'☐'} ${esc(item.text||'')}</li>`; }); html += '</ul></div>'; });
+    html += '</div>';
+  }
+  const food = (t.food||[]).filter(f=>f.name);
+  if (food.length) {
+    html += `<div class="section"><h2>🍜 À goûter</h2><table><thead><tr><th>Plat</th><th>Lieu</th><th>Notes</th></tr></thead><tbody>`;
+    food.forEach(f => { html += `<tr><td><strong>${esc(f.name)}</strong></td><td>${esc(f.location||'')}</td><td>${esc(f.desc||'')}</td></tr>`; });
+    html += '</tbody></table></div>';
+  }
+  const css = `*{box-sizing:border-box;margin:0;padding:0}body{font-family:Georgia,serif;font-size:11pt;color:#1a1a1a;background:white}h1{font-size:28pt;font-weight:bold;margin-bottom:.3rem}h2{font-size:14pt;color:#2b3a4a;border-bottom:2px solid #e8927c;padding-bottom:.3rem;margin:1.5rem 0 .8rem}h3{font-size:11pt;color:#3d5166;margin:.8rem 0 .4rem;font-style:italic}.cover{text-align:center;padding:4rem 2rem;page-break-after:always}.cover-emoji{font-size:60pt;margin-bottom:1rem}.cover-dest{font-size:14pt;color:#3d5166;margin:.5rem 0}.cover-dates{font-size:12pt;color:#a63d2f;margin:.5rem 0;font-style:italic}.cover-meta{font-size:9pt;color:#888;margin-top:2rem}table{width:100%;border-collapse:collapse;margin-top:.5rem;font-size:10pt}th{background:#2b3a4a;color:white;padding:.4rem .6rem;text-align:left;font-size:9pt;letter-spacing:.05em}td{padding:.35rem .6rem;border-bottom:1px solid #eee;vertical-align:top}tr:nth-child(even) td{background:#fafafa}.day-row{display:flex;gap:1rem;padding:.5rem 0;border-bottom:1px solid #eee}.day-num{width:2rem;font-weight:bold;color:#a63d2f;font-size:10pt;flex-shrink:0}.day-dates{font-size:9pt;color:#888;margin-left:.8rem}.budget-total{font-size:12pt;margin-bottom:.5rem}.cl-section{margin-bottom:.8rem}ul{list-style:none;padding-left:.5rem}li{padding:.2rem 0;font-size:10pt}li.done{color:#888;text-decoration:line-through}@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}.cover{page-break-after:always}.section{page-break-inside:avoid}}`;
+  const win = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"/><title>${esc(t.name)} — Very Wandr</title><style>${css}</style></head><body>${html}</body></html>`);
+  win.document.close();
+  win.onload = () => setTimeout(() => win.print(), 300);
 }
 
-document.addEventListener('keydown', e => { if (e.key==='Escape') closeAiModal(); });
+// ════════════════════════════════════════════════════════════════
+//  IO-NOTICE + PARTAGE LECTURE SEULE
+// ════════════════════════════════════════════════════════════════
+function generateShareLink() {
+  try {
+    const data = trip();
+    const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+    const url = window.location.href.split('?')[0].split('#')[0] + '?vp_ro=' + b64;
+    const res = document.getElementById('share-link-result');
+    document.getElementById('share-link-input').value = url;
+    res.style.display = 'block';
+    const kb = Math.round(b64.length/1024);
+    document.getElementById('share-link-notice').textContent = `Lien lecture seule — consultation uniquement, sans modification. Taille : ~${kb} Ko.`;
+  } catch(e) { alert('Erreur lors de la génération du lien.'); }
+}
+
+function _showReadonlyTrip(data) {
+  const cur = (data.budget&&data.budget.currency)||'€';
+  const fmtDate = d => d ? new Date(d+'T00:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'}) : '—';
+  const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const flights = (data.flights||[]).filter(f=>f.from||f.to);
+  const days = data.days||[];
+  const hotels = (data.hotels||[]).filter(h=>h.name);
+  const food = (data.food||[]).filter(f=>f.name);
+  const total = ((data.budget&&data.budget.expenses)||[]).reduce((s,e)=>s+(parseFloat(e.amount)||0),0);
+  let body = `<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1rem"><span style="font-size:2rem">${data.emoji||'✈️'}</span><div><div style="font-size:1.4rem;font-weight:600;color:var(--ink)">${esc(data.name)}</div><div style="font-size:0.75rem;background:rgba(166,61,47,0.1);color:var(--rust);padding:.15rem .5rem;border-radius:10px;display:inline-block;margin-top:.2rem">👁 Lecture seule</div></div></div>`;
+  if (flights.length) { body += `<div style="font-weight:600;font-size:.78rem;text-transform:uppercase;color:var(--muted);margin:1rem 0 .4rem">✈ Vols</div>`; flights.forEach(f => { body += `<div style="font-size:.82rem;padding:.3rem 0;border-bottom:1px solid var(--border)"><strong>${esc(f.type||'')}</strong> ${esc(f.from||'')} → ${esc(f.to||'')} · ${fmtDate(f.date)} ${f.time||''}</div>`; }); }
+  if (days.length) { body += `<div style="font-weight:600;font-size:.78rem;text-transform:uppercase;color:var(--muted);margin:1rem 0 .4rem">📅 Itinéraire</div>`; days.forEach((d,i) => { body += `<div style="display:flex;gap:.8rem;padding:.35rem 0;border-bottom:1px solid var(--border);font-size:.82rem"><span style="color:var(--rust);font-weight:600;min-width:24px">J${i+1}</span><span><strong>${esc(d.city||'')}</strong>${d.dateFrom?`<span style="color:var(--muted);font-size:.75rem;margin-left:.4rem">${fmtDate(d.dateFrom)}</span>`:''}</span></div>`; }); }
+  if (hotels.length) { body += `<div style="font-weight:600;font-size:.78rem;text-transform:uppercase;color:var(--muted);margin:1rem 0 .4rem">🏨 Hébergements</div>`; hotels.forEach(h => { body += `<div style="font-size:.82rem;padding:.3rem 0;border-bottom:1px solid var(--border)"><strong>${esc(h.name)}</strong> · ${esc(h.city||'')} <span style="color:var(--muted)">${fmtDate(h.checkin)} → ${fmtDate(h.checkout)}</span></div>`; }); }
+  if (food.length) { body += `<div style="font-weight:600;font-size:.78rem;text-transform:uppercase;color:var(--muted);margin:1rem 0 .4rem">🍜 À goûter</div><div style="display:flex;flex-wrap:wrap;gap:.3rem">`; food.forEach(f => { body += `<span style="background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:.15rem .5rem;font-size:.78rem">${esc(f.name)}</span>`; }); body += '</div>'; }
+  if (total > 0) { body += `<div style="font-weight:600;font-size:.78rem;text-transform:uppercase;color:var(--muted);margin:1rem 0 .4rem">💶 Budget</div><div style="font-size:.9rem">Total : <strong>${total.toLocaleString('fr-FR')} ${esc(cur)}</strong></div>`; }
+  body += `<div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;gap:.6rem;flex-wrap:wrap"><button onclick="if(confirm('Importer ce voyage ?')){_importReadonly(window._roData)}" style="background:var(--jade);color:white;border:none;border-radius:7px;padding:.45rem 1rem;font-size:.82rem;cursor:pointer">⬇ Importer dans mon app</button><button onclick="document.getElementById('readonly-overlay').remove()" style="background:none;border:1px solid var(--border);border-radius:7px;padding:.45rem 1rem;font-size:.82rem;cursor:pointer;color:var(--ink)">Fermer</button></div>`;
+  window._roData = data;
+  const overlay = document.createElement('div');
+  overlay.id = 'readonly-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(43,58,74,.55);z-index:2000;display:flex;align-items:center;justify-content:center;padding:1rem';
+  overlay.innerHTML = `<div style="background:var(--paper);border-radius:14px;padding:1.5rem;max-width:540px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 8px 40px rgba(43,58,74,.25)">${body}</div>`;
+  document.body.appendChild(overlay);
+}
+
+function _importReadonly(data) {
+  if (!data||!data.name) return;
+  const existing = getAllTrips();
+  if (Object.values(existing).some(t=>t.name===data.name)) data.id = 'trip_'+Date.now();
+  importTripData(data);
+  const ov = document.getElementById('readonly-overlay');
+  if (ov) ov.remove();
+}
+
+
+// ── Swipe gauche/droite sur le bloc séjour (mobile) ──
+(function initTripSwipe() {
+  let startX = 0, startY = 0, moved = false;
+  function getBlock() { return document.getElementById('sidebar-trip-controls'); }
+  document.addEventListener('touchstart', e => {
+    const block = getBlock();
+    if (!block || !block.contains(e.target)) return;
+    startX = e.touches[0].clientX; startY = e.touches[0].clientY; moved = false;
+  }, {passive: true});
+  document.addEventListener('touchmove', e => {
+    if (Math.abs(e.touches[0].clientX - startX) > 8 || Math.abs(e.touches[0].clientY - startY) > 8) moved = true;
+  }, {passive: true});
+  document.addEventListener('touchend', e => {
+    const block = getBlock();
+    if (!block || !block.contains(e.changedTouches[0].target)) return;
+    if (!moved) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    const ids = Object.keys(state.trips || {});
+    if (ids.length < 2) return;
+    const cur = ids.indexOf(state.currentTrip);
+    if (dx < 0) switchTrip(ids[(cur + 1) % ids.length], true);
+    else switchTrip(ids[(cur - 1 + ids.length) % ids.length], true);
+  }, {passive: true});
+})();
+
+// Fermer dropdown séjour si clic dehors
+document.addEventListener('click', e => {
+  const drop = document.getElementById('sb-trip-dropdown');
+  const wrap = document.getElementById('sb-trip-switcher-wrap');
+  if (drop && wrap && !wrap.contains(e.target)) drop.style.display = 'none';
+});
 
 </script>
 <button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">
@@ -6767,23 +7586,5 @@ document.addEventListener('keydown', e => { if (e.key==='Escape') closeAiModal()
 </div>
 
 
-  <div id="ai-modal" role="dialog" aria-modal="true" onclick="if(event.target===this)closeAiModal()">
-    <div id="ai-modal-box">
-      <div id="ai-modal-header">
-        <div id="ai-modal-title">✨ <span id="ai-modal-title-text">Assistant IA</span></div>
-        <button id="ai-modal-close" onclick="closeAiModal()">✕</button>
-      </div>
-      <div id="ai-modal-body">
-        <div id="ai-modal-context"></div>
-        <div id="ai-modal-loading" style="display:none"><div class="ai-spinner"></div><span>Claude analyse votre séjour…</span></div>
-        <div id="ai-modal-error" style="display:none"></div>
-        <div id="ai-suggestions"></div>
-      </div>
-      <div id="ai-modal-footer">
-        <button id="ai-modal-retry" onclick="aiRetry()" style="display:none">↺ Nouvelles suggestions</button>
-        <span id="ai-modal-footer-note">Suggestions générées par Claude · Cliquez pour ajouter</span>
-      </div>
-    </div>
-  </div>
 </body>
 </html>
