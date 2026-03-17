@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Very Wandr</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232b3a4a'/%3E%3Ccircle cx='16' cy='16' r='10' stroke='%23e8927c' stroke-width='1.5' fill='none'/%3E%3Cellipse cx='16' cy='16' rx='4.5' ry='10' stroke='%23e8927c' stroke-width='1' fill='none' opacity='0.6'/%3E%3Cline x1='6' y1='16' x2='26' y2='16' stroke='%23e8927c' stroke-width='1' opacity='0.6'/%3E%3Cpath d='M7 12 Q16 10.5 25 12' stroke='%23e8927c' stroke-width='0.8' fill='none' opacity='0.4'/%3E%3Cpath d='M7 20 Q16 21.5 25 20' stroke='%23e8927c' stroke-width='0.8' fill='none' opacity='0.4'/%3E%3C/svg%3E">
-<script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"></script>
+<script src="https://unpkg.com/twemoji@14.0.2/dist/twemoji.min.js"></script>
 </head>
 <style>
   :root {
@@ -372,6 +372,7 @@
     justify-content: center;
     padding: 1.5rem;
   }
+  #timeline-overlay.open { display: flex; }
   #timeline-overlay
   .timeline-panel {
     background: white;
@@ -743,7 +744,7 @@
     flex-shrink: 0;
   }
   .sb-trip-emoji { font-size: 1.8rem; line-height: 1; margin-bottom: 0.35rem; display: block; }
-  .sb-trip-name { font-size: 0.88rem; font-weight: 500; color: rgba(245,240,232,0.95); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sb-trip-name { font-size: 1rem; font-weight: 500; color: rgba(245,240,232,0.95); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sb-trip-sub { font-size: 0.63rem; color: rgba(245,240,232,0.4); margin-top: 0.15rem; min-height: 0.9rem; }
   .sb-trip-progress { margin-top: 0.45rem; }
   .sb-trip-progress-bar { height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
@@ -1427,6 +1428,7 @@
     align-items: center;
     justify-content: center;
   }
+  .modal-overlay.open { display: flex; }
   .modal-overlay
   .modal {
     background: var(--paper);
@@ -2023,14 +2025,12 @@
     z-index: 1050;
     backdrop-filter: blur(1px);
   }
-  #sidebar-overlay
+  #sidebar-overlay.open { display: block; }
 
   /* ── Hamburger (caché sur desktop) ── */
-  .hamburger-btn { display: none; }
+  .hamburger-btn { display: none !important; }
   /* ── Sidebar trip controls visible sur desktop ── */
   #sidebar-trip-controls { display: block; }
-  /* Sur desktop : masquer le bouton Changer (géré différemment) */
-   }
   /* ── Bouton nouveau séjour header (caché sur desktop) ── */
   .header-new-trip-btn { display: none !important; }
   #sb-trip-switcher-wrap { display: block !important; }
@@ -2054,7 +2054,7 @@
     #header-auth-btn-wrap { display: none; }
     .header-brand span { font-size: 1.05rem; }
     .hamburger-btn {
-      display: flex;
+      display: flex !important;
       align-items: center;
       justify-content: center;
       background: none;
@@ -2314,28 +2314,68 @@
     body.mob .exp-row-mid {
       display: flex !important;
       flex-direction: row !important;
+      flex-wrap: wrap;
       align-items: center;
       gap: 0.4rem;
-      padding: 0.45rem 0.85rem 0.5rem;
+      padding: 0.4rem 0.85rem 0.5rem;
       box-sizing: border-box;
       width: 100%;
     }
+    /* Montant prend toute la largeur disponible */
+    body.mob .exp-amount-wrap {
+      flex: 1 1 100% !important;
+      min-width: 0;
+    }
+    /* Catégorie et payé par : chacun sur sa ligne */
+    body.mob .exp-cat-wrap {
+      flex: 1 1 100% !important;
+      min-width: 0;
+    }
+    body.mob .exp-row-person-del {
+      flex: 1 1 100% !important;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    body.mob .exp-cat-wrap::before {
+      content: 'Type :';
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      flex-shrink: 0;
+      min-width: 45px;
+    }
+    body.mob .exp-row-person-del::before {
+      content: 'Payé par :';
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      flex-shrink: 0;
+      min-width: 58px;
+    }
+
     body.mob .exp-amount-wrap {
       display: flex;
       align-items: center;
-      gap: 0.2rem;
-      flex-shrink: 0;
+      gap: 0.4rem;
+      flex: 1 1 100% !important;
     }
     body.mob .exp-amount-wrap .budget-amount-input {
-      width: 56px !important;
-      font-size: 0.85rem !important;
+      width: 100% !important;
+      max-width: 140px !important;
+      font-size: 1rem !important;
       text-align: left !important;
     }
     body.mob .exp-currency { font-size: 0.75rem; color: var(--muted); flex-shrink: 0; }
     /* Catégorie : taille au contenu */
     body.mob .exp-cat-wrap {
-      flex-shrink: 0;
-      flex-grow: 0;
+      flex: 1 1 100% !important;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
     body.mob .exp-cat-wrap .cat-dot { display: none; }
     body.mob .exp-cat-wrap .csel {
@@ -2756,6 +2796,7 @@
     display: none; flex-direction: column;
     box-shadow: 0 6px 24px rgba(43,58,74,0.15);
   }
+  .ep-picker.open { display: flex; }
   .ep-picker
   .ep-search { padding: 8px 10px; border-bottom: 1px solid var(--border); }
   .ep-search input {
@@ -4002,7 +4043,7 @@ const KEYWORDS = {
   '🌈':'arc ciel beau','🔥':'feu chaud',
 };
 
-const _TW = 'https://cdn.jsdelivr.net/npm/twemoji@14.0.2/assets/';
+const _TW = 'https://twemoji.maxcdn.com/v/14.0.2/';
 function _tw(el) {
   if(window.twemoji) twemoji.parse(el, {folder:'svg', ext:'.svg', base:_TW});
 }
@@ -4062,7 +4103,7 @@ function createEmojiPicker(btnId, pickerId, gridId, searchId, onChange) {
         grid.appendChild(el);
       });
     });
-    _tw(grid);
+    requestAnimationFrame(() => _tw(grid));
   }
 
   _tw(btn);
@@ -4074,28 +4115,47 @@ function createEmojiPicker(btnId, pickerId, gridId, searchId, onChange) {
 // ── Favicon dynamique ──
 function getTripFlag(name) { return ''; }
 
+function emojiToTwemojiUrl(emoji) {
+  // Convertir l'emoji en code point hex pour l'URL Twemoji
+  const codePoints = [...emoji].map(c => c.codePointAt(0).toString(16)).filter(cp => cp !== 'fe0f');
+  return _TW + 'svg/' + codePoints.join('-') + '.svg';
+}
+
 function updateFavicon(flag) {
   document.querySelectorAll('link[rel~="icon"]').forEach(el => el.remove());
-  const link = document.createElement('link');
-  link.rel = 'icon';
-  const canvas = document.createElement('canvas');
-  canvas.width = 32; canvas.height = 32;
-  const ctx = canvas.getContext('2d');
   const t = state.trips && state.trips[state.currentTrip];
   const emoji = t && t.emoji;
-  if (emoji) {
-    ctx.font = '24px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText(emoji, 16, 17);
+  const link = document.createElement('link');
+  link.rel = 'icon';
+
+  if (emoji && window.twemoji) {
+    // Utiliser l'image SVG Twemoji directement comme favicon
+    const svgUrl = emojiToTwemojiUrl(emoji);
+    link.type = 'image/svg+xml';
+    link.href = svgUrl;
+    document.head.appendChild(link);
   } else {
-    ctx.fillStyle = '#263443';
-    ctx.beginPath(); ctx.roundRect(0,0,32,32,6); ctx.fill();
-    ctx.fillStyle = '#e8927c';
-    ctx.font = 'bold 14px Georgia,serif';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('VW', 16, 16);
+    // Fallback canvas
+    const canvas = document.createElement('canvas');
+    canvas.width = 32; canvas.height = 32;
+    const ctx = canvas.getContext('2d');
+    if (emoji) {
+      ctx.font = '24px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(emoji, 16, 17);
+    } else {
+      ctx.fillStyle = '#263443';
+      ctx.beginPath(); ctx.roundRect(0,0,32,32,6); ctx.fill();
+      ctx.fillStyle = '#e8927c';
+      ctx.font = 'bold 14px Georgia,serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('VW', 16, 16);
+    }
+    link.href = canvas.toDataURL('image/png');
+    document.head.appendChild(link);
   }
-  link.href = canvas.toDataURL('image/png');
-  document.head.appendChild(link);
+  // Mettre à jour le titre de l'onglet
+  const tripName = t && t.name ? t.name : null;
+  document.title = tripName ? `Very Wandr — ${tripName}` : 'Very Wandr';
 }
 
 function renderTripSelector() {
@@ -4124,6 +4184,7 @@ function renderTripSelector() {
 
   if (t && emojiEl) {
     emojiEl.textContent = t.emoji || '✈️';
+    _tw(emojiEl);
     nameEl.textContent  = t.name  || 'Sans titre';
     const allDates = [...(t.flights||[]).map(f=>f.date),(t.days||[]).map(d=>d.dateFrom)]
       .flat().filter(Boolean).sort();
@@ -4185,6 +4246,7 @@ function getDepartureCountdown(t) {
 function renderOverview() {
   const t = trip();
   const titleEl = document.getElementById('overview-title-input');
+  if (!t) return;
   if (titleEl) titleEl.value = t.name;
   // Initialiser le picker emoji vue générale
   const ovBtn = document.getElementById('overview-emoji-btn');
@@ -4213,6 +4275,7 @@ function renderOverview() {
 
 function renderTripScore() {
   const t = trip();
+  if (!t) return;
   const bar   = document.getElementById('trip-score-bar');
   const fill  = document.getElementById('trip-score-fill');
   const pctEl = document.getElementById('trip-score-pct');
@@ -5022,6 +5085,7 @@ function renderDays() {
   const cont    = document.getElementById('itinerary-days');
   const mobCont = document.getElementById('itinerary-mobile');
   if (!cont) return;
+  if (!trip()) return;
   cont.innerHTML = '';
   if (mobCont) mobCont.innerHTML = '';
 
@@ -5177,6 +5241,7 @@ function updateHotel(i, key, val) { trip().hotels[i][key] = val; save(); renderT
 // ── CHECKLIST ──
 function renderChecklist() {
   const cont = document.getElementById('checklist-sections');
+  if (!cont || !trip()) return;
   cont.innerHTML = '';
   trip().checklistSections.forEach((section, si) => {
     const done = section.items.filter(x=>x.done).length;
@@ -5312,6 +5377,7 @@ function confirmAddSection() {
 // ── FOOD ──
 function renderFood() {
   const list = document.getElementById('food-list');
+  if (!list || !trip()) return;
   list.innerHTML = '';
   trip().food.forEach((f, i) => {
     const div = document.createElement('div');
@@ -7219,9 +7285,13 @@ async function sendAiMessage() {
       ..._aiHistory.slice(0,-1).map(m => ({role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content})),
       {role: 'user', content: text}
     ];
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    const resp = await fetch('https://xcxrhjtkzvjztnlgecri.supabase.co/functions/v1/ai-proxy', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY
+      },
       body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: _buildSystemPrompt(), messages })
     });
     const thinking = document.getElementById('ai-thinking');
