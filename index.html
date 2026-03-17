@@ -744,6 +744,7 @@
     flex-shrink: 0;
   }
   .sb-trip-emoji { font-size: 1.8rem; line-height: 1; margin-bottom: 0.35rem; display: block; }
+  .emoji { width: 1em; height: 1em; display: inline-block; flex-shrink: 0;}
   .sb-trip-name { font-size: 1rem; font-weight: 500; color: rgba(245,240,232,0.95); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sb-trip-sub { font-size: 0.63rem; color: rgba(245,240,232,0.4); margin-top: 0.15rem; min-height: 0.9rem; }
   .sb-trip-progress { margin-top: 0.45rem; }
@@ -779,6 +780,7 @@
 
   /* ── Badge sidebar ── */
   .sb-badge { margin-left: auto; font-size: 0.6rem; background: rgba(232,146,124,0.18); color: var(--gold); padding: 0.1rem 0.45rem; border-radius: 8px; white-space: nowrap; font-weight: 400; }
+  
 
   /* ── Bas ── */
   .sb-bottom { margin-top: auto; padding: 0.4rem 0 0.6rem; border-top: 1px solid rgba(255,255,255,0.07); background: rgba(0,0,0,0.12); flex-shrink: 0; }
@@ -4127,7 +4129,6 @@ function updateFavicon(flag) {
   const emoji = t && t.emoji;
   const link = document.createElement('link');
   link.rel = 'icon';
-
   if (emoji && window.twemoji) {
     // Utiliser l'image SVG Twemoji directement comme favicon
     const svgUrl = emojiToTwemojiUrl(emoji);
@@ -4184,6 +4185,7 @@ function renderTripSelector() {
 
   if (t && emojiEl) {
     emojiEl.textContent = t.emoji || '✈️';
+	_tw(emojiEl);
     nameEl.textContent  = t.name  || 'Sans titre';
     const allDates = [...(t.flights||[]).map(f=>f.date),(t.days||[]).map(d=>d.dateFrom)]
       .flat().filter(Boolean).sort();
