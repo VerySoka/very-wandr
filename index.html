@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Very Wandr</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232b3a4a'/%3E%3Ccircle cx='16' cy='16' r='10' stroke='%23e8927c' stroke-width='1.5' fill='none'/%3E%3Cellipse cx='16' cy='16' rx='4.5' ry='10' stroke='%23e8927c' stroke-width='1' fill='none' opacity='0.6'/%3E%3Cline x1='6' y1='16' x2='26' y2='16' stroke='%23e8927c' stroke-width='1' opacity='0.6'/%3E%3Cpath d='M7 12 Q16 10.5 25 12' stroke='%23e8927c' stroke-width='0.8' fill='none' opacity='0.4'/%3E%3Cpath d='M7 20 Q16 21.5 25 20' stroke='%23e8927c' stroke-width='0.8' fill='none' opacity='0.4'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="https://i.goopics.net/gx7fne.png" sizes="32x32">
 <script src="https://unpkg.com/twemoji@14.0.2/dist/twemoji.min.js"></script>
 </head>
 <style>
@@ -165,11 +165,13 @@
     border-radius: 4px;
   }
   .search-wrap.open .search-inline-input {
-    max-width: 220px;
-    width: 220px;
-    padding: 0 0.6rem;
+    max-width: 240px;
+    width: 240px;
+    padding: 0.3rem 0.65rem;
     background: transparent;
+    border: none;
   }
+  .search-panel.open { display: block; }
   .search-inline-input::placeholder { color: rgba(245,240,232,0.4); }
   /* Dropdown résultats */
   .search-panel {
@@ -252,7 +254,7 @@
     gap: 1rem;
   }
   .checklist-global-label {
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     color: var(--muted);
     white-space: nowrap;
   }
@@ -457,6 +459,37 @@
     transition: filter 0.15s;
   }
   .tl-hotel-bar:hover { filter: brightness(1.1); }
+  
+  #hotels-tbody textarea.ta-auto,
+  #hotels-tbody input {font-size: 0.8rem;}
+  
+  td[data-label="Notes"] textarea {
+  color: var(--muted); /* couleur du texte saisi */
+  font-style: italic;
+}
+td[data-label="Notes"] textarea::placeholder {
+  color: var(--muted); /* même couleur que le texte */
+  opacity: 1; /* indispensable pour Firefox */
+  font-style: italic; /* pour garder la cohérence */
+}
+
+ .note-field::placeholder {
+  color: var(--muted);   /* même couleur que ton texte inline */
+  opacity: 1;            /* indispensable pour Firefox */
+  font-style: italic;    /* cohérent avec ton style inline */
+}
+ 
+ .itin-note-field {
+  color: var(--muted);      /* couleur du texte saisi */
+  font-style: italic;       /* si tu veux garder le style */
+}
+
+.itin-note-field::placeholder {
+  color: var(--muted);      /* même couleur que le texte */
+  opacity: 1;               /* indispensable pour Firefox */
+  font-style: italic;       /* cohérence visuelle */
+}
+
   /* Vols */
   .tl-flight-wrap {
     position: absolute; top: 50%; transform: translateY(-50%);
@@ -538,7 +571,7 @@
   .budget-chart-svg { flex-shrink: 0; }
   .budget-chart-legend {
     display: flex; flex-direction: column; gap: 0.45rem;
-    font-size: 0.75rem; flex: 1; min-width: 140px; justify-content: center;
+    font-size: 0.8rem; flex: 1; min-width: 140px; justify-content: center;
   }
   .budget-chart-legend-item {
     display: flex; align-items: center; gap: 0.5rem; color: var(--ink);
@@ -613,7 +646,7 @@
     margin-top: 0.5rem;
   }
   #import-file-btn:hover { background: #2e3d4f; transform: translateY(-1px); }
-  #import-hint { font-size: 0.75rem; color: var(--muted); margin: 0; }
+  #import-hint { font-size: 0.8rem; color: var(--muted); margin: 0; }
 
   /* ── PAGE DE BIENVENUE ── */
   #welcome-screen {
@@ -653,7 +686,7 @@
   }
   #welcome-features {
     display: flex;
-    gap: 0.75rem;
+    gap: 0.8rem;
     flex-wrap: wrap;
     justify-content: center;
   }
@@ -683,7 +716,7 @@
     margin-top: 0.5rem;
   }
   #welcome-btn:hover { background: #8a3225; transform: translateY(-1px); }
-  #welcome-hint { font-size: 0.75rem; color: var(--muted); margin: 0; }
+  #welcome-hint { font-size: 0.8rem; color: var(--muted); margin: 0; }
 
   /* Sidebar désactivée quand pas de voyage */
   #sidebar.no-trip .sidebar-link { opacity: 0.3; pointer-events: none; }
@@ -743,7 +776,8 @@
     border-bottom: 1px solid rgba(255,255,255,0.07);
     flex-shrink: 0;
   }
-  .sb-trip-emoji { font-size: 1.8rem; line-height: 1; margin-bottom: 0.35rem; display: block; }
+  .sb-trip-emoji { font-size: 1.8rem; line-height: 1; margin-bottom: 0.35rem; margin-left: -0.15rem; display: block; }
+  #overview-emoji-btn img {width: 30px; height: 30px;}
   .emoji { width: 1em; height: 1em; display: inline-block; flex-shrink: 0;}
   .sb-trip-name { font-size: 1rem; font-weight: 500; color: rgba(245,240,232,0.95); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sb-trip-sub { font-size: 0.63rem; color: rgba(245,240,232,0.4); margin-top: 0.15rem; min-height: 0.9rem; }
@@ -780,7 +814,6 @@
 
   /* ── Badge sidebar ── */
   .sb-badge { margin-left: auto; font-size: 0.6rem; background: rgba(232,146,124,0.18); color: var(--gold); padding: 0.1rem 0.45rem; border-radius: 8px; white-space: nowrap; font-weight: 400; }
-  
 
   /* ── Bas ── */
   .sb-bottom { margin-top: auto; padding: 0.4rem 0 0.6rem; border-top: 1px solid rgba(255,255,255,0.07); background: rgba(0,0,0,0.12); flex-shrink: 0; }
@@ -790,7 +823,7 @@
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    padding: 0.48rem 0.75rem;
+    padding: 0.48rem 0.8rem;
     font-size: 0.78rem;
     cursor: pointer;
     color: rgba(245,240,232,0.55);
@@ -812,7 +845,7 @@
     min-height: 0;
     display: flex;
     flex-direction: column;
-    margin-top: 0.75rem;
+    margin-top: 0.8rem;
     border-top: 1px solid rgba(255,255,255,0.07);
     padding-top: 0.4rem;
   }
@@ -846,7 +879,7 @@
     border: 1px dashed rgba(255,255,255,0.2);
     color: rgba(245,240,232,0.5);
     font-family: var(--font-body);
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     padding: 0.4rem;
     border-radius: 4px;
     cursor: pointer;
@@ -869,7 +902,7 @@
     font-family: var(--font-display);
     font-style: var(--font-display-style);
     font-weight: var(--font-display-weight);
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     margin-bottom: 0;
     color: var(--ink);
     line-height: 1.2;
@@ -922,7 +955,12 @@
   .itinerary-grid.dragging { opacity: 0.4; }
 
   /* ── CHECKBOX FIX ── */
-  input[type="checkbox"]
+  
+input[type="checkbox"].fancy-cb {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
   .cb-label-only { cursor: pointer; flex-shrink: 0; display: flex; align-items: center; }
   .cb-box {
     width: 16px; height: 16px;
@@ -952,8 +990,6 @@
   }
   .itin-input:focus { background: rgba(166,61,47,0.1); border-radius: 3px; padding: 0 6px; }
   .itin-input.cb-done { text-decoration: line-through; color: var(--muted); }
-
-  /* ── FONT PICKER ── */
 
   /* ── CARDS / TABLES ── */
   .card {
@@ -987,11 +1023,11 @@
     text-transform: uppercase;
     color: var(--muted);
     border-bottom: 1px solid var(--border);
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem 0.8rem;
     font-weight: 400;
   }
   table.data-table td {
-    padding: 0.6rem 0.75rem;
+    padding: 0.6rem 0.8rem;
     border-bottom: 1px solid rgba(26,24,20,0.05);
     vertical-align: middle;
   }
@@ -1062,7 +1098,7 @@
     gap: 0.4rem;
     margin-top: 0.3rem;
     font-family: var(--font-body);
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     color: var(--jade);
     background: none;
     border: none;
@@ -1082,57 +1118,93 @@
   }
   .btn-del-row:hover { color: var(--rust); }
 
-  /* ── ITINERARY ── */
-  .itinerary-grid {
+.itinerary-grid {
     display: grid;
     grid-template-columns: 18px 44px 1fr;
     gap: 0;
     position: relative;
   }
+
   #itinerary-days {
     position: relative;
   }
   /* Pointillés entre pastilles */
-  .itinerary-grid:not(:last-child) .day-marker::after {
-    content: '';
-    position: absolute;
-    left: 21px;
-    top: 22px;
-    bottom: 0;
-    width: 0;
-    border-left: 2px dashed rgba(232,146,124,0.35);
-    z-index: 0;
-  }
-  .day-drag-col {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding-top: 0.2rem;
-    color: rgba(43,58,74,0.18);
-    font-size: 0.85rem;
-    cursor: grab;
-    user-select: none;
-  }
-  .day-drag-col:hover { color: var(--muted); }
-  .day-marker {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 0.25rem;
-    z-index: 1;
-    position: relative;
-  }
-  .day-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--gold);
-    border: 2.5px solid white;
-    box-shadow: 0 0 0 1.5px var(--gold);
-    flex-shrink: 0;
-  }
+  
+.itinerary-grid:not(:last-child) .day-marker::after {
+  content: '';
+  position: absolute;
+  left: 50%;                 /* même centre que le dot */
+  transform: translateX(-50%);
+  top: calc(50% + 6px);      /* 6px = moitié du dot */
+  bottom: 0;
+  width: 2px;
+  
+  background: repeating-linear-gradient(
+  to bottom,
+  rgba(232,146,124,0.35) 0px,
+  rgba(232,146,124,0.35) 6px,
+  transparent 6px,
+  transparent 12px);
+  z-index: 0;
+}
+
+.itinerary-grid:first-child .day-marker::before {
+  display: none;
+}
+
+.itinerary-grid .day-marker::before {
+  content: '';
+  position: absolute;
+  left: 50%;                     /* même centre que le dot */
+  transform: translateX(-50%);   /* centre parfaitement */
+  top: 0;
+  bottom: calc(50% + 6px);       /* s'arrête juste avant le dot */
+  width: 2px;
+  background: repeating-linear-gradient(
+  to bottom,
+  rgba(232,146,124,0.35) 0px,
+  rgba(232,146,124,0.35) 6px,
+  transparent 6px,
+  transparent 12px);
+  z-index: 0;
+}
+.itinerary-grid:last-child .day-marker::after {
+  display: none;
+}
+
+.day-drag-col {
+  display: flex;
+  align-items: center;      /* centre verticalement */
+  justify-content: center;  /* centre horizontalement */
+  color: rgba(43,58,74,0.18);
+  font-size: 0.85rem;
+  cursor: grab;
+  user-select: none;
+}
+
+ .day-drag-col:hover { color: var(--muted); }
+
+.day-marker {
+  position: relative;
+  width: 40px; /* Ajuste selon ton tableau */
+}
+
+.day-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2.5px solid white;
+  box-shadow: 0 0 0 1.5px var(--gold);
+  position: absolute;
+  top: 50%;
+  left: 50%;                 /* On centre horizontalement */
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
   .day-content {
-    padding: 0.2rem 0 1.2rem 0.5rem;
+    padding: 0.4rem 0 0.4rem 0.5rem;
     display: flex;
     align-items: center;
     gap: 0.6rem;
@@ -1140,10 +1212,11 @@
     flex: 1;
     min-width: 0;
   }
+  
   /* Inputs ville et notes : fond transparent, sans cadre, soulignement fin */
   .day-content input.day-input {
     font-family: var(--font-body);
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     border: none;
     border-bottom: 1px dashed var(--border);
     background: transparent;
@@ -1193,7 +1266,7 @@
   .day-notes-ta:focus { border-bottom-color: var(--gold); }
   .day-date-range input[type="date"] {
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     border: none;
     border-bottom: 1px dashed var(--border);
     background: transparent;
@@ -1222,6 +1295,43 @@
     font-size: 0.82rem;
   }
   .checklist-item:last-child { border-bottom: none; }
+  /* Overlay texte avec liens */
+  .cb-text-overlay {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--ink);
+    line-height: 1.4;
+    padding: 0;
+    cursor: text;
+    word-break: break-word;
+  }
+  .cb-text-overlay.cb-done { text-decoration: line-through; color: var(--muted); }
+  .cb-text-wrap .cb-text-input {
+    background: transparent;
+    color: var(--ink);
+  }
+  .cb-text-wrap .cb-text-input:focus {
+    background: rgba(232,146,124,0.06);
+    border-radius: 4px;
+    padding: 0.15rem 0.3rem;
+  }
+  .cb-inline-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    background: rgba(61,81,102,0.08);
+    color: var(--jade);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.1rem 0.45rem;
+    border-radius: 4px;
+    border: 1px solid rgba(61,81,102,0.12);
+    transition: background 0.12s, color 0.12s;
+    cursor: pointer;
+    vertical-align: baseline;
+  }
+  .cb-inline-link:hover { background: rgba(61,81,102,0.15); color: var(--rust); }
   /* checkbox styles moved to CHECKBOX FIX section above */
   .tag {
     display: inline-block;
@@ -1235,9 +1345,9 @@
   .food-card {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr auto;
-    gap: 0.75rem;
+    gap: 0.8rem;
     align-items: start;
-    padding: 0.75rem;
+    padding: 0.8rem;
     border-bottom: 1px solid rgba(26,24,20,0.06);
     font-size: 0.8rem;
   }
@@ -1246,12 +1356,12 @@
   .food-header {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr auto;
-    gap: 0.75rem;
+    gap: 0.8rem;
     font-size: 0.62rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem 0.8rem;
     border-bottom: 1px solid var(--border);
   }
   .food-input {
@@ -1267,18 +1377,19 @@
   .food-input:focus { background: rgba(166,61,47,0.1); border-radius: 3px; padding: 0 4px; }
 
   /* ── CITY PAGE ── */
-  .city-page-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    gap: 1rem;
-  }
+.city-page-header {
+  display: flex;
+  flex-direction: column; /* ← essentiel */
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 0.25rem; /* optionnel : espace entre titre et sous-titre */
+}
+
   .city-edit-name {
     font-family: var(--font-display);
     font-style: var(--font-display-style);
     font-weight: var(--font-display-weight);
-    font-size: 2.2rem;
+    font-size: 1.7rem !important;
     font-weight: 300;
     border: none;
     background: transparent;
@@ -1287,8 +1398,34 @@
     border-bottom: 2px solid transparent;
     transition: border-color 0.2s;
     padding: 0 0 0.1rem;
+	width:100%;
+	min-width: 0;
   }
   .city-edit-name:focus { border-bottom-color: var(--gold); }
+  
+  .city-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width:100%;
+}
+
+  .city-title-wrapper {
+  display: flex;
+  flex:1;
+  align-items: center;
+  gap: 6px;
+}
+
+.city-title-icon {
+  font-size: 1.8rem;
+  opacity: 0.9;
+}
+.city-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
   .city-order-btn {
     background: rgba(255,255,255,0.08);
     border: 1px solid rgba(26,24,20,0.15);
@@ -1308,7 +1445,7 @@
     border: 1px solid var(--border);
     color: var(--muted);
     font-family: var(--font-body);
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     padding: 0.35rem 0.7rem;
     border-radius: 4px;
     cursor: pointer;
@@ -1316,6 +1453,232 @@
     white-space: nowrap;
   }
   .city-delete-btn:hover { border-color: var(--rust); color: var(--rust); }
+
+  /* ── CITY COVER IMAGE ── */
+  .city-cover-wrap {
+    width: 100%;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    background: var(--cream);
+    border: 1px solid var(--border);
+  }
+  .city-cover-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    transition: object-position 0.05s ease-out;
+  }
+  .city-cover-img.repositioning {
+    cursor: grab;
+    transition: none;
+  }
+  .city-cover-img.repositioning:active { cursor: grabbing; }
+  .city-cover-reposition-hint {
+    position: absolute;
+    top: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(43,58,74,0.8);
+    color: white;
+    font-size: 0.68rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 12px;
+    pointer-events: none;
+    backdrop-filter: blur(4px);
+    white-space: nowrap;
+    font-family: var(--font-body);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .city-cover-wrap.repo-active .city-cover-reposition-hint { opacity: 1; }
+  .city-cover-wrap.repo-active .city-cover-actions { display: none; }
+  .city-cover-repo-actions {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    gap: 0.3rem;
+  }
+  .city-cover-wrap.repo-active .city-cover-repo-actions { display: flex; }
+  .city-cover-empty {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-style: italic;
+    gap: 0.4rem;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .city-cover-empty:hover { background: rgba(232,146,124,0.06); }
+  .city-cover-actions {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.3rem;
+  }
+  .city-cover-btn {
+    background: rgba(43,58,74,0.75);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.68rem;
+    padding: 0.25rem 0.55rem;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background 0.15s;
+    font-family: var(--font-body);
+  }
+  .city-cover-btn:hover { background: rgba(43,58,74,0.9); }
+  .city-cover-input-wrap {
+    padding: 0.6rem 0.8rem;
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+  }
+  .city-cover-input-wrap .city-cover-form-btns {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+  }
+  .city-cover-form-btn {
+    flex: 1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    padding: 0.4rem 0.7rem;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: opacity 0.15s;
+  }
+  .city-cover-form-btn:hover { opacity: 0.85; }
+  .city-cover-form-btn.btn-apply { background: var(--jade); }
+  .city-cover-form-btn.btn-cancel-cover { background: var(--muted); }
+  .city-cover-input {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    padding: 0.45rem 0.65rem;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    background: white;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .city-cover-input:focus { border-color: var(--gold); }
+  /* Sidebar city thumbnail */
+  .sb-city-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  /* ── JOURNAL DE BORD ── */
+  .journal-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+    position: relative;
+    transition: box-shadow 0.15s;
+  }
+  .journal-card:hover { box-shadow: 0 4px 24px rgba(43,58,74,0.12); }
+  .journal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.7rem;
+    flex-wrap: wrap;
+  }
+  .journal-date-input {
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    border: none;
+    border-bottom: 1.5px dashed var(--border);
+    background: transparent;
+    outline: none;
+    color: var(--ink);
+    padding: 0.15rem 0;
+    cursor: pointer;
+  }
+  .journal-date-input:focus { border-bottom-color: var(--gold); }
+  .journal-mood-wrap {
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+  }
+  .journal-mood-btn {
+    font-size: 1.2rem;
+    background: none;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 0.15rem 0.25rem;
+    transition: border-color 0.12s, transform 0.12s;
+    line-height: 1;
+  }
+  .journal-mood-btn:hover { transform: scale(1.15); }
+  .journal-mood-btn.active { border-color: var(--gold); background: rgba(232,146,124,0.1); }
+  .journal-day-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--cream);
+    padding: 0.15rem 0.55rem;
+    border-radius: 10px;
+  }
+  .journal-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    color: var(--ink);
+    border: none;
+    background: transparent;
+    outline: none;
+    resize: none;
+    overflow: hidden;
+    line-height: 1.65;
+    padding: 0;
+    min-height: 3rem;
+  }
+  .journal-textarea::placeholder { color: var(--muted); font-style: italic; }
+  .journal-textarea:focus { background: rgba(166,61,47,0.03); border-radius: 4px; padding: 0.3rem; }
+  .journal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+    gap: 0.5rem;
+  }
+  .journal-delete-btn {
+    background: none;
+    border: 1px solid rgba(166,61,47,0.2);
+    color: var(--rust);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 0.25rem 0.6rem;
+    border-radius: 5px;
+    transition: background 0.12s, border-color 0.12s;
+    font-family: var(--font-body);
+  }
+  .journal-delete-btn:hover { background: rgba(166,61,47,0.08); border-color: rgba(166,61,47,0.4); }
 
   /* ── ITINERARY ITEM ── */
   .itin-item {
@@ -1342,7 +1705,7 @@
   .itin-notes-input:focus { background: rgba(166,61,47,0.1); border-radius: 3px; padding: 0 4px; }
 
   /* ── PROGRESS BAR ── */
-  .progress-wrap { margin-bottom: 0.75rem; }
+  .progress-wrap { margin-bottom: 0.8rem; }
   .progress-bar {
     height: 4px;
     background: var(--cream);
@@ -1360,7 +1723,7 @@
   .docs-person-row {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr auto;
-    gap: 0.75rem;
+    gap: 0.8rem;
     align-items: center;
     padding: 0.6rem 0;
     border-bottom: 1px solid rgba(43,58,74,0.05);
@@ -1382,7 +1745,7 @@
   .docs-booking-row {
     display: grid;
     grid-template-columns: 1.2fr 1fr 1.5fr auto;
-    gap: 0.75rem;
+    gap: 0.8rem;
     align-items: center;
     padding: 0.6rem 0;
     border-bottom: 1px solid rgba(43,58,74,0.05);
@@ -1390,7 +1753,7 @@
   .docs-booking-row:last-child { border-bottom: none; }
   .docs-col-header {
     display: grid;
-    gap: 0.75rem;
+    gap: 0.8rem;
     font-size: 0.6rem;
     font-weight: 600;
     letter-spacing: 0.1em;
@@ -1407,7 +1770,7 @@
     min-height: 220px;
     border: 1px solid rgba(43,58,74,0.15);
     border-radius: 6px;
-    padding: 0.75rem 1rem;
+    padding: 0.8rem 1rem;
     font-family: var(--font-body);
     font-size: 0.82rem;
     color: var(--ink);
@@ -1457,13 +1820,13 @@
     background: white;
     outline: none;
     color: var(--ink);
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem 0.8rem;
     border-radius: 5px;
     width: 100%;
     transition: border-color 0.15s;
   }
   .form-input:focus { border-color: var(--gold); }
-  .modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem; }
+  .modal-actions { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.5rem; }
   .btn-cancel {
     font-family: var(--font-body);
     font-size: 0.78rem;
@@ -1486,8 +1849,6 @@
     cursor: pointer;
   }
   .btn-confirm:hover { background: var(--rust); }
-
-  /* ── EMPTY STATE ── */
 
   /* ── BUDGET ── */
   .budget-summary-grid {
@@ -1528,7 +1889,7 @@
     grid-template-columns: 3fr 0.7fr 1.8fr 1fr auto;
     gap: 0.5rem;
     align-items: center;
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem 0.8rem;
     border-bottom: 1px solid rgba(26,24,20,0.06);
     font-size: 0.8rem;
     transition: background 0.12s;
@@ -1549,7 +1910,7 @@
     gap: 0.25rem;
     flex-shrink: 0;
   }
-  .exp-currency { font-size: 0.72rem; color: var(--muted); }
+  .exp-currency { font-size: 0.8rem; color: var(--muted); }
   .exp-cat-wrap { flex: 1; display: flex; align-items: center; gap: 0.4rem; }
   .exp-row-person { display: flex; align-items: center; }
   .exp-del-btn { margin-left: auto; flex-shrink: 0; align-self: start; }
@@ -1563,12 +1924,12 @@
   .budget-expense-header {
     display: grid;
     grid-template-columns: 3fr 0.7fr 1.8fr 1fr auto;
-    gap: 0.75rem;
+    gap: 0.8rem;
     font-size: 0.62rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem 0.8rem;
     border-bottom: 1px solid var(--border);
   }
   .budget-input {
@@ -1597,17 +1958,17 @@
   .balance-row {
     display: flex;
     align-items: center;
-    padding: 0.75rem 1.2rem;
+    padding: 0.8rem 1.2rem;
     border-bottom: 1px solid rgba(26,24,20,0.06);
     font-size: 0.82rem;
-    gap: 0.75rem;
+    gap: 0.8rem;
   }
   .balance-row:last-child { border-bottom: none; }
   /* Avatar : flex-shrink:0, fixe */
   .balance-avatar {
     width: 28px; height: 28px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 0.75rem; color: white; font-weight: 500; flex-shrink: 0;
+    font-size: 0.8rem; color: white; font-weight: 500; flex-shrink: 0;
   }
   /* Centre : nom + détail, prend tout l'espace */
   .balance-row-info {
@@ -1618,13 +1979,13 @@
     gap: 0.1rem;
   }
   .balance-person { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.85rem; }
-  .balance-details { color: var(--muted); font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .balance-details { color: var(--muted); font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   /* Droite : montant ou badge, ancré à droite */
 
   .balance-amount { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; white-space: nowrap; display: block; }
   .balance-arrow {
     display: inline-block;
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     font-weight: 500;
     padding: 0.2rem 0.55rem;
     border-radius: 20px;
@@ -1657,7 +2018,7 @@
     box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.8rem;
   }
   .io-card-title {
     font-family: var(--font-display);
@@ -1667,7 +2028,7 @@
     align-items: center;
     gap: 0.5rem;
   }
-  .io-card-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.5; }
+  .io-card-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
   .btn-io {
     font-family: var(--font-body);
     font-size: 0.78rem;
@@ -1685,9 +2046,9 @@
   .btn-danger { background: rgba(166,61,47,0.1); color: var(--rust); border: 1px solid rgba(166,61,47,0.2); }
   .btn-danger:hover { background: var(--rust); color: white; }
   .io-notice {
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     color: var(--muted);
-    padding: 0.75rem 1rem;
+    padding: 0.8rem 1rem;
     background: var(--cream);
     border-radius: 5px;
     border-left: 3px solid var(--rust);
@@ -1715,13 +2076,13 @@
   .map-toolbar {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.8rem;
     margin-bottom: 1rem;
     flex-wrap: wrap;
   }
   .btn-map-action {
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     padding: 0.45rem 0.9rem;
     border-radius: 5px;
     border: 1px solid var(--border);
@@ -1749,7 +2110,7 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.8rem;
   }
   .map-legend-items {
     display: flex;
@@ -1777,7 +2138,7 @@
     box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
   }
   .map-status-bar {
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     color: var(--muted);
     padding: 0.5rem 0;
     display: flex;
@@ -1860,13 +2221,13 @@
     #app-header, #sidebar, .btn-add-row, .btn-del-row, .header-pill, #back-to-top,
     .drag-td, .trip-score-bar, #map-container, .map-toolbar,
     .map-legend, .map-status-bar, .btn-map-action, #add-city-btn,
-    .page:not(.active), .modal-overlay, .search-wrap { display: none !important; }
+    .page:not(.active), .modal-overlay, .search-wrap, #fab-expense, #fab-sheet-overlay { display: none !important; }
     body { background: white !important; }
     #main-layout { display: block !important; }
     #content { padding: 1.5rem 2rem !important; max-width: none !important; }
     .card { break-inside: avoid; box-shadow: none !important; border: 1px solid #ddd !important; margin-bottom: 1rem !important; }
     .overview-title-input {
-      font-size: 1.8rem !important;
+      font-size: 1.7rem !important;
       border: none !important;
       padding: 0 !important;
       pointer-events: none;
@@ -1896,7 +2257,6 @@
     border: none;
     padding: 0;
   }
-  .search-wrap.open ~ * { opacity: 1; }
   
   .pill-btn {
     background: none;
@@ -1913,26 +2273,7 @@
   }
   .pill-btn:hover { color: var(--gold); }
 
-  .hdr-btn, #header-pill .hdr-btn {
-    display: flex; align-items: center; gap: 0.38rem;
-    background: none; border: none; color: rgba(245,240,232,0.7);
-    cursor: pointer; font-size: 0.78rem; padding: 0.38rem 0.8rem;
-    border-radius: 8px; line-height: 1; font-family: var(--font-body);
-    transition: background 0.12s, color 0.12s; white-space: nowrap;
-  }
-  .hdr-btn:hover, #header-pill .hdr-btn:hover { background: rgba(255,255,255,0.09); color: rgba(245,240,232,0.95); }
   
-  #btn-pill-auth, .header-pill #btn-pill-auth {
-    display: flex !important; align-items: center !important; justify-content: center !important;
-    background: rgba(255,255,255,0.06) !important; border: 1px solid rgba(255,255,255,0.14) !important;
-    border-radius: 8px !important; color: rgba(245,240,232,0.65) !important;
-    font-size: 0.75rem !important; padding: 0.35rem 0.85rem !important;
-    cursor: pointer !important; font-family: var(--font-body) !important;
-    margin-left: 0.4rem !important; white-space: nowrap !important; min-width: 100px !important;
-    transition: background 0.15s, color 0.15s, border-color 0.15s !important;
-  }
-  #btn-pill-auth.btn-login:hover { background: rgba(255,255,255,0.16) !important; color: rgba(245,240,232,0.95) !important; }
-  #btn-pill-auth.btn-logout:hover { background: rgba(166,61,47,0.35) !important; border-color: rgba(232,146,124,0.4) !important; color: #f0c0a8 !important; }
   /* ── Boutons Connexion / Déconnexion ── */
   #btn-pill-auth,
   .header-pill #btn-pill-auth {
@@ -1941,7 +2282,7 @@
     border: 1px solid rgba(255,255,255,0.14) !important;
     border-radius: 8px !important;
     color: rgba(245,240,232,0.65) !important;
-    font-size: 0.75rem !important;
+    font-size: 0.8rem !important;
     padding: 0.35rem 0.85rem !important;
     cursor: pointer !important;
     font-family: var(--font-body) !important;
@@ -1987,8 +2328,21 @@
   #header-pill .hdr-btn-auth:hover { background: #d47a62 !important; }
   .hdr-divider { width:1px; height:18px; background:rgba(255,255,255,0.15); flex-shrink:0; }
 
+  /* ── SYNC INDICATOR ── */
+  #sync-indicator {
+    display: flex; align-items: center; gap: 0.35rem;
+    margin-left: 0.4rem; font-size: 0.65rem;
+    color: rgba(245,240,232,0.5); white-space: nowrap;
+  }
+  .sync-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,0.15); flex-shrink: 0;
+    transition: background 0.3s;
+  }
+  .sync-lbl { transition: opacity 0.3s; }
+  @keyframes pulse-sync { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-  /* ── BOUTON RESET D'URGENCE ── */
+
   /* ── BACK TO TOP ── */
   #back-to-top {
     position: fixed;
@@ -2013,6 +2367,113 @@
   }
   #back-to-top.visible { opacity: 1; pointer-events: auto; }
   #back-to-top:hover { background: var(--gold); }
+
+  /* ── FAB DÉPENSE RAPIDE ── */
+  #fab-expense {
+    display: none;
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: linear-gradient(135deg, var(--gold), var(--rust));
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.35rem;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(166,61,47,0.3);
+    z-index: 950;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: transform 0.15s, box-shadow 0.15s;
+    text-shadow:
+      -1px -1px 0 white,
+       1px -1px 0 white,
+      -1px  1px 0 white,
+       1px  1px 0 white,
+       0   -1px 0 white,
+       0    1px 0 white,
+      -1px  0   0 white,
+       1px  0   0 white;
+  }
+  #fab-expense:active { transform: scale(0.92); }
+  @keyframes fab-bounce {
+    0% { transform: scale(1); }
+    20% { transform: scale(1.25); }
+    40% { transform: scale(0.95); }
+    60% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+  #fab-expense.fab-hidden { display: none !important; }
+  /* FAB bottom sheet */
+  #fab-sheet-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(43,58,74,0.45);
+    z-index: 1800;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  #fab-sheet-overlay.open { display: flex; }
+  #fab-sheet {
+    background: var(--paper);
+    border-radius: 16px 16px 0 0;
+    width: 100%;
+    max-width: 440px;
+    padding: 1.2rem 1.2rem 1.8rem;
+    box-shadow: 0 -4px 30px rgba(43,58,74,0.2);
+    animation: slideUp 0.22s ease;
+  }
+  .fab-sheet-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .fab-field { margin-bottom: 0.7rem; }
+  .fab-field label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .fab-field input, .fab-field select {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    padding: 0.5rem 0.7rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    color: var(--ink);
+    outline: none;
+  }
+  .fab-field input:focus, .fab-field select:focus { border-color: var(--gold); }
+  .fab-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .fab-submit {
+    width: 100%;
+    background: var(--rust);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.65rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 0.4rem;
+    transition: background 0.15s;
+  }
+  .fab-submit:hover { background: #8a3225; }
+
   /* ── RESPONSIVE ── */
   /* ══════════════════════════════════════════════
      MOBILE — max-width 768px
@@ -2041,7 +2502,7 @@
 
         /* ── Header mobile : logo gauche, pill droite ── */
     #app-header {
-      padding: 0 0.75rem;
+      padding: 0 0.8rem;
       height: 52px;
       gap: 0.5rem;
       justify-content: space-between;
@@ -2090,8 +2551,8 @@
     /* ── Sidebar trip controls (mobile) ── */
     .sidebar-trip-controls {
       border-top: none;
-      padding: 0 0 0.75rem;
-      margin-top: 0.75rem;
+      padding: 0 0 0.8rem;
+      margin-top: 0.8rem;
       display: flex;
       flex-direction: column;
     }
@@ -2102,7 +2563,7 @@
       flex: 1;
       min-width: 0;
       background: rgba(255,255,255,0.06) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(245,240,232,0.55)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 0.45rem center !important;
-      color: rgba(245,240,232,0.75) !important;
+      color: rgba(245,240,232,0.8) !important;
       border: none !important;
       border-bottom: 1px solid rgba(255,255,255,0.15) !important;
       border-radius: 0;
@@ -2145,7 +2606,42 @@
     html { overflow-y: auto; background: var(--paper); }
     body { padding-top: 52px; background: var(--paper); }
     .card { padding: 0.85rem 1rem; margin-bottom: 1rem; }
-    #welcome-screen { inset: 52px 0 0 0; }
+    #welcome-screen {
+      inset: 52px 0 0 0;
+      padding: 0 1.2rem;
+      overflow-y: auto;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+    }
+    #import-screen {
+      inset: 52px 0 0 0;
+      padding: 0 1.2rem;
+      overflow-y: auto;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+    }
+    #welcome-inner, #import-inner {
+      max-width: 100%;
+      padding: 0 0.5rem;
+      margin: auto 0;
+      gap: 0.8rem;
+    }
+    /* Logo plus petit sur mobile */
+    #welcome-screen .header-brand img,
+    #import-screen .header-brand img {
+      width: 50px !important;
+      height: 50px !important;
+    }
+    #welcome-logo { margin-bottom: 0 !important; }
+    #welcome-title { font-size: 1.8rem; }
+    #welcome-sub { font-size: 0.82rem; }
+    #welcome-btn { padding: 0.7rem 1.5rem; font-size: 0.88rem; }
+    #welcome-features { gap: 0.5rem; }
+    .welcome-feature { padding: 0.25rem 0.7rem; font-size: 0.72rem; }
+    #import-title { font-size: 1.4rem; }
+    #import-file-btn { padding: 0.7rem 1.5rem; font-size: 0.88rem; }
     #main-layout {
       flex-direction: column;
       margin-left: 0;
@@ -2153,7 +2649,7 @@
       background: var(--paper);
     }
         #content {
-      padding: 1rem 0.75rem 5rem;
+      padding: 1rem 0.8rem 5rem;
       min-width: 0;
       width: 100%;
     }
@@ -2161,21 +2657,21 @@
     /* ── Titres ── */
     .page-title { font-size: 1.25rem !important; }
     .overview-title-input { font-size: 1.55rem !important; }
-    .card-title { font-size: 0.85rem; margin-bottom: 0.4rem; }
+    .card-title { font-size: 1rem; margin-bottom: 0.4rem; }
 
     /* ── Inputs — éviter zoom iOS (min 16px) ── */
     input, select, textarea {
-      font-size: 16px !important;
+      font-size: 14px !important;
     }
     .budget-amount-input,
     .day-input, .docs-input, .food-input,
     .cb-text-input, .itin-notes-input {
-      font-size: 16px !important;
+      font-size: 14px !important;
     }
 
     /* ── Tableaux : masquer sur mobile, remplacés par cartes JS ── */
     .data-table { display: none; }
-    .mobile-cards { display: flex; flex-direction: column; gap: 0.75rem; }
+    .mobile-cards { display: flex; flex-direction: column; gap: 0.8rem; }
 
     /* ── Cartes vol / hôtel ── */
     .mob-card {
@@ -2212,7 +2708,7 @@
     .mob-card-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.4rem 0.75rem;
+      gap: 0.4rem 0.8rem;
     }
     .mob-card-field {
       display: flex;
@@ -2243,12 +2739,12 @@
       font-size: 0.82rem !important;
     }
     .mob-card-warn {
-      font-size: 0.72rem;
+      font-size: 0.8rem;
       color: var(--rust);
       font-style: italic;
     }
     .mob-nights {
-      font-size: 0.72rem;
+      font-size: 0.8rem;
       background: var(--jade);
       color: white;
       padding: 0.15rem 0.5rem;
@@ -2266,7 +2762,7 @@
       gap: 0.6rem;
       margin-bottom: 1rem;
     }
-    .budget-stat { padding: 0.75rem 0.85rem; }
+    .budget-stat { padding: 0.8rem 0.85rem; }
     .budget-stat-value { font-size: 1.25rem; }
 
     /* Graphique : colonne centrée */
@@ -2371,7 +2867,7 @@
       font-size: 1rem !important;
       text-align: left !important;
     }
-    body.mob .exp-currency { font-size: 0.75rem; color: var(--muted); flex-shrink: 0; }
+    body.mob .exp-currency { font-size: 0.8rem; color: var(--muted); flex-shrink: 0; }
     /* Catégorie : taille au contenu */
     body.mob .exp-cat-wrap {
       flex: 1 1 100% !important;
@@ -2413,7 +2909,7 @@
       font-style: italic;
       color: var(--muted);
     }
-    body.mob .budget-amount-input { font-size: 16px !important; text-align: left; }
+    body.mob .budget-amount-input { font-size: 14px !important; text-align: left; }
 
 /* Balance */
     .balance-row {
@@ -2425,7 +2921,7 @@
 
     /* ── Checklist ── */
     .checklist-item {
-      padding: 0.55rem 0.75rem !important;
+      padding: 0.55rem 0.8rem !important;
       gap: 0.5rem;
       flex-wrap: wrap;
       align-items: flex-start;
@@ -2438,7 +2934,7 @@
       min-width: 0;
       width: 100%;
     }
-    .checklist-section { border-radius: 10px; margin-bottom: 0.75rem; }
+    .checklist-section { border-radius: 10px; margin-bottom: 0.8rem; }
 
     /* ── Food mobile ── */
     .food-header { display: none !important; }
@@ -2452,7 +2948,7 @@
       /* Écraser complètement la grille desktop */
       display: block !important;
       grid-template-columns: none !important;
-      padding: 0.75rem 0.9rem 0.75rem 0.9rem;
+      padding: 0.8rem 0.9rem 0.8rem 0.9rem;
       border-bottom: 1px solid var(--border);
       border-radius: 0;
       position: relative;
@@ -2500,7 +2996,7 @@
     }
     .food-card .btn-del-row {
       position: absolute;
-      top: 0.75rem;
+      top: 0.8rem;
       right: 0.65rem;
     }
 
@@ -2510,11 +3006,14 @@
     /* ── Score / barre complétion ── */
 
     /* ── Bouton back-to-top ── */
-    #back-to-top { bottom: 1.2rem; right: 1rem; }
+    #back-to-top { bottom: 4.5rem; right: 1rem; }
+
+    /* ── FAB dépense rapide : visible sur mobile ── */
+    #fab-expense { display: flex; }
 
     /* ── Timeline ── */
     #timeline-overlay .timeline-inner {
-      padding: 1rem 0.75rem;
+      padding: 1rem 0.8rem;
       overflow-x: auto;
     }
 
@@ -2538,16 +3037,18 @@
       flex: 1;
       width: 100% !important;
       max-width: none !important;
-      background: rgba(255,255,255,0.12) !important;
+      background: transparent !important;
       border: none !important;
-      border-bottom: 2px solid var(--gold) !important;
-      border-radius: 4px !important;
-      padding: 0.45rem 0.75rem !important;
-      font-size: 1rem !important;
+      border-radius: 0 !important;
+      padding: 0.5rem 0.75rem !important;
+      font-size: 0.88rem !important;
       color: var(--paper) !important;
       height: auto !important;
+      text-align: left !important;
     }
-    #app-header.search-active .pill-btn:first-of-type { color: var(--gold); }
+    #app-header.search-active .search-inline-input:focus {
+      background: transparent !important;
+    }
     .search-panel {
       position: fixed !important;
       top: 52px !important;
@@ -2578,7 +3079,7 @@
     .itin-item {
       flex-wrap: wrap !important;
       gap: 0.35rem 0.5rem;
-      padding: 0.55rem 0.75rem !important;
+      padding: 0.55rem 0.8rem !important;
       align-items: flex-start;
     }
     .itin-item .cb-label-only { padding-top: 0.1rem; }
@@ -2616,7 +3117,7 @@
     /* ── Documents mobile → cartes JS ── */
     .docs-col-header { display: none !important; }
     #docs-notes {
-      margin: 0 -0.75rem;
+      margin: 0 -0.8rem;
       width: calc(100% + 1.5rem);
       border-radius: 0;
       border-left: none;
@@ -2649,7 +3150,7 @@
     }
     .docs-mob-field input {
       font-family: var(--font-body);
-      font-size: 16px !important;
+      font-size: 14px !important;
       border: none;
       border-bottom: 1px solid var(--border);
       background: transparent;
@@ -2689,7 +3190,7 @@
 .header-auth-welcome-btn.header-auth-signout {
   background: rgba(61,81,102,0.45);
   font-weight: 400;
-  opacity: 0.75;
+  opacity: 0.8;
 }
 .header-auth-welcome-btn.header-auth-signout:hover { opacity: 1; }
 
@@ -2719,7 +3220,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.75;
+    opacity: 0.8;
     transition: opacity 0.15s;
   }
   .pill-btn-auth:hover { opacity: 1; }
@@ -2778,6 +3279,25 @@
     line-height: 1.4;
   }
 
+.mob-card-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--jade);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 6px; /* espace propre entre ✦ et le texte */
+}
+
+.mob-card-icon {
+  font-size: 0.85rem;
+  font-style: italic; /* pour que seul le texte soit en italique */
+  opacity: 0.9;
+  color: var(--gold);
+}
+
 
   /* ── Emoji Picker ── */
   .ep-btn {
@@ -2824,65 +3344,67 @@
     color: var(--muted); padding: 5px 3px 2px;
     text-transform: uppercase; letter-spacing: .06em;
   }
-  /* ── Assistant IA conversationnel ── */
-  #ai-chat-btn {
-    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 1100;
-    width: 52px; height: 52px; border-radius: 50%;
-    background: var(--jade); color: white; border: none; cursor: pointer;
-    font-size: 1.4rem; display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 16px rgba(61,81,102,0.35); transition: transform 0.15s, background 0.15s;
+
+
+  /* ════════════════════════════════════════════
+     IMPRESSION DIRECTE (@media print)
+     ════════════════════════════════════════════ */
+  @media print {
+    /* Masquer les éléments de navigation */
+    #app-header,
+    #sidebar,
+    #back-to-top,
+    .btn-add-row,
+    .btn-del-row,
+    .btn-timeline,
+    .btn-map-action,
+    .map-toolbar,
+    .map-status-bar,
+    #ai-chat-btn,
+    #ptr-spinner,
+    #sidebar-overlay,
+    .hamburger-btn,
+    .trip-score-bar { display: none !important; }
+
+    /* Afficher toutes les pages */
+    .page { display: block !important; page-break-before: always; }
+    .page:first-of-type { page-break-before: auto; }
+    #page-overview { page-break-before: auto; }
+
+    /* Layout sans sidebar */
+    #main-layout { margin-left: 0 !important; }
+    #content { padding: 1rem 2rem !important; }
+
+    /* Fond blanc, texte noir */
+    body, .card, .page { background: white !important; color: #1a1a1a !important; }
+    .card { box-shadow: none !important; border: 1px solid #ddd !important; }
+
+    /* Tableaux */
+    .data-table { display: table !important; }
+    .mobile-cards { display: none !important; }
+
+    /* Éviter les coupures dans les cards */
+    .card { page-break-inside: avoid; }
+
+    /* Titres de page */
+    .page-title { font-size: 18pt !important; color: #2b3a4a !important; }
+    .page-subtitle { color: #666 !important; }
+
+    /* Couleurs adaptées */
+    th { background: #2b3a4a !important; color: white !important; -webkit-print-color-adjust: exact; }
+    tr:nth-child(even) td { background: #f8f8f8 !important; }
+
+    /* Cacher les boutons inline */
+    button.btn-del-row,
+    button.btn-add-row,
+    .exp-del-btn,
+    .drag-td,
+    .btn-del-row { display: none !important; }
+
+    /* Masquer les tables vides */
+    tbody:empty { display: none; }
   }
-  #ai-chat-btn:hover { transform: scale(1.08); background: #2b3a4a; }
-  #ai-chat-panel {
-    position: fixed; bottom: 4.5rem; right: 1.5rem; z-index: 1100;
-    width: 340px; max-width: calc(100vw - 2rem);
-    background: var(--paper); border: 1px solid var(--border);
-    border-radius: 14px; box-shadow: 0 8px 40px rgba(43,58,74,0.2);
-    display: flex; flex-direction: column; overflow: hidden;
-    max-height: calc(100vh - 120px);
-    transform: scale(0.95) translateY(8px); opacity: 0;
-    pointer-events: none; transition: transform 0.2s, opacity 0.2s;
-  }
-  #ai-chat-panel.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
-  #ai-chat-header {
-    background: var(--jade); color: white; padding: 0.7rem 1rem;
-    display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
-  }
-  #ai-chat-header-title { font-size: 0.88rem; font-weight: 500; display: flex; align-items: center; gap: 0.4rem; }
-  #ai-chat-close { background: none; border: none; color: white; cursor: pointer; font-size: 1rem; padding: 0; opacity: 0.8; }
-  #ai-chat-close:hover { opacity: 1; }
-  #ai-chat-messages {
-    flex: 1; overflow-y: auto; padding: 0.75rem;
-    display: flex; flex-direction: column; gap: 0.6rem;
-    min-height: 180px; max-height: 380px; -webkit-overflow-scrolling: touch;
-  }
-  .ai-msg { max-width: 88%; padding: 0.55rem 0.8rem; border-radius: 10px; font-size: 0.82rem; line-height: 1.5; word-break: break-word; }
-  .ai-msg.user { align-self: flex-end; background: var(--jade); color: white; border-bottom-right-radius: 3px; }
-  .ai-msg.assistant { align-self: flex-start; background: white; color: var(--ink); border: 1px solid var(--border); border-bottom-left-radius: 3px; }
-  .ai-msg.thinking { align-self: flex-start; background: white; border: 1px solid var(--border); color: var(--muted); font-style: italic; font-size: 0.78rem; border-bottom-left-radius: 3px; }
-  #ai-chat-footer { padding: 0.6rem 0.75rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; flex-shrink: 0; background: white; }
-  #ai-chat-input {
-    flex: 1; border: 1px solid var(--border); border-radius: 20px;
-    padding: 0.45rem 0.85rem; font-size: 0.82rem; font-family: var(--font-body);
-    outline: none; resize: none; background: var(--cream);
-    min-height: 36px; max-height: 100px; overflow-y: auto; line-height: 1.4;
-  }
-  #ai-chat-input:focus { border-color: var(--jade); }
-  #ai-chat-send {
-    width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
-    background: var(--jade); color: white; border: none; cursor: pointer;
-    font-size: 0.9rem; display: flex; align-items: center; justify-content: center;
-    align-self: flex-end; transition: background 0.12s;
-  }
-  #ai-chat-send:hover { background: #2b3a4a; }
-  #ai-chat-send:disabled { background: var(--sand); cursor: default; }
-  .ai-suggestions-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; padding: 0 0.75rem 0.5rem; flex-shrink: 0; }
-  .ai-chip { font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 12px; border: 1px solid var(--border); background: white; cursor: pointer; color: var(--jade); transition: background 0.12s; }
-  .ai-chip:hover { background: var(--cream); }
-  @media (max-width: 768px) {
-    #ai-chat-panel { bottom: 4.5rem; right: 0.75rem; left: 0.75rem; width: auto; }
-    #ai-chat-btn { bottom: 5rem; right: 0.75rem; }
-  }
+
 </style>
 
   <!-- Leaflet -->
@@ -2901,18 +3423,7 @@
 <header id="app-header" class="no-trip">
   <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Menu">&#9776;</button>
   <div class="header-brand" onclick="handleBrandClick()" style="cursor:pointer" title="Accueil">
-    <svg width="30" height="30" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-      <circle cx="16" cy="16" r="13" stroke="#e8927c" stroke-width="1.5" fill="none"/>
-      <ellipse cx="16" cy="16" rx="6" ry="13" stroke="#e8927c" stroke-width="1" fill="none" opacity="0.45"/>
-      <line x1="3" y1="16" x2="29" y2="16" stroke="#e8927c" stroke-width="1" opacity="0.45"/>
-      <path d="M4.5 11 Q16 9.5 27.5 11" stroke="#e8927c" stroke-width="0.8" fill="none" opacity="0.3"/>
-      <path d="M4.5 21 Q16 22.5 27.5 21" stroke="#e8927c" stroke-width="0.8" fill="none" opacity="0.3"/>
-      <g transform="translate(10,7) rotate(35)">
-        <path d="M0 3 L3 0 L6 3 L3 2 Z" fill="#f5f0e8"/>
-        <path d="M1.5 3 L0 5 L1.5 4.5 L3 5.5 L4.5 4.5 L6 5 L4.5 3" fill="#f5f0e8" opacity="0.7"/>
-      </g>
-    </svg>
-    <span style="font-family:var(--font-display);font-style:var(--font-display-style)">Very <span style="color:var(--gold)">Wandr</span></span>
+	<a><img src="https://i.goopics.net/vf22dr.png" alt="logo" style="width:140px; height:140px; object-fit:contain;"></a>
   </div>
   <div class="header-pill" id="header-pill">
     <div class="search-wrap" id="search-wrap">
@@ -2924,7 +3435,9 @@
     <button class="hdr-btn" onclick="toggleSearch()">🔍 Rechercher</button>
     <div class="hdr-divider"></div>
     <button class="hdr-btn" id="btn-print" onclick="exportTripPDF()">🖨️ Exporter PDF</button>
+    <button class="hdr-btn" id="btn-browser-print" onclick="window.print()" style="display:none">🖨️ Imprimer</button>
     <button class="btn-auth btn-login pill-btn-auth" id="btn-pill-auth">Connexion</button>
+    <span id="sync-indicator" style="display:none"><span class="sync-dot"></span><span class="sync-lbl"></span></span>
   </div>
   <div id="header-auth-btn-wrap">
     <button class="header-new-trip-btn" id="btn-new-trip-mobile" onclick="openNewTripModal()" title="Nouveau séjour">+ Nouveau séjour</button>
@@ -2943,15 +3456,9 @@
   <div id="import-inner">
     <button id="import-back-btn">← Retour</button>
     <div id="welcome-logo" style="margin-bottom:0.5rem">
-      <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="16" cy="16" r="13" stroke="#e8927c" stroke-width="1.5" fill="none"/>
-        <ellipse cx="16" cy="16" rx="6" ry="13" stroke="#e8927c" stroke-width="1" fill="none" opacity="0.45"/>
-        <line x1="3" y1="16" x2="29" y2="16" stroke="#e8927c" stroke-width="1" opacity="0.45"/>
-        <g transform="translate(10,7) rotate(35)">
-          <path d="M0 3 L3 0 L6 3 L3 2 Z" fill="#e8927c"/>
-          <path d="M1.5 3 L0 5 L1.5 4.5 L3 5.5 L4.5 4.5 L6 5 L4.5 3" fill="#e8927c" opacity="0.7"/>
-        </g>
-      </svg>
+  <div class="header-brand" onclick="handleBrandClick()" style="cursor:pointer" title="Accueil">
+	<a><img src="https://i.goopics.net/xtl1e0.png" alt="logo" style="width:100px; height:100px; object-fit:contain;"></a>
+  </div>
     </div>
     <h2 id="import-title">Importer un voyage</h2>
     <p id="import-sub">Chargez un fichier <strong>.json</strong> exporté depuis Very Wandr.<br>Votre voyage sera immédiatement disponible.</p>
@@ -2965,22 +3472,14 @@
 <div id="welcome-screen" style="display:none">
   <div id="welcome-inner">
     <div id="welcome-logo">
-      <svg width="52" height="52" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="16" cy="16" r="13" stroke="#e8927c" stroke-width="1.5" fill="none"/>
-        <ellipse cx="16" cy="16" rx="6" ry="13" stroke="#e8927c" stroke-width="1" fill="none" opacity="0.45"/>
-        <line x1="3" y1="16" x2="29" y2="16" stroke="#e8927c" stroke-width="1" opacity="0.45"/>
-        <path d="M4.5 11 Q16 9.5 27.5 11" stroke="#e8927c" stroke-width="0.8" fill="none" opacity="0.3"/>
-        <path d="M4.5 21 Q16 22.5 27.5 21" stroke="#e8927c" stroke-width="0.8" fill="none" opacity="0.3"/>
-        <g transform="translate(10,7) rotate(35)">
-          <path d="M0 3 L3 0 L6 3 L3 2 Z" fill="#e8927c"/>
-          <path d="M1.5 3 L0 5 L1.5 4.5 L3 5.5 L4.5 4.5 L6 5 L4.5 3" fill="#e8927c" opacity="0.7"/>
-        </g>
-      </svg>
+  <div class="header-brand" onclick="handleBrandClick()" style="cursor:pointer" title="Accueil">
+	<a><img src="https://i.goopics.net/xtl1e0.png" alt="logo" style="width:100px; height:100px; object-fit:contain;"></a>
+  </div>
     </div>
     <h1 id="welcome-title">Very <span>Wandr</span></h1>
     <p id="welcome-sub">Votre carnet de voyage intelligent.<br>Itinéraires, budget, checklist et destinations — tout au même endroit.</p>
     <div id="welcome-features">
-      <div class="welcome-feature"><span>✈️</span><span>Vols &amp; hôtels</span></div>
+      <div class="welcome-feature"><span>✈️</span><span>Vols et hôtels</span></div>
       <div class="welcome-feature"><span>🗺</span><span>Itinéraire</span></div>
       <div class="welcome-feature"><span>💴</span><span>Budget</span></div>
       <div class="welcome-feature"><span>✅</span><span>Checklist</span></div>
@@ -3042,7 +3541,10 @@
         <span id="sidebar-budget-total" class="sb-badge"></span>
       </div>
       <div class="sidebar-link" data-page="map" onclick="showPage('map',this);initMap()">
-        <span class="icon">🗺</span> Carte itinéraire
+        <span class="icon">🗺️</span> Carte itinéraire
+      </div>
+      <div class="sidebar-link" data-page="journal" onclick="showPage('journal',this)">
+        <span class="icon">📝</span> Journal de bord
       </div>
     </div>
 
@@ -3067,28 +3569,13 @@
   </nav>
 
   <!-- CONTENT -->
-  <button id="ai-chat-btn" onclick="toggleAiChat()" title="Assistant voyage IA">✦</button>
-  <div id="ai-chat-panel">
-    <div id="ai-chat-header">
-      <div id="ai-chat-header-title">✦ Assistant Very Wandr</div>
-      <button id="ai-chat-close" onclick="toggleAiChat()">✕</button>
-    </div>
-    <div id="ai-chat-messages"></div>
-    <div class="ai-suggestions-chips" id="ai-chips"></div>
-    <div id="ai-chat-footer">
-      <textarea id="ai-chat-input" placeholder="Posez une question sur votre séjour…" rows="1"
-        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAiMessage()}"
-        oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
-      <button id="ai-chat-send" onclick="sendAiMessage()">➤</button>
-    </div>
-  </div>
   <main id="content">
 
     <!-- PAGE: OVERVIEW -->
     <div class="page active" id="page-overview">
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <div class="ep-wrap">
-          <button class="ep-btn" id="overview-emoji-btn" data-emoji="🌍" type="button" style="width:40px;height:40px;font-size:24px;background:transparent;border-color:rgba(43,58,74,0.12);margin-bottom:0.25rem">🌍</button>
+          <button class="ep-btn" id="overview-emoji-btn" data-emoji="🌍" type="button" style="width:40px;height:40px;font-size:30px;background:transparent;border-color:rgba(43,58,74,0.12);margin-bottom:0.25rem">🌍</button>
           <div class="ep-picker" id="overview-emoji-picker">
             <div class="ep-search"><input id="overview-emoji-search" placeholder="Rechercher…" autocomplete="off"/></div>
             <div class="ep-grid" id="overview-emoji-grid"></div>
@@ -3109,7 +3596,7 @@
 
       <!-- FLIGHTS -->
       <div class="card">
-        <div class="card-title">✈ Vols</div>
+        <div class="card-title">✈️ Vols</div>
         <table class="data-table" id="flights-table">
           <thead>
             <tr>
@@ -3166,7 +3653,7 @@
     <!-- PAGE: CHECKLIST -->
     <div class="page" id="page-checklist">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem">
-        <div class="page-title" style="margin-bottom:0">À prévoir</div>
+        <div class="page-title" style="margin-bottom:0">✅ À prévoir</div>
       </div>
       <div class="page-subtitle">Tout ce qu'il faut organiser avant de partir</div>
       <div class="checklist-global-bar" id="checklist-global-bar">
@@ -3181,7 +3668,7 @@
     <!-- PAGE: FOOD -->
     <div class="page" id="page-food">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem">
-        <div class="page-title" style="margin-bottom:0">À goûter</div>
+        <div class="page-title" style="margin-bottom:0">🍜 À goûter</div>
       </div>
       <div class="page-subtitle">Plats et spécialités à ne pas manquer</div>
       <div class="card">
@@ -3198,10 +3685,10 @@
 
     <!-- PAGE: BUDGET -->
     <div class="page" id="page-budget">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem;flex-wrap:wrap;gap:0.75rem">
-        <div class="page-title">Budget</div>
-        <div style="display:flex;align-items:start;gap:0.5rem">
-          <span style="font-size:0.72rem;color:var(--muted)">Devise :</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem;flex-wrap:wrap;gap:0.8rem">
+        <div class="page-title">💴 Budget</div>
+        <div style="display:flex;align-items:center;gap:0.3rem">
+          <span style="font-size:0.8rem;color:var(--muted)">Devise :</span>
           <div id="budget-currency-csel" style="min-width:130px"></div>
         </div>
       </div>
@@ -3239,7 +3726,7 @@
 
       <!-- BALANCE -->
       <div class="card">
-        <div class="card-title">⚖️ Balance & remboursements</div>
+        <div class="card-title">⚖️ Balance et remboursements</div>
         <div id="budget-balance"></div>
       </div>
     </div>
@@ -3247,11 +3734,11 @@
 
     <!-- PAGE: DOCUMENTS -->
     <div class="page" id="page-documents">
-      <div class="page-title">Documents du voyage</div>
+      <div class="page-title">📁 Documents du voyage</div>
       <div class="page-subtitle">Informations pratiques, numéros importants, accès rapides</div>
 
       <div class="card">
-        <div class="card-title">🛂 Identité &amp; passeports</div>
+        <div class="card-title">🛂 Identité et passeports</div>
         <div class="docs-col-header docs-col-header-person" id="docs-person-header" style="display:none">
           <span>Prénom / Nom</span><span>N° Passeport</span><span>Expiration</span><span></span>
         </div>
@@ -3261,7 +3748,7 @@
       </div>
 
       <div class="card">
-        <div class="card-title">✈️ Réservations &amp; confirmations</div>
+        <div class="card-title">✈️ Réservations et confirmations</div>
         <div class="docs-col-header docs-col-header-booking" id="docs-booking-header" style="display:none">
           <span>Type / Label</span><span>Référence</span><span>Détail</span><span></span>
         </div>
@@ -3271,14 +3758,14 @@
       </div>
 
       <div class="card">
-        <div class="card-title">📋 Notes &amp; informations diverses</div>
+        <div class="card-title">📋 Notes et informations diverses</div>
         <textarea id="docs-notes" class="docs-textarea ta-auto" placeholder="Adresse, numéro d urgence, code wifi, infos pratiques..." oninput="saveDocNotes(this.value);autoResizeTA(this)"></textarea>
       </div>
     </div>
 
     <!-- PAGE: IMPORT/EXPORT -->
     <div class="page" id="page-importexport">
-      <div class="page-title">Import / Export</div>
+      <div class="page-title">🔄 Import / Export</div>
       <div class="page-subtitle">Sauvegardez ou partagez vos données de voyage</div>
 
       <div class="io-grid">
@@ -3312,6 +3799,11 @@
           </div>
         </div>
         <div class="io-card">
+          <div class="io-card-title">📋 Dupliquer ce voyage</div>
+          <div class="io-card-desc">Crée une copie complète du voyage sélectionné avec toutes ses données. Utile pour préparer une variante ou un voyage similaire.</div>
+          <button class="btn-io btn-import" onclick="duplicateCurrentTrip()">📋 Dupliquer</button>
+        </div>
+        <div class="io-card">
           <div class="io-card-title">🗑 Supprimer ce voyage</div>
           <div class="io-card-desc">Supprime définitivement le voyage sélectionné et toutes ses données. Cette action est irréversible — pensez à exporter d'abord si besoin.</div>
           <button class="btn-io btn-danger" onclick="deleteCurrentTrip()">Supprimer le voyage</button>
@@ -3326,7 +3818,7 @@
 
     <!-- PAGE: MAP -->
     <div class="page" id="page-map">
-      <div class="page-title">Carte itinéraire</div>
+      <div class="page-title">🗺️ Carte itinéraire</div>
       <div class="page-subtitle">Vue d'ensemble de votre voyage — marqueurs et tracé automatiques</div>
 
       <div class="map-toolbar">
@@ -3352,7 +3844,7 @@
           <thead><tr><th>Ville / Lieu</th><th>Latitude</th><th>Longitude</th><th>Statut</th></tr></thead>
           <tbody id="map-coords-tbody"></tbody>
         </table>
-        <div style="margin-top:0.75rem;font-size:0.72rem;color:var(--muted)">
+        <div style="margin-top:0.8rem;font-size:0.8rem;color:var(--muted)">
           💡 Les coordonnées sont obtenues via Nominatim (OpenStreetMap) et mises en cache. Vous pouvez les corriger manuellement si nécessaire.
         </div>
       </div>
@@ -3360,6 +3852,16 @@
 
     <!-- CITY PAGES (dynamically rendered) -->
     <div id="city-pages-container"></div>
+
+    <!-- PAGE: JOURNAL -->
+    <div class="page" id="page-journal">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem;flex-wrap:wrap;gap:0.5rem">
+        <div class="page-title">📝 Journal de bord</div>
+      </div>
+      <div class="page-subtitle">Vos souvenirs, impressions et moments forts — jour après jour</div>
+      <div id="journal-entries"></div>
+      <button class="btn-add-row" onclick="addJournalEntry()">+ Ajouter une entrée</button>
+    </div>
 
   </main>
 </div>
@@ -3403,20 +3905,6 @@
   </div>
 </div>
 <div class="tl-tip" id="tl-tip"></div>
-<!-- RENAME TRIP MODAL -->
-<div class="modal-overlay" id="modal-rename-trip">
-  <div class="modal">
-    <div class="modal-title">Renommer le voyage</div>
-    <div class="form-group">
-      <label class="form-label">Nouveau nom</label>
-      <input class="form-input" id="rename-trip-input" placeholder="ex: Japon 2025"  />
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal('modal-rename-trip')">Annuler</button>
-      <button class="btn-confirm" onclick="confirmRenameTrip()">Renommer</button>
-    </div>
-  </div>
-</div>
 
 <div class="modal-overlay" id="modal-add-city">
   <div class="modal">
@@ -3674,13 +4162,62 @@ function resizeAllTA(container) {
 
 const STORAGE_KEY = 'voyage_planner_v2';
 
+let _sbSaveTimer = null;
+let _sbSyncPending = false;
+
+function _setSyncState(s) {
+  // s: 'idle' | 'pending' | 'saving' | 'ok' | 'error'
+  const el = document.getElementById('sync-indicator');
+  if (!el) return;
+  if (!currentUser) { el.style.display = 'none'; return; }
+  el.style.display = 'flex';
+  const dot = el.querySelector('.sync-dot');
+  const lbl = el.querySelector('.sync-lbl');
+  if (!dot || !lbl) return;
+  const map = {
+    idle:    { color: 'rgba(255,255,255,0.15)', text: '' },
+    pending: { color: '#e8927c',                text: 'En attente…' },
+    saving:  { color: '#e8927c',                text: 'Synchro…', pulse: true },
+    ok:      { color: '#5aab85',                text: '✓ Synchronisé' },
+    error:   { color: '#a63d2f',                text: '✗ Erreur synchro' },
+  };
+  const cfg = map[s] || map.idle;
+  dot.style.background = cfg.color;
+  dot.style.animation = cfg.pulse ? 'pulse-sync 1s ease infinite' : 'none';
+  lbl.textContent = cfg.text;
+  _sbSyncPending = (s === 'pending' || s === 'saving');
+  if (s === 'ok') setTimeout(() => {
+    if (!_sbSyncPending) _setSyncState('idle');
+  }, 2500);
+}
+
 function save() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
-  // Sync Supabase en arrière-plan si connecté
+  // Sync Supabase en arrière-plan si connecté (debounce 1.5s)
   if (currentUser && state.currentTrip) {
-    sbSaveTrip(state.currentTrip).catch(() => {});
+    clearTimeout(_sbSaveTimer);
+    _setSyncState('pending');
+    _sbSaveTimer = setTimeout(() => {
+      _setSyncState('saving');
+      sbSaveTrip(state.currentTrip)
+        .then(() => _setSyncState('ok'))
+        .catch(() => _setSyncState('error'));
+    }, 1500);
   }
 }
+
+// Forcer la sauvegarde Supabase avant fermeture de l'onglet
+window.addEventListener('beforeunload', e => {
+  if (_sbSyncPending && currentUser && state.currentTrip) {
+    // Flush immédiat — on annule le debounce et on envoie tout de suite
+    clearTimeout(_sbSaveTimer);
+    // sendBeacon n'est pas possible avec Supabase SDK, on fait un save synchrone via localStorage
+    // et on avertit l'utilisateur
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(err) {}
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
 function load() {
   try {
     const d = localStorage.getItem(STORAGE_KEY);
@@ -3786,12 +4323,28 @@ function defaultTrip(name, dest) {
 
 function uid() { return Math.random().toString(36).slice(2,9); }
 
+// ── Encodage/décodage base64 Unicode (remplace unescape/escape dépréciés) ──
+function utf8ToB64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  bytes.forEach(b => bin += String.fromCharCode(b));
+  return btoa(bin);
+}
+function b64ToUtf8(b64) {
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+
 // ── INIT ──
 function showWelcome() {
   document.getElementById('welcome-screen').style.display = 'flex';
   document.getElementById('main-layout').style.display = 'none';
   document.getElementById('sidebar').classList.add('no-trip');
   document.getElementById('app-header').classList.add('no-trip');
+  const fab = document.getElementById('fab-expense');
+  if (fab) fab.classList.add('fab-hidden');
   renderAuthBar(); // sync boutons header + welcome
 }
 function hideWelcome() {
@@ -3799,6 +4352,8 @@ function hideWelcome() {
   document.getElementById('main-layout').style.display = '';
   document.getElementById('sidebar').classList.remove('no-trip');
   document.getElementById('app-header').classList.remove('no-trip');
+  const fab = document.getElementById('fab-expense');
+  if (fab) fab.classList.remove('fab-hidden');
   renderAuthBar(); // sync boutons header
 }
 function checkWelcome() {
@@ -3883,6 +4438,7 @@ function renderAll() {
   renderBudget();
   renderCities();
   renderDocuments();
+  renderJournal();
 }
 
 function syncTripSelects() {
@@ -4187,13 +4743,16 @@ function renderTripSelector() {
     emojiEl.textContent = t.emoji || '✈️';
 	_tw(emojiEl);
     nameEl.textContent  = t.name  || 'Sans titre';
-    const allDates = [...(t.flights||[]).map(f=>f.date),(t.days||[]).map(d=>d.dateFrom)]
-      .flat().filter(Boolean).sort();
-    if (allDates.length) {
-      const diff = Math.ceil((new Date(allDates[0]+'T00:00:00') - new Date()) / 86400000);
-      subEl.textContent = diff > 0 ? `Dans ${diff} jour${diff>1?'s':''}` : diff===0 ? "C'est aujourd'hui !" : 'En cours';
+    const cd = getDepartureCountdown(t);
+    if (cd !== null) {
+      let depMsg;
+      if (cd > 0) depMsg = `Dans ${cd} jour${cd > 1 ? 's' : ''}`;
+      else if (cd === 0) depMsg = "C'est aujourd'hui !";
+      else if (cd >= -30) depMsg = `En cours (J${Math.abs(cd)})`;
+      else depMsg = `Terminé il y a ${Math.abs(cd)} j`;
       subEl.dataset.hasDeparture = '1';
-    } else { subEl.textContent = ''; delete subEl.dataset.hasDeparture; }
+      subEl.dataset.depText = depMsg;
+    } else { subEl.textContent = ''; delete subEl.dataset.hasDeparture; delete subEl.dataset.depText; }
 
     if (dotsEl) {
       dotsEl.innerHTML = '';
@@ -4320,8 +4879,10 @@ function renderTripScore() {
     sbFill.style.width   = pct + '%';
     sbFill.style.background = color;
   }
-  if (sbSub && !sbSub.dataset.hasDeparture) {
-    sbSub.textContent = pct === 100 ? '🎉 Tout est prêt !' : `${pct}% complété`;
+  if (sbSub) {
+    const depText = sbSub.dataset.depText || '';
+    const pctText = pct === 100 ? '🎉 Tout est prêt !' : `${pct}% complété`;
+    sbSub.textContent = depText ? `${depText} · ${pctText}` : pctText;
   }
 
   // Mettre à jour le compteur de jours
@@ -4365,11 +4926,13 @@ function addRowDrag(tr, dataArr, renderFn) {
   });
   tr.addEventListener('dragend', () => {
     tr.classList.remove('dragging-row');
-    tr.closest('tbody').querySelectorAll('tr').forEach(r => r.classList.remove('drag-over-row'));
+    const tbody = tr.closest('tbody');
+    if (tbody) tbody.querySelectorAll('tr').forEach(r => r.classList.remove('drag-over-row'));
   });
   tr.addEventListener('dragover', e => {
     e.preventDefault();
-    tr.closest('tbody').querySelectorAll('tr').forEach(r => r.classList.remove('drag-over-row'));
+    const tbody = tr.closest('tbody');
+    if (tbody) tbody.querySelectorAll('tr').forEach(r => r.classList.remove('drag-over-row'));
     tr.classList.add('drag-over-row');
   });
   tr.addEventListener('dragleave', () => tr.classList.remove('drag-over-row'));
@@ -4676,12 +5239,12 @@ function renderFlights() {
     tr.innerHTML = `
       <td class="drag-td" title="Glisser pour réordonner">⠿</td>
       <td class="csel-flight-td" data-label="Type" style="width:90px;padding:0.25rem 0.4rem"></td>
-      <td data-label="Dép." style="padding:0 0.3rem;white-space:nowrap"><input type="date" value="${f.date||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateFlight(${i},'date',v);validateDatesDebounced()})" style="width:120px;font-size:0.72rem;padding:0.18rem 0.25rem" /></td>
-      <td data-label="H. dép." style="padding:0 0.2rem"><input type="time" value="${f.time||''}" onchange="updateFlight(${i},'time',this.value)" style="width:72px;font-size:0.72rem;padding:0.18rem 0.25rem" /></td>
-      <td data-label="De"><input value="${f.from||''}" placeholder="CDG, Paris…" oninput="updateFlight(${i},'from',this.value)" /></td>
-      <td data-label="Arr." style="padding:0 0.3rem;white-space:nowrap"><input type="date" value="${f.arrivalDate||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateFlight(${i},'arrivalDate',v);validateDatesDebounced()})" style="width:120px;font-size:0.72rem;padding:0.18rem 0.25rem" /></td>
-      <td data-label="H. arr." style="padding:0 0.2rem"><input type="time" value="${f.arrivalTime||''}" onchange="updateFlight(${i},'arrivalTime',this.value)" style="width:72px;font-size:0.72rem;padding:0.18rem 0.25rem" /></td>
-      <td data-label="À"><input value="${f.to||''}" placeholder="NRT, Tokyo…" oninput="updateFlight(${i},'to',this.value)" /></td>
+      <td data-label="Dép." style="padding:0 0.3rem;white-space:nowrap"><input type="date" value="${f.date||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateFlight(${i},'date',v);validateDatesDebounced()})" style="width:120px;font-size:0.8rem;padding:0.18rem 0.25rem" /></td>
+      <td data-label="H. dép." style="padding:0 0.2rem"><input type="time" value="${f.time||''}" onchange="updateFlight(${i},'time',this.value)" style="width:72px;font-size:0.8rem;padding:0.18rem 0.25rem" /></td>
+      <td data-label="De"><input value="${escHtml(f.from||'')}" placeholder="CDG, Paris…" oninput="updateFlight(${i},'from',this.value)" /></td>
+      <td data-label="Arr." style="padding:0 0.3rem;white-space:nowrap"><input type="date" value="${f.arrivalDate||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateFlight(${i},'arrivalDate',v);validateDatesDebounced()})" style="width:120px;font-size:0.8rem;padding:0.18rem 0.25rem" /></td>
+      <td data-label="H. arr." style="padding:0 0.2rem"><input type="time" value="${f.arrivalTime||''}" onchange="updateFlight(${i},'arrivalTime',this.value)" style="width:72px;font-size:0.8rem;padding:0.18rem 0.25rem" /></td>
+      <td data-label="À"><input value="${escHtml(f.to||'')}" placeholder="NRT, Tokyo…" oninput="updateFlight(${i},'to',this.value)" /></td>
       <td class="warn-td"></td>
       <td><button class="btn-del-row" onclick="deleteFlight(${i})">✕</button></td>
     `;
@@ -4715,7 +5278,7 @@ function confirmDelete(msg, onConfirm) {
   box.style.cssText = 'background:var(--paper);border-radius:10px;padding:1.5rem 1.8rem;max-width:320px;width:90%;box-shadow:0 8px 30px rgba(0,0,0,0.18);font-family:var(--font-body)';
   box.innerHTML = `
     <div style="font-size:0.88rem;color:var(--ink);margin-bottom:1.2rem;line-height:1.5">${msg}</div>
-    <div style="display:flex;gap:0.75rem;justify-content:flex-end">
+    <div style="display:flex;gap:0.8rem;justify-content:flex-end">
       <button id="confirm-cancel" class="btn-cancel">Annuler</button>
       <button id="confirm-ok" class="btn-confirm">Supprimer</button>
     </div>
@@ -5100,7 +5663,7 @@ function renderDays() {
     // ── Desktop : pastilles + pointillés ──
     const div = document.createElement('div');
     div.className = 'itinerary-grid';
-    div.setAttribute('draggable', 'true');
+    //div.setAttribute('draggable', 'true');
     div.dataset.idx = i;
     div.innerHTML = `
       <div class="day-drag-col" title="Glisser pour réordonner">⠿</div>
@@ -5114,12 +5677,19 @@ function renderDays() {
           <span class="day-field-lbl">au</span>
           <input type="date" value="${d.dateTo||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateDay(${i},'dateTo',v);validateDatesDebounced()})" />
         </div>
-        <textarea class="day-input day-note ta-auto" style="color:var(--muted);font-style:italic;flex:1 1 0;min-width:80px" placeholder="Notes, activités…" rows="1" data-val="${d.notes&&d.notes[0]||''}" oninput="updateDayNote(${i},0,this.value);autoResizeTA(this)"></textarea>
+        <textarea class="day-input day-note ta-auto note-field" style="color:var(--muted);font-style:italic;flex:1;min-width:0;font-size:0.8rem;line-height:1.4" placeholder="Notes, activités…" rows="1" onmousedown="event.stopPropagation()" data-val="${escHtml(d.notes&&d.notes[0]||'')}" oninput="updateDayNote(${i},0,this.value);autoResizeTA(this)"></textarea>
         <button class="btn-del-row" style="align-self:center;flex-shrink:0" onclick="deleteDay(${i})">✕</button>
       </div>
     `;
-    div.addEventListener('dragstart', e => { e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain',i); setTimeout(()=>div.classList.add('dragging'),0); });
-    div.addEventListener('dragend', () => { div.classList.remove('dragging'); cont.querySelectorAll('.itinerary-grid').forEach(el=>el.classList.remove('drag-over-day')); });
+
+    // Injecter les valeurs dans les textareas desktop
+    div.querySelectorAll('textarea.ta-auto[data-val]').forEach(ta => { ta.value = ta.dataset.val; });
+    resizeAllTA(div);
+
+	const handle = div.querySelector('.day-drag-col');
+	handle.setAttribute('draggable', 'true');
+    handle.addEventListener('dragstart', e => { e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain',i); setTimeout(()=>div.classList.add('dragging'),0); });
+    handle.addEventListener('dragend', () => { div.classList.remove('dragging'); cont.querySelectorAll('.itinerary-grid').forEach(el=>el.classList.remove('drag-over-day')); });
     div.addEventListener('dragover', e => { e.preventDefault(); cont.querySelectorAll('.itinerary-grid').forEach(el=>el.classList.remove('drag-over-day')); div.classList.add('drag-over-day'); });
     div.addEventListener('dragleave', () => div.classList.remove('drag-over-day'));
     div.addEventListener('drop', e => {
@@ -5156,8 +5726,8 @@ function renderDays() {
             </div>
           </div>
           <div class="mob-card-field" style="width:100%">
-            <label>Notes &amp; activités</label>
-            <textarea class="day-notes-ta ta-auto" rows="1" placeholder="Restaurants, musées, activités…" data-val="${d.notes&&d.notes[0]||''}" oninput="updateDayNote(${i},0,this.value);autoResizeTA(this)"></textarea>
+            <label>Notes et activités</label>
+            <textarea class="day-notes-ta ta-auto" rows="1" placeholder="Restaurants, musées, activités…" data-val="${escHtml(d.notes&&d.notes[0]||'')}" oninput="updateDayNote(${i},0,this.value);autoResizeTA(this)"></textarea>
           </div>
           <div class="mob-card-warn" id="day-warn-mob-${i}"></div>
       `;
@@ -5185,28 +5755,35 @@ function renderHotels() {
   (t.hotels || []).forEach((h, i) => {
     const nights = calcNights(h.checkin, h.checkout);
     const tr = document.createElement('tr');
-    tr.setAttribute('draggable', 'true');
+    //tr.setAttribute('draggable', 'true');
     tr.dataset.idx = i;
     tr.innerHTML = `
-      <td class="drag-td" title="Glisser pour réordonner">⠿</td>
-      <td data-label="Hôtel"><textarea class="ta-auto" placeholder="Nom de l'hôtel" rows="1" data-val="${h.name}" oninput="updateHotel(${i},'name',this.value);autoResizeTA(this)"></textarea></td>
-      <td data-label="Ville"><input value="${h.city}" placeholder="Ville" oninput="updateHotel(${i},'city',this.value)" /></td>
+      <td class="drag-td" title="Glisser pour réordonner"> <div class="drag-handle">⠿</div> </td>
+      <td data-label="Hôtel"><textarea class="ta-auto" placeholder="Nom de l'hôtel" rows="1" data-val="${escHtml(h.name)}" oninput="updateHotel(${i},'name',this.value);autoResizeTA(this)"></textarea></td>
+      <td data-label="Ville"><input value="${escHtml(h.city)}" placeholder="Ville" oninput="updateHotel(${i},'city',this.value)" /></td>
       <td data-label="Arrivée"><input type="date" value="${h.checkin||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateHotel(${i},'checkin',v);validateDatesDebounced()})" /></td>
       <td data-label="Départ"><input type="date" value="${h.checkout||''}" ontouchstart="onDateTouch(this)" onfocus="onDateFocus(this)" onchange="onDateChange(this,v=>{updateHotel(${i},'checkout',v);validateDatesDebounced()})" /></td>
       <td data-label="Nuits">${nights !== null ? `<span class="nights-badge">${nights} nuit${nights>1?'s':''}</span>` : '—'}</td>
-      <td data-label="Notes"><textarea class="ta-auto" placeholder="Notes libres…" rows="1" style="font-style:italic;color:var(--muted)" data-val="${h.comment||''}" oninput="updateHotel(${i},'comment',this.value);autoResizeTA(this)"></textarea></td>
+      <td data-label="Notes"><textarea class="ta-auto" placeholder="Notes libres…" rows="1" style="font-style:italic;color:var(--muted)" data-val="${escHtml(h.comment||'')}" oninput="updateHotel(${i},'comment',this.value);autoResizeTA(this)"></textarea></td>
       <td style="padding:0 0.4rem">
         ${h.url
           ? `<span style="display:flex;align-items:center;gap:0.4rem">
-               <a href="${h.url}" target="_blank" rel="noopener" title="Accéder à la page de l'hébergement" style="color:var(--jade);font-size:1rem;text-decoration:none" onclick="event.stopPropagation()">🔗</a>
-               <button onclick="editHotelUrl(${i})" title="Modifier l'URL" style="background:none;border:none;cursor:pointer;font-size:0.72rem;color:var(--muted);padding:0;line-height:1">✎</button>
+               <a href="${escHtml(h.url)}" target="_blank" rel="noopener" title="Accéder à la page de l'hébergement" style="color:var(--jade);font-size:1rem;text-decoration:none" onclick="event.stopPropagation()">🔗</a>
+               <button onclick="editHotelUrl(${i})" title="Modifier l'URL" style="background:none;border:none;cursor:pointer;font-size:0.8rem;color:var(--muted);padding:0;line-height:1">✎</button>
              </span>`
-          : `<button onclick="editHotelUrl(${i})" title="Ajouter un lien de réservation" style="background:none;border:none;cursor:pointer;font-size:0.72rem;color:var(--muted);padding:0.1rem;border-bottom:1px dashed var(--border)">+ Lien</button>`}
+          : `<button onclick="editHotelUrl(${i})" title="Ajouter un lien de réservation" style="background:none;border:none;cursor:pointer;font-size:0.8rem;color:var(--muted);padding:0.1rem;border-bottom:1px dashed var(--border)">+ Lien</button>`}
       </td>
       <td class="warn-td"></td>
       <td><button class="btn-del-row" onclick="deleteHotel(${i})">✕</button></td>
     `;
-    addRowDrag(tr, t.hotels, renderHotels);
+	const handle = tr.querySelector('.drag-handle');
+tr.setAttribute('draggable', 'true');
+
+// Patch Firefox : empêcher le drag de capturer les clics sur les inputs
+handle.addEventListener('mousedown', e => e.stopPropagation());
+
+// Système de drag sur la ligne entière
+addRowDrag(tr, t.hotels, renderHotels);
     // Assigner valeurs textarea depuis data-val
     tr.querySelectorAll('textarea.ta-auto').forEach(ta => { if (ta.dataset.val !== undefined) ta.value = ta.dataset.val; });
     tbody.appendChild(tr);
@@ -5294,7 +5871,6 @@ function renderChecklist() {
     section.items.forEach((item, ii) => {
       const row = document.createElement('div');
       row.className = 'checklist-item';
-      // Construire la ligne via JS pour éviter tout problème d'encodage
       const cbId = `cb-${si}-${ii}`;
       const cb = Object.assign(document.createElement('input'), {type:'checkbox', className:'fancy-cb', id:cbId, checked:!!item.done});
       cb.onchange = () => toggleCheck(si, ii, cb.checked);
@@ -5302,17 +5878,57 @@ function renderChecklist() {
       lbl.className = 'cb-label-only';
       lbl.htmlFor = cbId;
       lbl.innerHTML = `<div class="cb-box${item.done?' cb-checked':''}"></div>`;
+
+      // Wrapper texte + overlay lien
+      const textWrap = document.createElement('div');
+      textWrap.className = 'cb-text-wrap';
+      textWrap.style.cssText = 'flex:1;min-width:0;position:relative';
+
       const ta = document.createElement('textarea');
       ta.className = 'cb-text-input' + (item.done ? ' cb-done' : '');
       ta.placeholder = 'Élément…';
       ta.rows = 1;
       ta.value = item.text || '';
       ta.oninput = function() { this.style.height='auto'; this.style.height=this.scrollHeight+'px'; updateCheckItem(si,ii,this.value); };
+
+      // Overlay : version rendue avec liens cliquables
+      const overlay = document.createElement('div');
+      overlay.className = 'cb-text-overlay' + (item.done ? ' cb-done' : '');
+      overlay.innerHTML = _renderTextWithLinks(item.text || '', item.done);
+
+      // Si le texte contient une URL, on affiche l'overlay par défaut
+      const hasUrl = _textHasUrl(item.text || '');
+      if (hasUrl) {
+        ta.style.display = 'none';
+        overlay.style.display = '';
+      } else {
+        overlay.style.display = 'none';
+      }
+
+      // Clic sur l'overlay (hors lien) → passer en mode édition
+      overlay.addEventListener('click', e => {
+        if (e.target.tagName === 'A') return; // laisser le lien s'ouvrir
+        overlay.style.display = 'none';
+        ta.style.display = '';
+        ta.focus();
+      });
+
+      // Quand le textarea perd le focus → re-afficher l'overlay si URL
+      ta.addEventListener('blur', () => {
+        if (_textHasUrl(ta.value)) {
+          overlay.innerHTML = _renderTextWithLinks(ta.value, item.done);
+          overlay.style.display = '';
+          ta.style.display = 'none';
+        }
+      });
+
+      textWrap.append(ta, overlay);
+
       const del = document.createElement('button');
       del.className = 'btn-del-row';
       del.textContent = '✕';
       del.onclick = () => deleteCheckItem(si, ii);
-      row.append(cb, lbl, ta, del);
+      row.append(cb, lbl, textWrap, del);
       itemsCont.appendChild(row);
     });
   });
@@ -5325,6 +5941,35 @@ function renderChecklist() {
     });
   }, 50);
 }
+// ── URL detection in checklist items ──
+function _textHasUrl(text) {
+  return /(?:https?:\/\/|www\.)[^\s<>"']+/i.test(text || '');
+}
+
+function _renderTextWithLinks(text, isDone) {
+  if (!text) return '';
+  const urlPattern = /(?:https?:\/\/|www\.)[^\s<>"']+/gi;
+  const parts = [];
+  let lastIdx = 0;
+  let m;
+  while ((m = urlPattern.exec(text)) !== null) {
+    // Text before the URL
+    if (m.index > lastIdx) parts.push({ type: 'text', val: text.slice(lastIdx, m.index) });
+    parts.push({ type: 'url', val: m[0] });
+    lastIdx = m.index + m[0].length;
+  }
+  // Remaining text after last URL
+  if (lastIdx < text.length) parts.push({ type: 'text', val: text.slice(lastIdx) });
+
+  return parts.map(p => {
+    if (p.type === 'text') return escHtml(p.val);
+    const href = p.val.startsWith('www.') ? 'https://' + p.val : p.val;
+    let display;
+    try { display = new URL(href).hostname.replace(/^www\./, ''); } catch(e) { display = 'Lien'; }
+    return `<a href="${escHtml(href)}" target="_blank" rel="noopener" class="cb-inline-link" onclick="event.stopPropagation()" title="${escHtml(p.val)}">🔗 ${escHtml(display)}</a>`;
+  }).join('');
+}
+
 function renderChecklistGlobalBar() {
   const all   = (trip().checklistSections||[]).flatMap(s => s.items||[]);
   const done  = all.filter(x => x.done).length;
@@ -5387,10 +6032,10 @@ function renderFood() {
       <div style="display:flex;align-items:start;gap:0.5rem">
         <input type="checkbox" class="fancy-cb" id="food-cb-${i}" ${f.done?'checked':''} onchange="toggleFood(${i},this.checked)" />
         <label class="cb-label-only" for="food-cb-${i}"><div class="cb-box${f.done?' cb-checked':''}" ></div></label>
-        <textarea class="food-input${f.done?' cb-done':''} ta-auto" placeholder="Nom du plat" rows="1" data-val="${f.name}" oninput="updateFood(${i},'name',this.value);autoResizeTA(this)"></textarea>
+        <textarea class="food-input${f.done?' cb-done':''} ta-auto" placeholder="Nom du plat" rows="1" data-val="${escHtml(f.name)}" oninput="updateFood(${i},'name',this.value);autoResizeTA(this)"></textarea>
       </div>
-      <div><textarea class="food-input ta-auto" placeholder="Description" rows="1" style="color:var(--muted)" data-val="${f.desc}" oninput="updateFood(${i},'desc',this.value);autoResizeTA(this)"></textarea></div>
-      <div><textarea class="food-input ta-auto" placeholder="Ville – Restaurant" rows="1" data-val="${f.location}" oninput="updateFood(${i},'location',this.value);autoResizeTA(this)"></textarea></div>
+      <div><textarea class="food-input ta-auto" placeholder="Description" rows="1" style="color:var(--muted)" data-val="${escHtml(f.desc)}" oninput="updateFood(${i},'desc',this.value);autoResizeTA(this)"></textarea></div>
+      <div><textarea class="food-input ta-auto" placeholder="Ville – Restaurant" rows="1" data-val="${escHtml(f.location)}" oninput="updateFood(${i},'location',this.value);autoResizeTA(this)"></textarea></div>
       <button class="btn-del-row" onclick="deleteFood(${i})">✕</button>
     `;
     div.querySelectorAll('textarea.ta-auto').forEach(ta => { if (ta.dataset.val !== undefined) ta.value = ta.dataset.val; });
@@ -5428,7 +6073,7 @@ function renderCities() {
     li.innerHTML = `
       <div class="sidebar-link" data-page="city-${city.id}" onclick="showPage('city-${city.id}',this)" style="padding-left:0.5rem">
         <span class="sidebar-city-drag" title="Glisser pour réordonner" onclick="event.stopPropagation()">⠿</span>
-        <span class="icon">📍</span>${city.name}
+        <span class="icon">📍</span>${escHtml(city.name)}
       </div>`;
     li.addEventListener('dragstart', e => {
       e.dataTransfer.effectAllowed = 'move';
@@ -5461,20 +6106,62 @@ function renderCities() {
     page.className = 'page';
     page.id = `page-city-${city.id}`;
     page.innerHTML = `
-      <div class="city-page-header">
-        <div>
-          <input class="city-edit-name" value="${escHtml(city.name)}" onchange="updateCityName('${city.id}',this.value)" />
-          <div class="page-subtitle">${done}/${total} visites cochées · étape ${ci+1}/${cities.length}</div>
-        </div>
-        <div style="display:flex;align-items:start;gap:0.5rem">
-          <button class="city-order-btn" ${isFirst?'disabled':''} onclick="moveCityUp('${city.id}')" title="Remonter dans l'itinéraire">↑</button>
-          <button class="city-order-btn" ${isLast?'disabled':''} onclick="moveCityDown('${city.id}')" title="Descendre dans l'itinéraire">↓</button>
-          <button class="city-delete-btn" onclick="deleteCity('${city.id}')">🗑 Supprimer</button>
+	
+<div class="city-page-header">
+
+  <div class="city-header-row">
+    <div class="city-title-wrapper">
+      <span class="city-title-icon">📍</span>
+      <input class="city-edit-name"
+             value="${escHtml(city.name)}"
+             onchange="updateCityName('${city.id}',this.value)" />
+    </div>
+
+    <div class="city-actions">
+      <button class="city-order-btn" ${isFirst?'disabled':''} onclick="moveCityUp('${city.id}')" title="Remonter dans l'itinéraire">↑</button>
+      <button class="city-order-btn" ${isLast?'disabled':''} onclick="moveCityDown('${city.id}')" title="Descendre dans l'itinéraire">↓</button>
+      <button class="city-delete-btn" onclick="deleteCity('${city.id}')">🗑 Supprimer</button>
+    </div>
+  </div>
+
+  <div class="page-subtitle">
+    ${done}/${total} visites cochées · étape ${ci+1}/${cities.length}
+  </div>
+
+</div>
+
+      <div class="city-cover-wrap" id="city-cover-${city.id}">
+        ${city.image
+          ? `<img class="city-cover-img" id="city-img-${city.id}" src="${escHtml(city.image)}" alt="${escHtml(city.name)}" style="object-position:center ${city.imagePos != null ? city.imagePos : 50}%" onerror="this.style.display='none'" />
+             <div class="city-cover-reposition-hint">↕ Glissez pour recadrer</div>
+             <div class="city-cover-actions">
+               <button class="city-cover-btn" onclick="startReposition('${city.id}')">⇅ Recadrer</button>
+               <button class="city-cover-btn" onclick="toggleCityImageInput('${city.id}')">✎ Modifier</button>
+               <button class="city-cover-btn" onclick="removeCityImage('${city.id}')">✕</button>
+             </div>
+             <div class="city-cover-repo-actions">
+               <button class="city-cover-btn" style="background:var(--jade)" onclick="saveReposition('${city.id}')">✓ Valider</button>
+               <button class="city-cover-btn" onclick="cancelReposition('${city.id}')">Annuler</button>
+             </div>`
+          : `<div class="city-cover-empty" onclick="toggleCityImageInput('${city.id}')">
+               📷 Ajouter une photo de couverture
+             </div>`
+        }
+        <div class="city-cover-input-wrap" id="city-cover-input-${city.id}" style="display:none">
+          <input type="url" class="city-cover-input" id="city-cover-url-${city.id}"
+            value="${escHtml(city.image||'')}"
+            placeholder="https://exemple.com/photo.jpg"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();applyCityImage('${city.id}')}" />
+          <div style="display:flex;gap:0.4rem;margin-top:0.4rem">
+            <button class="city-cover-form-btn btn-apply" onclick="applyCityImage('${city.id}')">✓ Appliquer</button>
+            <button class="city-cover-form-btn btn-cancel-cover" onclick="toggleCityImageInput('${city.id}')">Annuler</button>
+          </div>
         </div>
       </div>
+
       <div class="card">
         <div class="card-title" style="justify-content:space-between">
-          <span>🗺 Itinéraire & visites</span>
+          <span>🗺 Itinéraire et visites</span>
           <span style="font-size:0.68rem;color:var(--muted);font-weight:400">${pct}% visité</span>
         </div>
         <div class="progress-wrap">
@@ -5494,8 +6181,8 @@ function renderCities() {
       row.innerHTML = `
         <input type="checkbox" class="fancy-cb" id="city-cb-${city.id}-${ii}" ${item.done?'checked':''} onchange="toggleCityItem('${city.id}',${ii},this.checked)" />
         <label class="cb-label-only" for="city-cb-${city.id}-${ii}"><div class="cb-box${item.done?' cb-checked':''}" ></div></label>
-        <textarea class="itin-input${item.done?' cb-done':''} ta-auto" placeholder="Lieu, monument, activité…" rows="1" data-val="${item.text}" oninput="updateCityItem('${city.id}',${ii},'text',this.value);autoResizeTA(this)"></textarea>
-        <textarea class="itin-notes-input ta-auto" placeholder="Notes, horaires…" rows="1" data-val="${item.note||''}" oninput="updateCityItem('${city.id}',${ii},'note',this.value);autoResizeTA(this)"></textarea>
+        <textarea class="itin-input${item.done?' cb-done':''} ta-auto" placeholder="Lieu, monument, activité…" rows="1" data-val="${escHtml(item.text)}" oninput="updateCityItem('${city.id}',${ii},'text',this.value);autoResizeTA(this)"></textarea>
+        <textarea class="itin-notes-input ta-auto itin-note-field" placeholder="Notes, horaires…" rows="1" data-val="${escHtml(item.note||'')}" oninput="updateCityItem('${city.id}',${ii},'note',this.value);autoResizeTA(this)"></textarea>
         <button class="btn-del-row" onclick="deleteCityItem('${city.id}',${ii})">✕</button>
       `;
       itemsCont.appendChild(row);
@@ -5514,7 +6201,7 @@ function addCity() {
   if (!name) return;
   const id = 'c_' + uid();
   trip().cities.push({ id, name, items: [] });
-  save(); renderCities();
+  save(); renderCities(); renderTripScore();
   closeModal('modal-add-city');
   showPage('city-'+id, null);
   // highlight new sidebar link
@@ -5526,7 +6213,7 @@ function addCity() {
 function deleteCity(id) {
   confirmDelete('Supprimer cette destination ?', function() {
     trip().cities = trip().cities.filter(c => c.id !== id);
-    save(); renderCities();
+    save(); renderCities(); renderTripScore();
     showPage('overview', document.querySelector('[data-page="overview"]'));
   });
 }
@@ -5547,6 +6234,100 @@ function moveCityDown(id) {
 function updateCityName(id, val) {
   const c = trip().cities.find(c=>c.id===id);
   if (c) { c.name = val; save(); renderCities(); }
+}
+function toggleCityImageInput(cityId) {
+  const wrap = document.getElementById('city-cover-input-' + cityId);
+  if (!wrap) return;
+  const visible = wrap.style.display !== 'none';
+  wrap.style.display = visible ? 'none' : 'block';
+  if (!visible) {
+    const inp = document.getElementById('city-cover-url-' + cityId);
+    if (inp) { inp.focus(); inp.select(); }
+  }
+}
+function applyCityImage(cityId) {
+  const inp = document.getElementById('city-cover-url-' + cityId);
+  if (!inp) return;
+  const url = inp.value.trim();
+  const c = trip().cities.find(c => c.id === cityId);
+  if (!c) return;
+  c.image = url;
+  save(); renderCities();
+  showPage('city-' + cityId, null);
+}
+function removeCityImage(cityId) {
+  const c = trip().cities.find(c => c.id === cityId);
+  if (!c) return;
+  c.image = '';
+  delete c.imagePos;
+  save(); renderCities();
+  showPage('city-' + cityId, null);
+}
+
+// ── City cover image repositioning ──
+let _repoState = null;
+
+function startReposition(cityId) {
+  const wrap = document.getElementById('city-cover-' + cityId);
+  const img = document.getElementById('city-img-' + cityId);
+  if (!wrap || !img) return;
+  const c = trip().cities.find(c => c.id === cityId);
+  if (!c) return;
+
+  const startPos = c.imagePos != null ? c.imagePos : 50;
+  _repoState = { cityId, startPos, currentPos: startPos, dragging: false, startY: 0 };
+
+  wrap.classList.add('repo-active');
+  img.classList.add('repositioning');
+
+  // Mouse events
+  img.onmousedown = e => { e.preventDefault(); _repoState.dragging = true; _repoState.startY = e.clientY; _repoState.dragStartPos = _repoState.currentPos; };
+  document.onmousemove = e => { if (_repoState && _repoState.dragging) _repoDrag(e.clientY, img); };
+  document.onmouseup = () => { if (_repoState) _repoState.dragging = false; };
+
+  // Touch events
+  img.ontouchstart = e => { _repoState.dragging = true; _repoState.startY = e.touches[0].clientY; _repoState.dragStartPos = _repoState.currentPos; };
+  img.ontouchmove = e => { if (_repoState && _repoState.dragging) { e.preventDefault(); _repoDrag(e.touches[0].clientY, img); } };
+  img.ontouchend = () => { if (_repoState) _repoState.dragging = false; };
+}
+
+function _repoDrag(clientY, img) {
+  if (!_repoState) return;
+  const delta = clientY - _repoState.startY;
+  // 180px height → map pixel delta to %, negative delta = move image down = higher %
+  const newPos = Math.max(0, Math.min(100, _repoState.dragStartPos - (delta / 1.8)));
+  _repoState.currentPos = Math.round(newPos);
+  img.style.objectPosition = `center ${_repoState.currentPos}%`;
+}
+
+function saveReposition(cityId) {
+  if (!_repoState || _repoState.cityId !== cityId) return;
+  const c = trip().cities.find(c => c.id === cityId);
+  if (c) { c.imagePos = _repoState.currentPos; save(); }
+  _cleanupRepo(cityId);
+}
+
+function cancelReposition(cityId) {
+  if (!_repoState || _repoState.cityId !== cityId) return;
+  const img = document.getElementById('city-img-' + cityId);
+  if (img) img.style.objectPosition = `center ${_repoState.startPos}%`;
+  _cleanupRepo(cityId);
+}
+
+function _cleanupRepo(cityId) {
+  const wrap = document.getElementById('city-cover-' + cityId);
+  const img = document.getElementById('city-img-' + cityId);
+  if (wrap) wrap.classList.remove('repo-active');
+  if (img) {
+    img.classList.remove('repositioning');
+    img.onmousedown = null;
+    img.ontouchstart = null;
+    img.ontouchmove = null;
+    img.ontouchend = null;
+  }
+  document.onmousemove = null;
+  document.onmouseup = null;
+  _repoState = null;
 }
 function addCityItem(cityId) {
   const c = trip().cities.find(c=>c.id===cityId);
@@ -5749,8 +6530,11 @@ function renderBudget() {
     expenses.forEach((exp, i) => {
       const row = document.createElement('div');
       row.className = 'budget-expense-row';
+      row.dataset.idx = i;
+      row.setAttribute('draggable', 'true');
       row.innerHTML = `
         <div class="exp-row-label">
+          <span class="drag-handle" style="margin-right:0.3rem;font-size:0.85rem;cursor:grab;color:var(--sand);user-select:none" title="Glisser pour réordonner">⠿</span>
           <textarea class="budget-input budget-label-ta" placeholder="Intitulé de la dépense" rows="1" oninput="updateExpense(${i},'label',this.value);autoResizeTA(this)"></textarea>
         </div>
         <div class="exp-amount-wrap">
@@ -5797,6 +6581,33 @@ function renderBudget() {
           cell.appendChild(createCsel(pOpts, exp.person||'', val => updateExpense(i,'person',val)));
         }
       }
+      // Drag & drop dépenses
+      row.addEventListener('dragstart', e => {
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', i);
+        setTimeout(() => row.style.opacity = '0.35', 0);
+      });
+      row.addEventListener('dragend', () => {
+        row.style.opacity = '';
+        listEl.querySelectorAll('.budget-expense-row').forEach(r => r.classList.remove('drag-over'));
+      });
+      row.addEventListener('dragover', e => {
+        e.preventDefault();
+        listEl.querySelectorAll('.budget-expense-row').forEach(r => r.classList.remove('drag-over'));
+        row.classList.add('drag-over');
+      });
+      row.addEventListener('dragleave', () => row.classList.remove('drag-over'));
+      row.addEventListener('drop', e => {
+        e.preventDefault();
+        row.classList.remove('drag-over');
+        const fromIdx = parseInt(e.dataTransfer.getData('text/plain'));
+        const toIdx = parseInt(row.dataset.idx);
+        if (isNaN(fromIdx) || fromIdx === toIdx) return;
+        const arr = budgetData().expenses;
+        const [moved] = arr.splice(fromIdx, 1);
+        arr.splice(toIdx, 0, moved);
+        save(); renderBudget();
+      });
     });
   }
 
@@ -5872,7 +6683,7 @@ function renderBudget() {
       const creditors = balances.filter(b => b.balance > 0.005).map(b => ({...b}));
       if (debtors.length && creditors.length) {
         const settleEl = document.createElement('div');
-        settleEl.style.cssText = 'padding:0.75rem 1.2rem;background:var(--cream);border-top:1px solid var(--border);font-size:0.75rem;color:var(--muted)';
+        settleEl.style.cssText = 'padding:0.8rem 1.2rem;background:var(--cream);border-top:1px solid var(--border);font-size:0.8rem;color:var(--muted)';
         const settlements = computeSettlements(debtors, creditors, cur);
         settleEl.innerHTML = `<div style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem">Remboursements suggérés</div>${settlements}`;
         balanceEl.appendChild(settleEl);
@@ -6002,6 +6813,21 @@ function exportCurrentTrip() {
 function exportAllTrips() {
   const data = { version: 2, exportType: 'all', state: JSON.parse(JSON.stringify(state)) };
   downloadJSON(data, `voyage-planner-backup.json`);
+}
+async function duplicateCurrentTrip() {
+  if (!requireTrip()) return;
+  const src = JSON.parse(JSON.stringify(trip()));
+  const newId = 'trip_' + Date.now();
+  src.id = newId;
+  src.name = src.name + ' (copie)';
+  delete src._sbId; // force un nouvel enregistrement Supabase
+  state.trips[newId] = src;
+  state.currentTrip = newId;
+  save();
+  if (currentUser) await sbSaveTrip(newId);
+  hideWelcome();
+  renderAll();
+  showPage('overview', document.querySelector('[data-page="overview"]'));
 }
 function downloadJSON(data, filename) {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -6134,15 +6960,6 @@ function createNewTrip() {
   hideWelcome();
   renderAll();
   showPage('overview', document.querySelector('[data-page="overview"]'));
-}
-function confirmRenameTrip() {
-  const name = document.getElementById('rename-trip-input').value.trim();
-  if (!name) return;
-  trip().name = name;
-  const inp = document.getElementById('overview-title-input');
-  if (inp) inp.value = name;
-  save(); renderTripSelector();
-  closeModal('modal-rename-trip');
 }
 function switchTrip(id, keepSidebar) {
   state.currentTrip = id;
@@ -6311,7 +7128,7 @@ async function geocodeAndRender() {
     const itemsList  = city.items.slice(0,5).map(it =>
       `<div style="display:flex;gap:0.4rem;align-items:center;padding:2px 0">
         <span style="color:${it.done?'#3d5166':'#bec9d4'}">${it.done?'✓':'○'}</span>
-        <span style="font-size:0.75rem;${it.done?'text-decoration:line-through;color:#7a8a96':''}">${escHtml(it.text||'')}</span>
+        <span style="font-size:0.8rem;${it.done?'text-decoration:line-through;color:#7a8a96':''}">${escHtml(it.text||'')}</span>
       </div>`
     ).join('');
     const moreItems = city.items.length > 5 ? `<div style="font-size:0.7rem;color:#7a8a96;margin-top:4px">+${city.items.length-5} autres…</div>` : '';
@@ -6406,10 +7223,10 @@ function renderCoordTable(resolved) {
         <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${cityColor(idx)};flex-shrink:0"></span>
         ${idx+1}. ${escHtml(city.name)}
       </span></td>
-      <td><input style="font-family:var(--font-body);font-size:0.75rem;border:none;background:transparent;outline:none;width:90px;color:var(--ink)"
+      <td><input style="font-family:var(--font-body);font-size:0.8rem;border:none;background:transparent;outline:none;width:90px;color:var(--ink)"
         value="${coords ? coords.lat.toFixed(5) : ''}" placeholder="—"
         onchange="overrideCoord('${escHtml(city.name)}','lat',this.value)" /></td>
-      <td><input style="font-family:var(--font-body);font-size:0.75rem;border:none;background:transparent;outline:none;width:90px;color:var(--ink)"
+      <td><input style="font-family:var(--font-body);font-size:0.8rem;border:none;background:transparent;outline:none;width:90px;color:var(--ink)"
         value="${coords ? coords.lng.toFixed(5) : ''}" placeholder="—"
         onchange="overrideCoord('${escHtml(city.name)}','lng',this.value)" /></td>
       <td class="coord-status ${coords ? 'coord-ok' : 'coord-error'}">${coords ? '✓ localisé' : '✗ introuvable'}</td>`;
@@ -6422,7 +7239,6 @@ function renderCoordTable(resolved) {
 function docsData() {
   if (!trip().docs) trip().docs = { persons: [], bookings: [], notes: '' };
   return trip().docs;
-  resizeAllTA();
 }
 
 function renderDocuments() {
@@ -6526,20 +7342,21 @@ function renderDocsMobile() {
       card.className = 'docs-mob-card';
       card.innerHTML = `
         <div class="mob-card-header">
-          <span style="font-weight:500;font-size:0.88rem;color:var(--ink)">${p.name || 'Voyageur ' + (i+1)}</span>
+          <span class="mob-card-title">
+          <span class="mob-card-icon">✦</span> ${escHtml(p.name) || 'Voyageur ' + (i+1)}</span>
           <button class="btn-del-row" onclick="deleteDocPerson(${i})">✕</button>
         </div>
         <div class="docs-mob-field">
-          <label>Prénom &amp; Nom</label>
-          <input value="${p.name||''}" placeholder="Jean Dupont" onchange="updateDocPerson(${i},'name',this.value);renderDocsMobile()" />
+          <label>Prénom et Nom</label>
+          <input value="${escHtml(p.name||'')}" placeholder="Jean Dupont" onchange="updateDocPerson(${i},'name',this.value);renderDocsMobile()" />
         </div>
         <div class="docs-mob-field">
           <label>N° Passeport</label>
-          <input value="${p.passport||''}" placeholder="AB123456" onchange="updateDocPerson(${i},'passport',this.value)" />
+          <input value="${escHtml(p.passport||'')}" placeholder="AB123456" onchange="updateDocPerson(${i},'passport',this.value)" />
         </div>
         <div class="docs-mob-field">
           <label>Expiration</label>
-          <input value="${p.expiry||''}" placeholder="JJ/MM/AAAA" onchange="updateDocPerson(${i},'expiry',this.value)" />
+          <input value="${escHtml(p.expiry||'')}" placeholder="JJ/MM/AAAA" onchange="updateDocPerson(${i},'expiry',this.value)" />
         </div>
       `;
       idCont.appendChild(card);
@@ -6555,20 +7372,21 @@ function renderDocsMobile() {
       card.className = 'docs-mob-card';
       card.innerHTML = `
         <div class="mob-card-header">
-          <span style="font-weight:500;font-size:0.88rem;color:var(--ink)">${b.label || 'Réservation ' + (i+1)}</span>
-          <button class="btn-del-row" onclick="deleteDocBooking(${i})">✕</button>
-        </div>
+		  <span class="mob-card-title">
+		  <span class="mob-card-icon">✦</span> ${escHtml(b.label) || ('Réservation ' + (i+1))} </span>
+		  <button class="btn-del-row" onclick="deleteDocBooking(${i})">✕</button>
+		</div>
         <div class="docs-mob-field">
           <label>Type / Label</label>
-          <input value="${b.label||''}" placeholder="Vol, Hôtel, Location…" onchange="updateDocBooking(${i},'label',this.value);renderDocsMobile()" />
+          <input value="${escHtml(b.label||'')}" placeholder="Vol, Hôtel, Location…" onchange="updateDocBooking(${i},'label',this.value);renderDocsMobile()" />
         </div>
         <div class="docs-mob-field">
           <label>Référence</label>
-          <input value="${b.ref||''}" placeholder="N° de confirmation" onchange="updateDocBooking(${i},'ref',this.value)" />
+          <input value="${escHtml(b.ref||'')}" placeholder="N° de confirmation" onchange="updateDocBooking(${i},'ref',this.value)" />
         </div>
         <div class="docs-mob-field">
           <label>Détail</label>
-          <textarea class="ta-auto" data-val="${b.detail||''}" placeholder="Compagnie, adresse, notes…" rows="1" oninput="updateDocBooking(${i},'detail',this.value);autoResizeTA(this)"></textarea>
+          <textarea class="ta-auto" data-val="${escHtml(b.detail||'')}" placeholder="Compagnie, adresse, notes…" rows="1" oninput="updateDocBooking(${i},'detail',this.value);autoResizeTA(this)"></textarea>
         </div>
       `;
       bkCont.appendChild(card);
@@ -6622,11 +7440,11 @@ function renderFlightsMobile() {
         </div>
         <div class="mob-card-field">
           <label>Aéroport dép.</label>
-          <input value="${f.from||''}" placeholder="CDG…" onchange="updateFlight(${i},'from',this.value)" style="text-transform:uppercase" />
+          <input value="${escHtml(f.from||'')}" placeholder="CDG…" onchange="updateFlight(${i},'from',this.value)" style="text-transform:uppercase" />
         </div>
         <div class="mob-card-field">
           <label>Aéroport arr.</label>
-          <input value="${f.to||''}" placeholder="NRT…" onchange="updateFlight(${i},'to',this.value)" style="text-transform:uppercase" />
+          <input value="${escHtml(f.to||'')}" placeholder="NRT…" onchange="updateFlight(${i},'to',this.value)" style="text-transform:uppercase" />
         </div>
         <div class="mob-card-field">
           <label>Arrivée (date)</label>
@@ -6670,11 +7488,11 @@ function renderHotelsMobile() {
               <button class="btn-del-row" onclick="deleteHotel(${i})">✕</button>
             </div>
           </label>
-          <textarea class="ta-auto" data-val="${h.name||''}" placeholder="Nom de l'établissement" rows="1" oninput="updateHotel(${i},'name',this.value);autoResizeTA(this)"></textarea>
+          <textarea class="ta-auto" data-val="${escHtml(h.name||'')}" placeholder="Nom de l'établissement" rows="1" oninput="updateHotel(${i},'name',this.value);autoResizeTA(this)"></textarea>
         </div>
         <div class="mob-card-field" style="grid-column:1/-1">
           <label>Ville</label>
-          <input value="${h.city||''}" placeholder="Ville" onchange="updateHotel(${i},'city',this.value)" />
+          <input value="${escHtml(h.city||'')}" placeholder="Ville" onchange="updateHotel(${i},'city',this.value)" />
         </div>
         <div class="mob-card-field">
           <label>Check-in</label>
@@ -6686,17 +7504,17 @@ function renderHotelsMobile() {
         </div>
         <div class="mob-card-field" style="grid-column:1/-1">
           <label>Notes</label>
-          <textarea class="ta-auto" data-val="${h.comment||''}" placeholder="Notes libres…" rows="1" style="font-style:italic;font-size:0.78rem;color:var(--muted);margin-bottom:0.4rem" oninput="updateHotel(${i},'comment',this.value);autoResizeTA(this)"></textarea>
+          <textarea class="ta-auto" data-val="${escHtml(h.comment||'')}" placeholder="Notes libres…" rows="1" style="font-style:italic;font-size:0.78rem;color:var(--muted);margin-bottom:0.4rem" oninput="updateHotel(${i},'comment',this.value);autoResizeTA(this)"></textarea>
         </div>
         <div class="mob-card-field" style="grid-column:1/-1">
           <label>Lien de l'hébergement</label>
           ${h.url ? `
           <div style="display:flex;align-items:center;gap:0.6rem">
-            <a href="${h.url}" target="_blank" rel="noopener"
+            <a href="${escHtml(h.url)}" target="_blank" rel="noopener"
                title="Accéder à la page de l'hébergement"
                style="font-size:1.2rem;text-decoration:none;flex-shrink:0;line-height:1">🔗</a>
             <button onclick="updateHotel(${i},'url','');renderHotelsMobile()"
-              style="font-size:0.72rem;color:var(--muted);background:none;border:none;border-bottom:1px dashed var(--border);cursor:pointer;padding:0;line-height:1.4">
+              style="font-size:0.8rem;color:var(--muted);background:none;border:none;border-bottom:1px dashed var(--border);cursor:pointer;padding:0;line-height:1.4">
               Modifier l'URL
             </button>
           </div>` : `
@@ -6960,7 +7778,7 @@ function copyShareLink() {
   const vpRo = params.get('vp_ro');
   if (vpRo) {
     try {
-      const data = JSON.parse(decodeURIComponent(escape(atob(vpRo))));
+      const data = JSON.parse(b64ToUtf8(vpRo));
       if (!data || !data.name) return;
       window.history.replaceState({}, '', window.location.pathname);
       setTimeout(() => _showReadonlyTrip(data), 600);
@@ -6970,7 +7788,7 @@ function copyShareLink() {
   const vp = params.get('vp');
   if (!vp) return;
   try {
-    const data = JSON.parse(decodeURIComponent(escape(atob(vp))));
+    const data = JSON.parse(b64ToUtf8(vp));
     if (!data || !data.name) return;
     window.history.replaceState({}, '', window.location.pathname);
     const alreadyExists = Object.values(getAllTrips()).some(t => t.name === data.name);
@@ -7087,9 +7905,11 @@ function runSearch(q) {
   });
 
   // Budget
-  (t.expenses||[]).forEach(e => {
-    if (match(e.label) || match(e.who)) {
-      results.push({ section:'Budget', text:`${e.label||''} · ${e.amount||''} ${t.currency||'€'}`, page:'budget', display: hi(`${e.label||'Dépense'} · ${e.amount||''} ${t.currency||'€'}`) });
+  const _bSearch = t.budget || {};
+  (_bSearch.expenses||[]).forEach(e => {
+    if (match(e.label) || match(e.person)) {
+      const _cur = _bSearch.currency||'€';
+      results.push({ section:'Budget', text:`${e.label||''} · ${e.amount||''} ${_cur}`, page:'budget', display: hi(`${e.label||'Dépense'} · ${e.amount||''} ${_cur}`) });
     }
   });
 
@@ -7118,6 +7938,14 @@ function runSearch(q) {
   if (match(docs.notes)) {
     results.push({ section:'Documents — Notes', text:docs.notes||'', page:'documents', display: hi((docs.notes||'').substring(0,80)) });
   }
+
+  // Journal
+  (t.journal||[]).forEach(j => {
+    if (match(j.text) || match(j.date)) {
+      const dateLabel = j.date ? new Date(j.date+'T00:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'short'}) : '';
+      results.push({ section:'Journal', text:`${dateLabel} ${j.text||''}`, page:'journal', display: hi(`${dateLabel}${j.mood?' '+j.mood:''} ${(j.text||'').substring(0,60)}`) });
+    }
+  });
 
   // Déduplication
   const seen = new Set();
@@ -7176,144 +8004,7 @@ document.addEventListener('keydown', function(e) {
     el.blur();
   }
   resizeAllTA();
-  resizeAllTA();
-  resizeAllTA();
 });
-
-
-
-
-// ════════════════════════════════════════════════════════════════
-//  ASSISTANT IA CONVERSATIONNEL
-// ════════════════════════════════════════════════════════════════
-let _aiOpen = false;
-let _aiHistory = [];
-let _aiTyping = false;
-
-const AI_CHIPS_DEFAULT = [
-  'Résume mon séjour', 'Quel est mon budget restant ?',
-  "Idées d'activités", 'Que faire le premier jour ?', 'Restaurants à recommander ?'
-];
-
-function toggleAiChat() {
-  _aiOpen = !_aiOpen;
-  document.getElementById('ai-chat-panel').classList.toggle('open', _aiOpen);
-  if (_aiOpen && _aiHistory.length === 0) _aiWelcome();
-  if (_aiOpen) setTimeout(() => document.getElementById('ai-chat-input').focus(), 200);
-}
-
-function _aiWelcome() {
-  const t = trip();
-  const name = t ? t.name : 'votre séjour';
-  _aiAddMsg('assistant', `Bonjour ! Je suis votre assistant pour **${name}**. Je connais votre itinéraire, vos hébergements, votre budget et vos notes. Comment puis-je vous aider ?`);
-  _renderChips(AI_CHIPS_DEFAULT);
-}
-
-function _aiAddMsg(role, text) {
-  _aiHistory.push({role, content: text});
-  _renderMessages();
-}
-
-function _renderMessages() {
-  const el = document.getElementById('ai-chat-messages');
-  el.innerHTML = '';
-  _aiHistory.forEach(m => {
-    const div = document.createElement('div');
-    div.className = 'ai-msg ' + m.role;
-    div.innerHTML = m.content
-      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-      .replace(/^- (.+)$/gm, '\u2022 $1')
-      .replace(/\\n/g, '<br>');
-    el.appendChild(div);
-  });
-  el.scrollTop = el.scrollHeight;
-}
-
-function _renderChips(chips) {
-  const el = document.getElementById('ai-chips');
-  el.innerHTML = '';
-  chips.forEach(txt => {
-    const btn = document.createElement('button');
-    btn.className = 'ai-chip';
-    btn.textContent = txt;
-    btn.onclick = () => { document.getElementById('ai-chat-input').value = txt; sendAiMessage(); };
-    el.appendChild(btn);
-  });
-}
-
-function _buildSystemPrompt() {
-  const t = trip();
-  if (!t) return 'Tu es un assistant de voyage.';
-  const dest = (t.cities||[]).map(c=>c.name).filter(Boolean).join(', ') || 'destination non précisée';
-  const flights = (t.flights||[]).map(f=>`${f.type||''} ${f.from||''}→${f.to||''} le ${f.date||''}`).join(', ');
-  const days = (t.days||[]).map((d,i)=>`J${i+1}: ${d.city||''} (${d.dateFrom||'?'}→${d.dateTo||'?'}) notes: ${(d.notes||[]).join(', ')}`).join(' | ');
-  const hotels = (t.hotels||[]).map(h=>`${h.name||''} à ${h.city||''} (${h.checkin||'?'}→${h.checkout||'?'})`).join(', ');
-  const budget = t.budget || {};
-  const cur = budget.currency || '€';
-  const total = (budget.expenses||[]).reduce((s,e)=>s+(parseFloat(e.amount)||0),0);
-  const food = (t.food||[]).map(f=>f.name).filter(Boolean).join(', ');
-  const checklist = (t.checklistSections||[]).flatMap(s=>(s.items||[]).filter(i=>!i.done).map(i=>i.text)).join(', ');
-  return `Tu es un assistant de voyage personnel intégré à Very Wandr.
-Tu connais le séjour "${t.name}". Infos :
-DESTINATIONS : ${dest}
-VOLS : ${flights||'aucun'}
-ITINÉRAIRE : ${days||'non renseigné'}
-HÉBERGEMENTS : ${hotels||'aucun'}
-BUDGET : ${total}${cur} dépensés
-GASTRONOMIE : ${food||'aucune'}
-CHECKLIST restante : ${checklist||'tout coché'}
-Réponds en français, de manière concise et pratique. Utilise **gras** et listes avec - pour structurer.`;
-}
-
-async function sendAiMessage() {
-  if (_aiTyping) return;
-  const input = document.getElementById('ai-chat-input');
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = ''; input.style.height = 'auto';
-  document.getElementById('ai-chips').innerHTML = '';
-  _aiAddMsg('user', text);
-  _aiTyping = true;
-  document.getElementById('ai-chat-send').disabled = true;
-  const thinkingDiv = document.createElement('div');
-  thinkingDiv.className = 'ai-msg thinking'; thinkingDiv.id = 'ai-thinking';
-  thinkingDiv.textContent = 'Réflexion en cours…';
-  document.getElementById('ai-chat-messages').appendChild(thinkingDiv);
-  document.getElementById('ai-chat-messages').scrollTop = 999999;
-  try {
-    const messages = [
-      ..._aiHistory.slice(0,-1).map(m => ({role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content})),
-      {role: 'user', content: text}
-    ];
-    const resp = await fetch('https://xcxrhjtkzvjztnlgecri.supabase.co/functions/v1/ai-proxy', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY
-      },
-      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: _buildSystemPrompt(), messages })
-    });
-    const thinking = document.getElementById('ai-thinking');
-    if (thinking) thinking.remove();
-    if (!resp.ok) throw new Error('API ' + resp.status);
-    const data = await resp.json();
-    const reply = (data.content||[]).map(b=>b.text||'').join('');
-    _aiAddMsg('assistant', reply);
-    _renderChips(["Dis m'en plus", 'Et pour les repas ?', 'Budget estimé ?', 'Autres idées ?']);
-  } catch(e) {
-    const thinking = document.getElementById('ai-thinking');
-    if (thinking) thinking.remove();
-    _aiAddMsg('assistant', '⚠️ Erreur. Vérifiez votre connexion et réessayez.');
-  } finally {
-    _aiTyping = false;
-    document.getElementById('ai-chat-send').disabled = false;
-    document.getElementById('ai-chat-input').focus();
-  }
-}
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && _aiOpen) toggleAiChat(); });
 
 // ════════════════════════════════════════════════════════════════
 //  EXPORT PDF
@@ -7333,20 +8024,38 @@ function exportTripPDF() {
   html += `<div class="cover"><div class="cover-emoji">${emoji}</div><h1>${esc(t.name)}</h1>${dest?`<div class="cover-dest">${esc(dest)}</div>`:''}${dateRange?`<div class="cover-dates">${dateRange}</div>`:''}<div class="cover-meta">Exporté le ${new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'})}</div></div>`;
   const flights = t.flights||[];
   if (flights.length) {
-    html += `<div class="section"><h2>✈ Vols</h2><table><thead><tr><th>Type</th><th>Départ</th><th>De</th><th>Arrivée</th><th>À</th><th>Compagnie</th><th>N° vol</th></tr></thead><tbody>`;
-    flights.forEach(f => { html += `<tr><td>${esc(f.type||'')}</td><td>${fmtDate(f.date)}${f.time?' '+f.time:''}</td><td>${esc(f.from||'')}</td><td>${fmtDate(f.arrivalDate)}${f.arrivalTime?' '+f.arrivalTime:''}</td><td>${esc(f.to||'')}</td><td>${esc(f.airline||'')}</td><td>${esc(f.flightNum||'')}</td></tr>`; });
+    html += `<div class="section"><h2>✈ Vols</h2><table><thead><tr><th>Type</th><th>Départ</th><th>De</th><th>Arrivée</th><th>À</th></tr></thead><tbody>`;
+    flights.forEach(f => { html += `<tr><td>${esc(f.type||'')}</td><td>${fmtDate(f.date)}${f.time?' '+f.time:''}</td><td>${esc(f.from||'')}</td><td>${fmtDate(f.arrivalDate)}${f.arrivalTime?' '+f.arrivalTime:''}</td><td>${esc(f.to||'')}</td></tr>`; });
     html += '</tbody></table></div>';
   }
   const days = t.days||[];
   if (days.length) {
     html += `<div class="section"><h2>📅 Itinéraire</h2>`;
-    days.forEach((d,i) => { html += `<div class="day-row"><div class="day-num">J${i+1}</div><div class="day-body"><strong>${esc(d.city||'')}</strong>${d.dateFrom?`<span class="day-dates">${fmtDate(d.dateFrom)}${d.dateTo&&d.dateTo!==d.dateFrom?' → '+fmtDate(d.dateTo):''}</span>`:''}</div></div>`; });
+    days.forEach((d,i) => {
+      const note = (d.notes&&d.notes[0]) || '';
+      html += `<div class="day-row"><div class="day-num">J${i+1}</div><div class="day-body"><strong>${esc(d.city||'')}</strong>${d.dateFrom?`<span class="day-dates">${fmtDate(d.dateFrom)}${d.dateTo&&d.dateTo!==d.dateFrom?' → '+fmtDate(d.dateTo):''}</span>`:''
+      }${note?`<div class="day-note">${esc(note)}</div>`:''}</div></div>`;
+    });
     html += '</div>';
   }
   const hotels = (t.hotels||[]).filter(h=>h.name);
   if (hotels.length) {
     html += `<div class="section"><h2>🏨 Hébergements</h2><table><thead><tr><th>Hôtel</th><th>Ville</th><th>Arrivée</th><th>Départ</th><th>Nuits</th></tr></thead><tbody>`;
     hotels.forEach(h => { const nights = h.checkin&&h.checkout ? Math.round((new Date(h.checkout)-new Date(h.checkin))/86400000) : ''; html += `<tr><td><strong>${esc(h.name)}</strong></td><td>${esc(h.city||'')}</td><td>${fmtDate(h.checkin)}</td><td>${fmtDate(h.checkout)}</td><td>${nights||'—'}</td></tr>`; });
+    html += '</tbody></table></div>';
+  }
+
+  // ── Checklist ──
+  const sections = t.checklistSections||[];
+  if (sections.some(s=>(s.items||[]).length)) {
+    html += `<div class="section"><h2>✅ À prévoir</h2>`;
+    sections.forEach(sec => { if(!(sec.items||[]).length) return; html += `<div class="cl-section"><h3>${esc(sec.title||'')}</h3><ul>`; sec.items.forEach(item => { html += `<li class="${item.done?'done':''}">${item.done?'☑':'☐'} ${esc(item.text||'')}</li>`; }); html += '</ul></div>'; });
+    html += '</div>';
+  }
+  const food = (t.food||[]).filter(f=>f.name);
+  if (food.length) {
+    html += `<div class="section"><h2>🍜 À goûter</h2><table><thead><tr><th>Plat</th><th>Lieu</th><th>Description</th></tr></thead><tbody>`;
+    food.forEach(f => { html += `<tr><td><strong>${esc(f.name)}</strong></td><td>${esc(f.location||'')}</td><td>${esc(f.desc||'')}</td></tr>`; });
     html += '</tbody></table></div>';
   }
   const expenses = (t.budget&&t.budget.expenses)||[];
@@ -7356,20 +8065,103 @@ function exportTripPDF() {
     expenses.forEach(e => { html += `<tr><td>${esc(e.label||'')}</td><td><strong>${fmtAmt(e.amount)} ${cur}</strong></td><td>${esc(e.category||'')}</td><td>${esc(e.person||'')}</td></tr>`; });
     html += '</tbody></table></div>';
   }
-  const sections = t.checklistSections||[];
-  if (sections.some(s=>(s.items||[]).length)) {
-    html += `<div class="section"><h2>✅ À prévoir</h2>`;
-    sections.forEach(sec => { if(!(sec.items||[]).length) return; html += `<div class="cl-section"><h3>${esc(sec.title||'')}</h3><ul>`; sec.items.forEach(item => { html += `<li class="${item.done?'done':''}">${item.done?'☑':'☐'} ${esc(item.text||'')}</li>`; }); html += '</ul></div>'; });
-    html += '</div>';
-  }
-  const food = (t.food||[]).filter(f=>f.name);
-  if (food.length) {
-    html += `<div class="section"><h2>🍜 À goûter</h2><table><thead><tr><th>Plat</th><th>Lieu</th><th>Notes</th></tr></thead><tbody>`;
-    food.forEach(f => { html += `<tr><td><strong>${esc(f.name)}</strong></td><td>${esc(f.location||'')}</td><td>${esc(f.desc||'')}</td></tr>`; });
+  // ── Documents ──
+  const docs = t.docs || {};
+  const persons = (docs.persons||[]).filter(p=>p.name);
+  if (persons.length) {
+    html += `<div class="section"><h2>🛂 Identité et passeports</h2><table><thead><tr><th>Nom</th><th>N° Passeport</th><th>Expiration</th></tr></thead><tbody>`;
+    persons.forEach(p => { html += `<tr><td>${esc(p.name||'')}</td><td>${esc(p.passport||'')}</td><td>${esc(p.expiry||'')}</td></tr>`; });
     html += '</tbody></table></div>';
   }
-  const css = `*{box-sizing:border-box;margin:0;padding:0}body{font-family:Georgia,serif;font-size:11pt;color:#1a1a1a;background:white}h1{font-size:28pt;font-weight:bold;margin-bottom:.3rem}h2{font-size:14pt;color:#2b3a4a;border-bottom:2px solid #e8927c;padding-bottom:.3rem;margin:1.5rem 0 .8rem}h3{font-size:11pt;color:#3d5166;margin:.8rem 0 .4rem;font-style:italic}.cover{text-align:center;padding:4rem 2rem;page-break-after:always}.cover-emoji{font-size:60pt;margin-bottom:1rem}.cover-dest{font-size:14pt;color:#3d5166;margin:.5rem 0}.cover-dates{font-size:12pt;color:#a63d2f;margin:.5rem 0;font-style:italic}.cover-meta{font-size:9pt;color:#888;margin-top:2rem}table{width:100%;border-collapse:collapse;margin-top:.5rem;font-size:10pt}th{background:#2b3a4a;color:white;padding:.4rem .6rem;text-align:left;font-size:9pt;letter-spacing:.05em}td{padding:.35rem .6rem;border-bottom:1px solid #eee;vertical-align:top}tr:nth-child(even) td{background:#fafafa}.day-row{display:flex;gap:1rem;padding:.5rem 0;border-bottom:1px solid #eee}.day-num{width:2rem;font-weight:bold;color:#a63d2f;font-size:10pt;flex-shrink:0}.day-dates{font-size:9pt;color:#888;margin-left:.8rem}.budget-total{font-size:12pt;margin-bottom:.5rem}.cl-section{margin-bottom:.8rem}ul{list-style:none;padding-left:.5rem}li{padding:.2rem 0;font-size:10pt}li.done{color:#888;text-decoration:line-through}@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}.cover{page-break-after:always}.section{page-break-inside:avoid}}`;
+  const bookings = (docs.bookings||[]).filter(b=>b.label);
+  if (bookings.length) {
+    html += `<div class="section"><h2>✈️ Réservations et confirmations</h2><table><thead><tr><th>Type</th><th>Référence</th><th>Détail</th></tr></thead><tbody>`;
+    bookings.forEach(b => { html += `<tr><td>${esc(b.label||'')}</td><td>${esc(b.ref||'')}</td><td>${esc(b.detail||'')}</td></tr>`; });
+    html += '</tbody></table></div>';
+  }
+  if (docs.notes) {
+    html += `<div class="section"><h2>📋 Notes et informations</h2><div class="notes-block">${esc(docs.notes).replace(/\n/g,'<br>')}</div></div>`;
+  }
+
+  // ── Destinations avec activités ──
+  const cities = (t.cities||[]).filter(c=>c.name);
+  if (cities.length) {
+    cities.forEach(city => {
+      const items = (city.items||[]).filter(it=>it.text);
+      html += `<div class="section"><h2>📍 ${esc(city.name)}</h2>`;
+      if (items.length) {
+        html += `<ul class="city-items">`;
+        items.forEach(it => { html += `<li class="${it.done?'done':''}">${it.done?'☑':'☐'} ${esc(it.text||'')}${it.note?`<span class="city-note"> — ${esc(it.note)}</span>`:''}</li>`; });
+        html += '</ul>';
+      } else {
+        html += `<p class="empty">Aucune activité renseignée</p>`;
+      }
+      html += '</div>';
+    });
+  }
+
+
+  // Journal
+  const journalEntries = (t.journal||[]).filter(j => j.text || j.mood);
+  if (journalEntries.length) {
+    html += `<div class="section"><h2>📝 Journal de bord</h2>`;
+    const sortedJ = [...journalEntries].sort((a,b) => (a.date||'').localeCompare(b.date||''));
+    sortedJ.forEach(j => {
+      const dateStr = j.date ? fmtDate(j.date) : '';
+      html += `<div style="padding:.5rem 0;border-bottom:1px solid #eee">`;
+      html += `<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem">`;
+      if (dateStr) html += `<strong style="color:#a63d2f;font-size:10pt">${dateStr}</strong>`;
+      if (j.mood) html += `<span style="font-size:14pt">${j.mood}</span>`;
+      html += `</div>`;
+      if (j.text) html += `<p style="font-size:10pt;color:#333;white-space:pre-wrap">${esc(j.text)}</p>`;
+      html += `</div>`;
+    });
+    html += '</div>';
+  }
+
+  const css = `
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Georgia',serif;font-size:11pt;color:#1a1a1a;background:white;line-height:1.5}
+    h1{font-size:26pt;font-weight:bold;margin-bottom:.4rem;color:#2b3a4a}
+    h2{font-size:13pt;color:#2b3a4a;border-bottom:2px solid #e8927c;padding-bottom:.3rem;margin:2rem 0 .8rem;font-style:italic}
+    h3{font-size:11pt;color:#3d5166;margin:.8rem 0 .4rem;font-style:italic}
+    p{font-size:10pt;margin:.3rem 0}
+    .cover{text-align:center;padding:5rem 2rem;page-break-after:always;border-bottom:3px solid #e8927c}
+    .cover-emoji{font-size:56pt;margin-bottom:1rem;line-height:1}
+    .cover-dest{font-size:14pt;color:#3d5166;margin:.6rem 0;font-weight:bold}
+    .cover-dates{font-size:12pt;color:#a63d2f;margin:.5rem 0;font-style:italic}
+    .cover-meta{font-size:9pt;color:#aaa;margin-top:2.5rem;border-top:1px solid #eee;padding-top:1rem}
+    .section{margin-bottom:1.5rem;page-break-inside:avoid}
+    table{width:100%;border-collapse:collapse;margin-top:.5rem;font-size:10pt}
+    th{background:#2b3a4a;color:white;padding:.45rem .7rem;text-align:left;font-size:9pt;letter-spacing:.05em;font-weight:normal}
+    td{padding:.4rem .7rem;border-bottom:1px solid #eee;vertical-align:top;font-size:10pt}
+    tr:nth-child(even) td{background:#fafafe}
+    .day-row{display:flex;gap:1rem;padding:.55rem 0;border-bottom:1px solid #eee;align-items:flex-start}
+    .day-num{width:2.2rem;font-weight:bold;color:#a63d2f;font-size:10pt;flex-shrink:0;padding-top:.1rem}
+    .day-body{flex:1}
+    .day-dates{font-size:9pt;color:#888;margin-left:.6rem}
+    .day-note{font-size:9.5pt;color:#555;margin-top:.2rem;font-style:italic}
+    .budget-total{font-size:12pt;margin-bottom:.6rem;color:#2b3a4a;font-weight:bold}
+    .cl-section{margin-bottom:.8rem}
+    ul{list-style:none;padding-left:.5rem}
+    li{padding:.2rem 0;font-size:10pt}
+    li.done{color:#aaa;text-decoration:line-through}
+    .city-items{padding-left:.5rem}
+    .city-note{color:#888;font-style:italic;font-size:9.5pt}
+    .notes-block{font-size:10pt;color:#333;padding:.6rem;background:#fafafa;border-left:3px solid #e8927c;white-space:pre-wrap;line-height:1.6}
+    .empty{color:#aaa;font-style:italic;font-size:10pt}
+    @media print{
+      *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .cover{page-break-after:always}
+      .section{page-break-inside:avoid}
+      h2{page-break-after:avoid}
+    }
+  `;
   const win = window.open('', '_blank');
+  if (!win) {
+    alert('Le navigateur a bloqué l\'ouverture de la fenêtre d\'impression.\nAutorisez les popups pour ce site, puis réessayez.');
+    return;
+  }
   win.document.write(`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"/><title>${esc(t.name)} — Very Wandr</title><style>${css}</style></head><body>${html}</body></html>`);
   win.document.close();
   win.onload = () => setTimeout(() => win.print(), 300);
@@ -7381,7 +8173,7 @@ function exportTripPDF() {
 function generateShareLink() {
   try {
     const data = trip();
-    const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+    const b64 = utf8ToB64(JSON.stringify(data));
     const url = window.location.href.split('?')[0].split('#')[0] + '?vp_ro=' + b64;
     const res = document.getElementById('share-link-result');
     document.getElementById('share-link-input').value = url;
@@ -7400,7 +8192,7 @@ function _showReadonlyTrip(data) {
   const hotels = (data.hotels||[]).filter(h=>h.name);
   const food = (data.food||[]).filter(f=>f.name);
   const total = ((data.budget&&data.budget.expenses)||[]).reduce((s,e)=>s+(parseFloat(e.amount)||0),0);
-  let body = `<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1rem"><span style="font-size:2rem">${data.emoji||'✈️'}</span><div><div style="font-size:1.4rem;font-weight:600;color:var(--ink)">${esc(data.name)}</div><div style="font-size:0.75rem;background:rgba(166,61,47,0.1);color:var(--rust);padding:.15rem .5rem;border-radius:10px;display:inline-block;margin-top:.2rem">👁 Lecture seule</div></div></div>`;
+  let body = `<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1rem"><span style="font-size:2rem">${data.emoji||'✈️'}</span><div><div style="font-size:1.4rem;font-weight:600;color:var(--ink)">${esc(data.name)}</div><div style="font-size:0.8rem;background:rgba(166,61,47,0.1);color:var(--rust);padding:.15rem .5rem;border-radius:10px;display:inline-block;margin-top:.2rem">👁 Lecture seule</div></div></div>`;
   if (flights.length) { body += `<div style="font-weight:600;font-size:.78rem;text-transform:uppercase;color:var(--muted);margin:1rem 0 .4rem">✈ Vols</div>`; flights.forEach(f => { body += `<div style="font-size:.82rem;padding:.3rem 0;border-bottom:1px solid var(--border)"><strong>${esc(f.type||'')}</strong> ${esc(f.from||'')} → ${esc(f.to||'')} · ${fmtDate(f.date)} ${f.time||''}</div>`; }); }
   if (days.length) { body += `<div style="font-weight:600;font-size:.78rem;text-transform:uppercase;color:var(--muted);margin:1rem 0 .4rem">📅 Itinéraire</div>`; days.forEach((d,i) => { body += `<div style="display:flex;gap:.8rem;padding:.35rem 0;border-bottom:1px solid var(--border);font-size:.82rem"><span style="color:var(--rust);font-weight:600;min-width:24px">J${i+1}</span><span><strong>${esc(d.city||'')}</strong>${d.dateFrom?`<span style="color:var(--muted);font-size:.75rem;margin-left:.4rem">${fmtDate(d.dateFrom)}</span>`:''}</span></div>`; }); }
   if (hotels.length) { body += `<div style="font-weight:600;font-size:.78rem;text-transform:uppercase;color:var(--muted);margin:1rem 0 .4rem">🏨 Hébergements</div>`; hotels.forEach(h => { body += `<div style="font-size:.82rem;padding:.3rem 0;border-bottom:1px solid var(--border)"><strong>${esc(h.name)}</strong> · ${esc(h.city||'')} <span style="color:var(--muted)">${fmtDate(h.checkin)} → ${fmtDate(h.checkout)}</span></div>`; }); }
@@ -7459,7 +8251,221 @@ document.addEventListener('click', e => {
   if (drop && wrap && !wrap.contains(e.target)) drop.style.display = 'none';
 });
 
+// ══════════════════════════════════════════
+// JOURNAL DE BORD
+// ══════════════════════════════════════════
+const MOODS = ['😍','😊','😌','😐','😩','🤯','🥲','😴'];
+
+function journalData() {
+  if (!trip().journal) trip().journal = [];
+  return trip().journal;
+}
+
+function renderJournal() {
+  const cont = document.getElementById('journal-entries');
+  if (!cont || !trip()) return;
+  cont.innerHTML = '';
+  const entries = journalData();
+  if (!entries.length) {
+    cont.innerHTML = `<div class="card" style="text-align:center;padding:2.5rem 1.5rem">
+      <div style="font-size:2rem;margin-bottom:0.6rem">✍️</div>
+      <div style="font-size:0.9rem;color:var(--ink);font-weight:500;margin-bottom:0.3rem">Aucune entrée pour l'instant</div>
+      <div style="font-size:0.8rem;color:var(--muted);line-height:1.5">Ajoutez votre première note de voyage pour commencer<br>à construire votre carnet de bord.</div>
+    </div>`;
+    return;
+  }
+
+  // Trier par date décroissante (plus récent en haut)
+  const sorted = entries.map((e, i) => ({ ...e, _idx: i })).sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+  sorted.forEach(entry => {
+    const i = entry._idx;
+    const dayLabel = getJournalDayLabel(entry.date);
+    const card = document.createElement('div');
+    card.className = 'journal-card';
+    card.innerHTML = `
+      <div class="journal-header">
+        <input type="date" class="journal-date-input" value="${entry.date || ''}"
+          onchange="updateJournalEntry(${i},'date',this.value)" />
+        ${dayLabel ? `<span class="journal-day-label">${escHtml(dayLabel)}</span>` : ''}
+        <div class="journal-mood-wrap">
+          ${MOODS.map(m => `<button class="journal-mood-btn${entry.mood===m?' active':''}" onclick="updateJournalEntry(${i},'mood','${m}');renderJournal()">${m}</button>`).join('')}
+        </div>
+      </div>
+      <textarea class="journal-textarea ta-auto" placeholder="Que s'est-il passé aujourd'hui ? Impressions, découvertes, anecdotes…" rows="2"
+        data-val="${escHtml(entry.text || '')}"
+        oninput="updateJournalEntry(${i},'text',this.value);autoResizeTA(this)"></textarea>
+      <div class="journal-footer">
+        <button class="journal-delete-btn" onclick="deleteJournalEntry(${i})">🗑 Supprimer cette entrée</button>
+      </div>
+    `;
+    // Injecter les valeurs textarea
+    card.querySelectorAll('textarea.ta-auto[data-val]').forEach(ta => { ta.value = ta.dataset.val; });
+    cont.appendChild(card);
+  });
+  resizeAllTA(cont);
+}
+
+function getJournalDayLabel(dateStr) {
+  if (!dateStr) return '';
+  const t = trip();
+  // Calculer le Jour N par rapport au premier vol aller
+  const allers = (t.flights || []).filter(f => f.date && f.type === 'Aller');
+  if (!allers.length) return '';
+  allers.sort((a, b) => a.date.localeCompare(b.date));
+  const dep = new Date(allers[0].date + 'T00:00:00');
+  const d = new Date(dateStr + 'T00:00:00');
+  const diff = Math.round((d - dep) / 86400000);
+  if (diff < 0) return `J${diff}`;
+  if (diff === 0) return 'Jour de départ';
+  return `Jour ${diff + 1}`;
+}
+
+function addJournalEntry() {
+  if (!requireTrip()) return;
+  const entries = journalData();
+  // Date par défaut : aujourd'hui
+  const today = new Date().toISOString().slice(0, 10);
+  entries.push({ id: uid(), date: today, mood: '', text: '', photos: [] });
+  save(); renderJournal();
+}
+
+function updateJournalEntry(i, key, val) {
+  const entries = journalData();
+  if (!entries[i]) return;
+  entries[i][key] = val;
+  save();
+  // Re-render seulement pour mood et date (tri change)
+  if (key === 'mood' || key === 'date') renderJournal();
+}
+
+function deleteJournalEntry(i) {
+  confirmDelete('Supprimer cette entrée du journal ?', () => {
+    journalData().splice(i, 1);
+    save(); renderJournal();
+  });
+}
+
+// ══════════════════════════════════════════
+// FAB — DÉPENSE RAPIDE
+// ══════════════════════════════════════════
+function openFabExpense() {
+  if (!trip()) return;
+  const b = budgetData();
+  // Populate category select
+  const catSel = document.getElementById('fab-category');
+  if (catSel) {
+    catSel.innerHTML = '';
+    CATEGORIES.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.id; opt.textContent = c.label;
+      catSel.appendChild(opt);
+    });
+    catSel.value = 'divers';
+  }
+  // Populate person select
+  const persSel = document.getElementById('fab-person');
+  if (persSel) {
+    persSel.innerHTML = '';
+    const persons = b.persons || [];
+    if (persons.length === 0) {
+      const opt = document.createElement('option');
+      opt.value = ''; opt.textContent = '—';
+      persSel.appendChild(opt);
+    } else {
+      persons.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p; opt.textContent = p;
+        persSel.appendChild(opt);
+      });
+    }
+  }
+  // Reset fields
+  document.getElementById('fab-label').value = '';
+  document.getElementById('fab-amount').value = '';
+  // Show sheet
+  document.getElementById('fab-sheet-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('fab-label').focus(), 100);
+}
+
+function closeFabExpense() {
+  document.getElementById('fab-sheet-overlay').classList.remove('open');
+}
+
+function submitFabExpense() {
+  const label = document.getElementById('fab-label').value.trim();
+  const amount = parseFloat(document.getElementById('fab-amount').value) || 0;
+  const category = document.getElementById('fab-category').value || 'divers';
+  const person = document.getElementById('fab-person').value || '';
+  if (!label && !amount) { closeFabExpense(); return; }
+  const b = budgetData();
+  b.expenses.push({
+    id: uid(),
+    label: label || 'Dépense',
+    amount: amount,
+    category: category,
+    person: person
+  });
+  save();
+  closeFabExpense();
+  // Feedback visuel
+  const fab = document.getElementById('fab-expense');
+  if (fab) {
+    fab.textContent = '✓';
+    fab.style.background = 'linear-gradient(135deg, #5aab85, #3d7a5f)';
+    fab.style.textShadow = 'none';
+    fab.style.color = 'white';
+    fab.style.fontSize = '1.4rem';
+    fab.style.fontWeight = '600';
+    fab.style.animation = 'fab-bounce 0.5s ease';
+    fab.style.boxShadow = '0 4px 18px rgba(90,171,133,0.35)';
+    setTimeout(() => {
+      fab.textContent = '💰';
+      fab.style.background = '';
+      fab.style.textShadow = '';
+      fab.style.color = '';
+      fab.style.fontSize = '';
+      fab.style.fontWeight = '';
+      fab.style.animation = '';
+      fab.style.boxShadow = '';
+    }, 1500);
+  }
+  // Re-render budget si on est sur la page
+  if (document.getElementById('page-budget')?.classList.contains('active')) renderBudget();
+}
+
 </script>
+
+<!-- FAB DÉPENSE RAPIDE -->
+<button id="fab-expense" class="fab-hidden" onclick="openFabExpense()" title="Dépense rapide">💰</button>
+<div id="fab-sheet-overlay" onclick="if(event.target===this)closeFabExpense()">
+  <div id="fab-sheet">
+    <div class="fab-sheet-title">
+      <span>💰 Dépense rapide</span>
+      <button onclick="closeFabExpense()" style="background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--muted);padding:0.2rem">✕</button>
+    </div>
+    <div class="fab-field">
+      <label>Intitulé</label>
+      <input id="fab-label" placeholder="Restaurant, taxi, souvenir…" autocomplete="off" />
+    </div>
+    <div class="fab-row">
+      <div class="fab-field">
+        <label>Montant</label>
+        <input id="fab-amount" type="number" min="0" step="0.01" placeholder="0" inputmode="decimal" />
+      </div>
+      <div class="fab-field">
+        <label>Catégorie</label>
+        <select id="fab-category"></select>
+      </div>
+    </div>
+    <div class="fab-field">
+      <label>Payé par</label>
+      <select id="fab-person"></select>
+    </div>
+    <button class="fab-submit" onclick="submitFabExpense()">✓ Ajouter la dépense</button>
+  </div>
+</div>
+
 <button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M7 11V3M7 3L3 7M7 3L11 7" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -7477,13 +8483,13 @@ document.addEventListener('click', e => {
       Entrez votre adresse email — vous recevrez un lien de connexion. Vos voyages seront synchronisés sur tous vos appareils.
     </p>
     <input id="login-email-input" type="email" placeholder="votre@email.com"
-      style="width:100%;box-sizing:border-box;padding:0.65rem 0.85rem;border:1.5px solid var(--sand);border-radius:8px;font-family:var(--font-body);font-size:0.9rem;background:var(--cream);color:var(--ink);margin-bottom:0.75rem"
+      style="width:100%;box-sizing:border-box;padding:0.65rem 0.85rem;border:1.5px solid var(--sand);border-radius:8px;font-family:var(--font-body);font-size:0.9rem;background:var(--cream);color:var(--ink);margin-bottom:0.8rem"
       onkeydown="if(event.key==='Enter')submitLogin()" />
     <button onclick="submitLogin()"
       style="width:100%;padding:0.7rem;background:var(--rust);color:white;border:none;border-radius:8px;font-family:var(--font-body);font-size:0.88rem;cursor:pointer;font-weight:500">
       Envoyer le lien
     </button>
-    <div id="login-msg" style="margin-top:0.75rem;font-size:0.8rem;min-height:1.2em;text-align:center"></div>
+    <div id="login-msg" style="margin-top:0.8rem;font-size:0.8rem;min-height:1.2em;text-align:center"></div>
   </div>
 </div>
 
