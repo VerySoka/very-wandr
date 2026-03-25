@@ -6225,9 +6225,16 @@ function renderCities() {
       const fromIdx = parseInt(e.dataTransfer.getData('text/plain'));
       const toIdx = parseInt(li.dataset.ci);
       if (isNaN(fromIdx) || fromIdx === toIdx) return;
+      // Mémoriser la ville active avant le re-render
+      const activePage = document.querySelector('.page.active');
+      const activePageId = activePage?.id?.replace('page-', '');
       const [moved] = cities.splice(fromIdx, 1);
       cities.splice(toIdx, 0, moved);
       save(); renderCities();
+      // Restaurer la page active si c'était une page de destination
+      if (activePageId && activePageId.startsWith('city-')) {
+        showPage(activePageId, document.querySelector(`[data-page="${activePageId}"]`));
+      }
     });
     sidebarList.appendChild(li);
 
