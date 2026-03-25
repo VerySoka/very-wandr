@@ -3426,7 +3426,7 @@ input[type="checkbox"].fancy-cb {
     <div class="hdr-divider"></div>
     <button class="hdr-btn" id="btn-print" onclick="exportTripPDF()">🖨️ Exporter PDF</button>
     <button class="btn-auth btn-login pill-btn-auth" id="btn-pill-auth">Connexion</button>
-    <span id="sync-indicator" style="display:none"><span class="sync-dot"></span><span class="sync-lbl"></span></span>
+    <span id="sync-indicator" style="display:none;cursor:default" title=""><span class="sync-dot"></span><span class="sync-lbl"></span></span>
   </div>
   <div id="header-auth-btn-wrap">
     <button class="header-new-trip-btn" id="btn-new-trip-mobile" onclick="openNewTripModal()" title="Nouveau séjour">+ Nouveau séjour</button>
@@ -4058,26 +4058,41 @@ async function sbSaveTrip(tripId) {
     updated_at: new Date().toISOString()
   };
 
-  if (_sbId) {
-    // Mettre à jour la ligne existante
-    const { error } = await sb.from('trips').update(payload).eq('id', _sbId);
-    if (error) {
-      if (error.code === 'PGRST116' || error.code === '404' || error.message?.includes('0 rows')) {
-        // La ligne n'existe plus en BDD (supprimée manuellement) — on réinsère
-        delete state.trips[tripId]._sbId;
-        return sbSaveTrip(tripId);
+  // Timeout de 8s — évite de rester bloqué sur "Synchro…" indéfiniment
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+  try {
+    if (_sbId) {
+      // Mettre à jour la ligne existante
+      const { error } = await sb.from('trips').update(payload).eq('id', _sbId)
+        .abortSignal(controller.signal);
+      if (error) {
+        if (error.code === 'PGRST116' || error.code === '404' || error.message?.includes('0 rows')) {
+          // La ligne n'existe plus en BDD — on réinsère
+          delete state.trips[tripId]._sbId;
+          clearTimeout(timeoutId);
+          return sbSaveTrip(tripId);
+        }
+        throw error;
       }
-      throw error;
+    } else {
+      // Insérer un nouveau voyage
+      const { data, error } = await sb.from('trips').insert(payload).select('id').single()
+        .abortSignal(controller.signal);
+      if (error) throw error;
+      if (data?.id) {
+        state.trips[tripId]._sbId = data.id;
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+      }
     }
-  } else {
-    // Insérer un nouveau voyage
-    const { data, error } = await sb.from('trips').insert(payload).select('id').single();
-    if (error) throw error;
-    if (data?.id) {
-      // Stocker l'id Supabase localement sans déclencher un nouveau save() debounced
-      state.trips[tripId]._sbId = data.id;
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  } catch(err) {
+    if (err.name === 'AbortError' || controller.signal.aborted) {
+      throw new Error('Délai dépassé — vérifiez votre connexion');
     }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
@@ -4200,10 +4215,11 @@ function _setSyncState(s) {
   if (!dot || !lbl) return;
   const map = {
     idle:    { color: 'rgba(255,255,255,0.15)', text: '' },
-    pending: { color: '#e8927c',                text: 'En attente…' },
-    saving:  { color: '#e8927c',                text: 'Synchro…', pulse: true },
-    ok:      { color: '#5aab85',                text: '✓ Synchronisé' },
-    error:   { color: '#a63d2f',                text: '✗ Erreur synchro' },
+    pending: { color: '#e8927c', text: 'En attente…' },
+    saving:  { color: '#e8927c', text: 'Synchro…', pulse: true },
+    ok:      { color: '#5aab85', text: '✓ Synchronisé' },
+    error:   { color: '#a63d2f', text: '✗ Échec — nouvelle tentative…' },
+    timeout: { color: '#a63d2f', text: '✗ Délai dépassé' },
   };
   const cfg = map[s] || map.idle;
   dot.style.background = cfg.color;
@@ -4215,19 +4231,61 @@ function _setSyncState(s) {
   }, 2500);
 }
 
+let _sbRetryCount = 0;
+const _sbMaxRetries = 3;
+
 function save() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
-  // Sync Supabase en arrière-plan si connecté (debounce 1.5s)
+  // Sync Supabase en arrière-plan si connecté (debounce 1s)
   if (currentUser && state.currentTrip) {
     clearTimeout(_sbSaveTimer);
+    _sbRetryCount = 0;
     _setSyncState('pending');
-    _sbSaveTimer = setTimeout(() => {
-      _setSyncState('saving');
-      sbSaveTrip(state.currentTrip)
-        .then(() => _setSyncState('ok'))
-        .catch(() => _setSyncState('error'));
-    }, 1500);
+    _sbSaveTimer = setTimeout(() => _doSbSave(state.currentTrip), 1000);
   }
+}
+
+function _doSbSave(tripId) {
+  const startTime = Date.now();
+  _setSyncState('saving');
+  sbSaveTrip(tripId)
+    .then(() => {
+      _sbRetryCount = 0;
+      const ms = Date.now() - startTime;
+      console.info(`[Sync] ✓ Voyage "${state.trips[tripId]?.name}" sauvegardé en ${ms}ms`);
+      _setSyncState('ok');
+      // Effacer le tooltip d'erreur éventuel
+      const el = document.getElementById('sync-indicator');
+      if (el) el.title = '';
+    })
+    .catch(err => {
+      const ms = Date.now() - startTime;
+      const isTimeout = err.message?.includes('Délai') || err.name === 'AbortError';
+      const tripName = state.trips[tripId]?.name || tripId;
+      const reason = err.message || err.name || 'Erreur inconnue';
+
+      console.error(
+        `[Sync] ✗ Échec sauvegarde "${tripName}" après ${ms}ms` +
+        ` (tentative ${_sbRetryCount + 1}/${_sbMaxRetries + 1})` +
+        ` — ${reason}`
+      );
+
+      // Mettre à jour le tooltip de l'indicateur visible dans l'UI
+      const el = document.getElementById('sync-indicator');
+      if (el) el.title = `Erreur : ${reason}\n(${new Date().toLocaleTimeString('fr-FR')})`;
+
+      if (!isTimeout && _sbRetryCount < _sbMaxRetries) {
+        _sbRetryCount++;
+        const delay = Math.pow(2, _sbRetryCount) * 1000;
+        console.warn(`[Sync] Nouvelle tentative dans ${delay / 1000}s…`);
+        _setSyncState('error');
+        _sbSaveTimer = setTimeout(() => _doSbSave(tripId), delay);
+      } else {
+        console.error(`[Sync] Abandon après ${_sbRetryCount + 1} tentative(s). Données conservées en localStorage.`);
+        _setSyncState(isTimeout ? 'timeout' : 'error');
+        _sbRetryCount = 0;
+      }
+    });
 }
 
 // Flush immédiat d'une sauvegarde Supabase en attente pour un voyage donné
@@ -4236,10 +4294,8 @@ function flushSaveNow(tripId) {
   clearTimeout(_sbSaveTimer);
   _sbSaveTimer = null;
   if (_sbSyncPending) {
-    _setSyncState('saving');
-    sbSaveTrip(tripId)
-      .then(() => _setSyncState('ok'))
-      .catch(() => _setSyncState('error'));
+    _sbRetryCount = 0;
+    _doSbSave(tripId);
   }
 }
 
