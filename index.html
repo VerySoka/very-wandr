@@ -4074,16 +4074,31 @@ async function sbSaveTrip(tripId) {
     updated_at: new Date().toISOString()
   };
 
-  // Timeout 8s via Promise.race — compatible toutes versions Supabase JS v2
+  // Diagnostics pré-envoi
+  const payloadKb = Math.round(JSON.stringify(payload).length / 1024);
+  console.info(`[Sync] Tentative ${_sbId ? 'UPDATE' : 'INSERT'} — voyage "${trip.name}" — payload: ${payloadKb} Ko`);
+
+  // Vérifier que la session est toujours valide avant d'envoyer
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) {
+    console.error('[Sync] Session expirée — impossible de synchroniser');
+    throw new Error('Session expirée — reconnectez-vous');
+  }
+  console.info(`[Sync] Session OK — token expire: ${new Date(session.expires_at * 1000).toLocaleTimeString('fr-FR')}`);
+
+  // Timeout 8s via Promise.race
   const timeout = new Promise((_, reject) =>
     setTimeout(() => reject(new Error('Délai dépassé — vérifiez votre connexion')), 8000)
   );
 
+  const t0 = Date.now();
   try {
     if (_sbId) {
       const query = sb.from('trips').update(payload).eq('id', _sbId);
       const { error } = await Promise.race([query, timeout]);
+      console.info(`[Sync] Réponse reçue en ${Date.now()-t0}ms`);
       if (error) {
+        console.error('[Sync] Erreur Supabase:', error.code, error.message);
         if (error.code === 'PGRST116' || error.code === '404' || error.message?.includes('0 rows')) {
           delete state.trips[tripId]._sbId;
           return sbSaveTrip(tripId);
@@ -4093,13 +4108,18 @@ async function sbSaveTrip(tripId) {
     } else {
       const query = sb.from('trips').insert(payload).select('id').single();
       const { data, error } = await Promise.race([query, timeout]);
-      if (error) throw error;
+      console.info(`[Sync] Réponse reçue en ${Date.now()-t0}ms`);
+      if (error) {
+        console.error('[Sync] Erreur Supabase:', error.code, error.message);
+        throw error;
+      }
       if (data?.id) {
         state.trips[tripId]._sbId = data.id;
         try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
       }
     }
   } catch(err) {
+    console.error(`[Sync] Échec après ${Date.now()-t0}ms:`, err.message);
     throw err;
   }
 }
