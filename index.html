@@ -4474,6 +4474,32 @@ function checkWelcome() {
   return false;
 }
 
+// ── Keep-alive Supabase : ping léger toutes les 25s pour éviter le cold start ──
+let _sbKeepAliveTimer = null;
+
+function _startSbKeepAlive() {
+  _stopSbKeepAlive(); // évite les doublons
+  if (!sb || !currentUser) return;
+  _sbKeepAliveTimer = setInterval(async () => {
+    if (!sb || !currentUser) return;
+    try {
+      // Requête HEAD légère sur la table — ne transfère aucune donnée
+      await sb.from('trips').select('id', { count: 'exact', head: true })
+        .eq('user_id', currentUser.id).limit(1);
+      console.debug('[KeepAlive] ping Supabase OK');
+    } catch(e) {
+      console.debug('[KeepAlive] ping échoué :', e.message);
+    }
+  }, 25000);
+}
+
+function _stopSbKeepAlive() {
+  if (_sbKeepAliveTimer) {
+    clearInterval(_sbKeepAliveTimer);
+    _sbKeepAliveTimer = null;
+  }
+}
+
 async function init() {
   load(); // valide et assainit l'état depuis localStorage
 
@@ -4487,6 +4513,7 @@ async function init() {
   if (currentUser) {
     // Charger les voyages depuis Supabase (fusionne avec localStorage)
     await sbLoadTrips();
+    _startSbKeepAlive();
   }
 
   if (!state.currentTrip || !Object.keys(state.trips).length) {
@@ -4504,17 +4531,19 @@ async function init() {
       renderAuthBar();
       if (event === 'SIGNED_IN') {
         closeLoginModal();
-        await sbSyncLocalTrips(); // pousser les voyages locaux non synchronisés
+        await sbSyncLocalTrips();
         await sbLoadTrips();
+        _startSbKeepAlive();
         if (Object.keys(state.trips).length) {
-          // Séjours trouvés : aller sur la vue générale
           hideWelcome();
           renderAll();
           showPage('overview', document.querySelector('[data-page="overview"]'));
         } else {
-          // Aucun séjour : rester sur le welcome, bouton devient déconnexion
           renderAuthBar();
         }
+      }
+      if (event === 'SIGNED_OUT') {
+        _stopSbKeepAlive();
       }
     });
   }
