@@ -4078,35 +4078,45 @@ async function sbSaveTrip(tripId) {
   const payloadKb = Math.round(JSON.stringify(payload).length / 1024);
   console.info(`[Sync] Tentative ${_sbId ? 'UPDATE' : 'INSERT'} — voyage "${trip.name}" — payload: ${payloadKb} Ko`);
 
-  // Timeout 8s via Promise.race
-  const timeout = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error('Délai dépassé — vérifiez votre connexion')), 8000)
-  );
+  // Wrapper en vraie Promise native pour garantir la compatibilité avec Promise.race
+  // (le SDK Supabase retourne un objet thenable custom, pas une Promise standard)
+  function toPromise(query) {
+    return new Promise((resolve, reject) => {
+      query.then(resolve).catch(reject);
+    });
+  }
 
+  const timeoutMs = 10000;
   const t0 = Date.now();
+
   try {
+    let result;
     if (_sbId) {
-      const query = sb.from('trips').update(payload).eq('id', _sbId);
-      const { error } = await Promise.race([query, timeout]);
+      result = await Promise.race([
+        toPromise(sb.from('trips').update(payload).eq('id', _sbId)),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Délai dépassé')), timeoutMs))
+      ]);
       console.info(`[Sync] Réponse reçue en ${Date.now()-t0}ms`);
-      if (error) {
-        console.error('[Sync] Erreur Supabase:', error.code, error.message);
-        if (error.code === 'PGRST116' || error.code === '404' || error.message?.includes('0 rows')) {
+      if (result.error) {
+        console.error('[Sync] Erreur Supabase:', result.error.code, result.error.message);
+        if (result.error.code === 'PGRST116' || result.error.code === '404' || result.error.message?.includes('0 rows')) {
           delete state.trips[tripId]._sbId;
           return sbSaveTrip(tripId);
         }
-        throw error;
+        throw result.error;
       }
     } else {
-      const query = sb.from('trips').insert(payload).select('id').single();
-      const { data, error } = await Promise.race([query, timeout]);
+      result = await Promise.race([
+        toPromise(sb.from('trips').insert(payload).select('id').single()),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Délai dépassé')), timeoutMs))
+      ]);
       console.info(`[Sync] Réponse reçue en ${Date.now()-t0}ms`);
-      if (error) {
-        console.error('[Sync] Erreur Supabase:', error.code, error.message);
-        throw error;
+      if (result.error) {
+        console.error('[Sync] Erreur Supabase:', result.error.code, result.error.message);
+        throw result.error;
       }
-      if (data?.id) {
-        state.trips[tripId]._sbId = data.id;
+      if (result.data?.id) {
+        state.trips[tripId]._sbId = result.data.id;
         try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
       }
     }
@@ -4320,44 +4330,8 @@ function flushSaveNow(tripId) {
 }
 
 // Forcer la sauvegarde Supabase avant fermeture de l'onglet
-window.addEventListener('beforeunload', () => {
-  // Flush immédiat si une synchro Supabase est en attente
-  if (_sbSyncPending && currentUser && state.currentTrip) {
-    clearTimeout(_sbSaveTimer);
-    try {
-      const trip = state.trips[state.currentTrip];
-      if (trip && sb) {
-        const { _sbId, ...tripData } = trip;
-        const payload = JSON.stringify({
-          user_id: currentUser.id,
-          data: tripData,
-          updated_at: new Date().toISOString()
-        });
-        // Récupérer le JWT de l'utilisateur depuis la session en cache
-        const sessionStr = localStorage.getItem('sb-' + SUPABASE_URL.split('//')[1].split('.')[0] + '-auth-token')
-          || localStorage.getItem('supabase.auth.token');
-        let userJwt = SUPABASE_KEY; // fallback anon key
-        if (sessionStr) {
-          try { userJwt = JSON.parse(sessionStr)?.access_token || SUPABASE_KEY; } catch(e) {}
-        }
-        const url = _sbId
-          ? `${SUPABASE_URL}/rest/v1/trips?id=eq.${_sbId}`
-          : `${SUPABASE_URL}/rest/v1/trips`;
-        const hdrs = {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${userJwt}`,
-          'Prefer': _sbId ? 'return=minimal' : 'return=representation'
-        };
-        if (navigator.sendBeacon) {
-          navigator.sendBeacon(url, new Blob([payload], { type: 'application/json' }));
-        } else {
-          fetch(url, { method: _sbId ? 'PATCH' : 'POST', body: payload, keepalive: true, headers: hdrs });
-        }
-      }
-    } catch(e) {}
-  }
-});
+// beforeunload supprimé — bloqué par les extensions navigateur et peu fiable
+// Les données sont toujours sauvegardées en localStorage avant chaque synchro Supabase
 function load() {
   try {
     const d = localStorage.getItem(STORAGE_KEY);
