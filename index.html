@@ -4074,28 +4074,25 @@ async function sbSaveTrip(tripId) {
     updated_at: new Date().toISOString()
   };
 
-  // Timeout de 8s — évite de rester bloqué sur "Synchro…" indéfiniment
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 8000);
+  // Timeout 8s via Promise.race — compatible toutes versions Supabase JS v2
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('Délai dépassé — vérifiez votre connexion')), 8000)
+  );
 
   try {
     if (_sbId) {
-      // Mettre à jour la ligne existante
-      const { error } = await sb.from('trips').update(payload).eq('id', _sbId)
-        .abortSignal(controller.signal);
+      const query = sb.from('trips').update(payload).eq('id', _sbId);
+      const { error } = await Promise.race([query, timeout]);
       if (error) {
         if (error.code === 'PGRST116' || error.code === '404' || error.message?.includes('0 rows')) {
-          // La ligne n'existe plus en BDD — on réinsère
           delete state.trips[tripId]._sbId;
-          clearTimeout(timeoutId);
           return sbSaveTrip(tripId);
         }
         throw error;
       }
     } else {
-      // Insérer un nouveau voyage
-      const { data, error } = await sb.from('trips').insert(payload).select('id').single()
-        .abortSignal(controller.signal);
+      const query = sb.from('trips').insert(payload).select('id').single();
+      const { data, error } = await Promise.race([query, timeout]);
       if (error) throw error;
       if (data?.id) {
         state.trips[tripId]._sbId = data.id;
@@ -4103,12 +4100,7 @@ async function sbSaveTrip(tripId) {
       }
     }
   } catch(err) {
-    if (err.name === 'AbortError' || controller.signal.aborted) {
-      throw new Error('Délai dépassé — vérifiez votre connexion');
-    }
     throw err;
-  } finally {
-    clearTimeout(timeoutId);
   }
 }
 
