@@ -7731,36 +7731,73 @@ function closeImportScreen() {
   document.getElementById('welcome-screen').style.display = 'flex';
 }
 function importTripFromWelcome(input) {
-  // Utiliser la même logique que importTrip() mais depuis l'écran welcome
   if (!input.files || !input.files[0]) return;
   const file = input.files[0];
   const reader = new FileReader();
-  reader.onload = function(e) {
+  reader.onload = async function(e) {
     try {
       const data = JSON.parse(e.target.result);
-      // Supporter les deux formats : {trips:{}} ou trip direct
-      let imported = {};
-      if (data.trips) {
-        imported = data.trips;
+      const tripsToSync = []; // ids des voyages à pousser vers Supabase
+
+      if (data.exportType === 'all' && data.state) {
+        // Export complet (tous les voyages)
+        if (!confirm('Importer tous les voyages ? Cela remplacera toutes vos données actuelles.')) return;
+        state = data.state;
+        // Nettoyer tous les _sbId pour forcer une réinsertion propre
+        Object.keys(state.trips).forEach(id => {
+          delete state.trips[id]._sbId;
+          tripsToSync.push(id);
+        });
+        if (!state.currentTrip || !state.trips[state.currentTrip]) {
+          state.currentTrip = Object.keys(state.trips)[0];
+        }
+      } else if (data.exportType === 'single' && data.trip) {
+        // Export d'un seul voyage (format standard)
+        const id = 'trip_' + uid();
+        data.trip.id = id;
+        delete data.trip._sbId;
+        state.trips[id] = data.trip;
+        state.currentTrip = id;
+        tripsToSync.push(id);
+      } else if (data.trips) {
+        // Format legacy : { trips: { ... } }
+        Object.keys(data.trips).forEach(k => {
+          delete data.trips[k]._sbId;
+          tripsToSync.push(k);
+        });
+        Object.assign(state.trips, data.trips);
+        state.currentTrip = Object.keys(data.trips)[0];
       } else if (data.name) {
-        imported['trip_' + uid()] = data;
+        // Format legacy : objet voyage brut
+        const id = 'trip_' + uid();
+        data.id = id;
+        delete data._sbId;
+        state.trips[id] = data;
+        state.currentTrip = id;
+        tripsToSync.push(id);
       } else {
         alert('Format de fichier non reconnu.');
         return;
       }
-      Object.assign(state.trips, imported);
-      state.currentTrip = Object.keys(imported)[0];
+
       save();
       document.getElementById('import-screen').style.display = 'none';
       hideWelcome();
       renderAll();
       showPage('overview', document.querySelector('[data-page="overview"]'));
+
+      // Pousser vers Supabase si connecté
+      if (currentUser && tripsToSync.length) {
+        for (const id of tripsToSync) {
+          await sbSaveTrip(id);
+        }
+        _setSyncState('ok');
+      }
     } catch(err) {
       alert('Erreur lors de l\'import : ' + err.message);
     }
   };
   reader.readAsText(file);
-  input.value = '';
 }
 
 // ══════════════════════════════════════════
