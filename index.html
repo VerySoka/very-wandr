@@ -3998,11 +3998,11 @@ async function handleMagicLinkRedirect() {
 
 async function sbSignOut() {
   if (!sb) return;
+  // Sauvegarder immédiatement avant déconnexion (flush du debounce)
+  if (state.currentTrip) flushSaveNow(state.currentTrip);
   await sb.auth.signOut();
-  // Vider le localStorage des voyages pour ne pas laisser
-  // de données orphelines visibles après déconnexion
-  localStorage.removeItem(STORAGE_KEY);
-  // Recharger la page — l'utilisateur repart d'une ardoise vierge
+  // Ne pas vider localStorage ici — les données restent disponibles hors-ligne
+  // et seront rechargées depuis Supabase à la prochaine connexion
   window.location.reload();
 }
 
@@ -4014,12 +4014,28 @@ async function sbGetUser() {
 
 // ─── Sync Supabase ───
 
-// Pousse vers Supabase tous les voyages locaux sans _sbId
+// Pousse vers Supabase les voyages locaux sans _sbId
+// Vérifie d'abord si un voyage avec le même trip.id existe déjà pour éviter les doublons
 async function sbSyncLocalTrips() {
   if (!sb || !currentUser) return;
   const unsynced = Object.values(state.trips).filter(t => !t._sbId);
+  if (!unsynced.length) return;
+
+  // Récupérer les trip.id déjà présents en BDD pour ce user
+  const { data: existing } = await sb
+    .from('trips')
+    .select('id, data->>id')
+    .eq('user_id', currentUser.id);
+  const existingTripIds = new Set((existing || []).map(r => r['?column?'] || r.id).filter(Boolean));
+
   for (const trip of unsynced) {
-    await sbSaveTrip(trip.id);
+    if (existingTripIds.has(trip.id)) {
+      // Ce voyage existe déjà en BDD — récupérer son _sbId plutôt que d'insérer un doublon
+      const match = (existing || []).find(r => (r['?column?'] || r.id) === trip.id);
+      if (match) state.trips[trip.id]._sbId = match.id;
+    } else {
+      await sbSaveTrip(trip.id);
+    }
   }
 }
 
@@ -4313,11 +4329,22 @@ window.addEventListener('beforeunload', () => {
           data: tripData,
           updated_at: new Date().toISOString()
         });
+        // Récupérer le JWT de l'utilisateur depuis la session en cache
+        const sessionStr = localStorage.getItem('sb-' + SUPABASE_URL.split('//')[1].split('.')[0] + '-auth-token')
+          || localStorage.getItem('supabase.auth.token');
+        let userJwt = SUPABASE_KEY; // fallback anon key
+        if (sessionStr) {
+          try { userJwt = JSON.parse(sessionStr)?.access_token || SUPABASE_KEY; } catch(e) {}
+        }
         const url = _sbId
           ? `${SUPABASE_URL}/rest/v1/trips?id=eq.${_sbId}`
           : `${SUPABASE_URL}/rest/v1/trips`;
-        const hdrs = { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY,
-                       'Authorization': `Bearer ${SUPABASE_KEY}` };
+        const hdrs = {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${userJwt}`,
+          'Prefer': _sbId ? 'return=minimal' : 'return=representation'
+        };
         if (navigator.sendBeacon) {
           navigator.sendBeacon(url, new Blob([payload], { type: 'application/json' }));
         } else {
@@ -4481,16 +4508,18 @@ function _startSbKeepAlive() {
   _stopSbKeepAlive(); // évite les doublons
   if (!sb || !currentUser) return;
   _sbKeepAliveTimer = setInterval(async () => {
-    if (!sb || !currentUser) return;
+    if (!sb || !currentUser) { _stopSbKeepAlive(); return; }
     try {
-      // Requête HEAD légère sur la table — ne transfère aucune donnée
-      await sb.from('trips').select('id', { count: 'exact', head: true })
-        .eq('user_id', currentUser.id).limit(1);
-      console.debug('[KeepAlive] ping Supabase OK');
+      // Vérifier que la session est toujours active avant de pinger
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) { _stopSbKeepAlive(); return; }
+      // Ping léger : juste récupérer l'utilisateur courant (pas de requête table)
+      await sb.auth.getUser();
+      console.debug('[KeepAlive] ping OK');
     } catch(e) {
       console.debug('[KeepAlive] ping échoué :', e.message);
     }
-  }, 25000);
+  }, 30000);
 }
 
 function _stopSbKeepAlive() {
@@ -7084,26 +7113,43 @@ function importTrip(input) {
   const file = input.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = e => {
+  reader.onload = async e => {
     try {
       const data = JSON.parse(e.target.result);
+      const tripsToSync = [];
       if (data.exportType === 'all' && data.state) {
         if (!confirm('Importer tous les voyages ? Cela remplacera toutes vos données actuelles.')) return;
+        // Supprimer les anciennes lignes Supabase avant de remplacer
+        if (currentUser && sb) {
+          try { await sb.from('trips').delete().eq('user_id', currentUser.id); } catch(e) {}
+        }
         state = data.state;
+        Object.keys(state.trips).forEach(id => {
+          delete state.trips[id]._sbId;
+          tripsToSync.push(id);
+        });
         if (!state.currentTrip || !state.trips[state.currentTrip]) {
           state.currentTrip = Object.keys(state.trips)[0];
         }
       } else if (data.exportType === 'single' && data.trip) {
         const id = 'trip_' + uid();
+        data.trip.id = id;
         data.trip.name = data.trip.name + ' (importé)';
+        delete data.trip._sbId;
         state.trips[id] = data.trip;
         state.currentTrip = id;
+        tripsToSync.push(id);
       } else {
         alert('Format de fichier non reconnu.');
         return;
       }
       save(); renderAll();
       showPage('overview', document.querySelector('[data-page="overview"]'));
+      // Sync Supabase
+      if (currentUser && tripsToSync.length) {
+        for (const id of tripsToSync) await sbSaveTrip(id);
+        _setSyncState('ok');
+      }
       alert('Import réussi ✓');
     } catch(err) {
       alert('Erreur lors de l\'import : ' + err.message);
@@ -7827,6 +7873,12 @@ function importTripFromWelcome(input) {
       if (data.exportType === 'all' && data.state) {
         // Export complet (tous les voyages)
         if (!confirm('Importer tous les voyages ? Cela remplacera toutes vos données actuelles.')) return;
+        // Supprimer les anciennes lignes Supabase AVANT de remplacer le state
+        if (currentUser && sb) {
+          try {
+            await sb.from('trips').delete().eq('user_id', currentUser.id);
+          } catch(e) { console.warn('Nettoyage Supabase avant import:', e.message); }
+        }
         state = data.state;
         // Nettoyer tous les _sbId pour forcer une réinsertion propre
         Object.keys(state.trips).forEach(id => {
