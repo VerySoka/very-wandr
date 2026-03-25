@@ -4078,14 +4078,6 @@ async function sbSaveTrip(tripId) {
   const payloadKb = Math.round(JSON.stringify(payload).length / 1024);
   console.info(`[Sync] Tentative ${_sbId ? 'UPDATE' : 'INSERT'} — voyage "${trip.name}" — payload: ${payloadKb} Ko`);
 
-  // Vérifier que la session est toujours valide avant d'envoyer
-  const { data: { session } } = await sb.auth.getSession();
-  if (!session) {
-    console.error('[Sync] Session expirée — impossible de synchroniser');
-    throw new Error('Session expirée — reconnectez-vous');
-  }
-  console.info(`[Sync] Session OK — token expire: ${new Date(session.expires_at * 1000).toLocaleTimeString('fr-FR')}`);
-
   // Timeout 8s via Promise.race
   const timeout = new Promise((_, reject) =>
     setTimeout(() => reject(new Error('Délai dépassé — vérifiez votre connexion')), 8000)
@@ -4514,32 +4506,11 @@ function checkWelcome() {
 }
 
 // ── Keep-alive Supabase : ping léger toutes les 25s pour éviter le cold start ──
-let _sbKeepAliveTimer = null;
 
-function _startSbKeepAlive() {
-  _stopSbKeepAlive(); // évite les doublons
-  if (!sb || !currentUser) return;
-  _sbKeepAliveTimer = setInterval(async () => {
-    if (!sb || !currentUser) { _stopSbKeepAlive(); return; }
-    try {
-      // Vérifier que la session est toujours active avant de pinger
-      const { data: { session } } = await sb.auth.getSession();
-      if (!session) { _stopSbKeepAlive(); return; }
-      // Ping léger : juste récupérer l'utilisateur courant (pas de requête table)
-      await sb.auth.getUser();
-      console.debug('[KeepAlive] ping OK');
-    } catch(e) {
-      console.debug('[KeepAlive] ping échoué :', e.message);
-    }
-  }, 30000);
-}
 
-function _stopSbKeepAlive() {
-  if (_sbKeepAliveTimer) {
-    clearInterval(_sbKeepAliveTimer);
-    _sbKeepAliveTimer = null;
-  }
-}
+// Keep-alive supprimé — le SDK Supabase gère lui-même le rafraîchissement de session
+function _startSbKeepAlive() {}
+function _stopSbKeepAlive() {}
 
 async function init() {
   load(); // valide et assainit l'état depuis localStorage
