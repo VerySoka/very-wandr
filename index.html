@@ -4086,7 +4086,7 @@ async function sbSaveTrip(tripId) {
     });
   }
 
-  const timeoutMs = 10000;
+  const timeoutMs = 25000;
   const t0 = Date.now();
 
   try {
@@ -4304,16 +4304,25 @@ function _doSbSave(tripId) {
       const el = document.getElementById('sync-indicator');
       if (el) el.title = `Erreur : ${reason}\n(${new Date().toLocaleTimeString('fr-FR')})`;
 
-      if (!isTimeout && _sbRetryCount < _sbMaxRetries) {
+      if (_sbRetryCount < _sbMaxRetries) {
+        // Retry sur toutes les erreurs y compris timeout (cold start Supabase)
         _sbRetryCount++;
-        const delay = Math.pow(2, _sbRetryCount) * 1000;
+        const delay = Math.pow(2, _sbRetryCount) * 1000; // 2s, 4s, 8s
         console.warn(`[Sync] Nouvelle tentative dans ${delay / 1000}s…`);
         _setSyncState('error');
         _sbSaveTimer = setTimeout(() => _doSbSave(tripId), delay);
       } else {
         console.error(`[Sync] Abandon après ${_sbRetryCount + 1} tentative(s). Données conservées en localStorage.`);
-        _setSyncState(isTimeout ? 'timeout' : 'error');
+        _setSyncState('timeout');
         _sbRetryCount = 0;
+        // Reprogrammer une synchro automatique dans 30s — cas où Supabase revient en ligne
+        setTimeout(() => {
+          if (currentUser && state.currentTrip && !_sbSyncPending) {
+            console.info('[Sync] Tentative de récupération automatique…');
+            _sbRetryCount = 0;
+            _doSbSave(state.currentTrip);
+          }
+        }, 30000);
       }
     });
 }
