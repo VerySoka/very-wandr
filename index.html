@@ -3400,7 +3400,7 @@ input[type="checkbox"].fancy-cb {
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 </head>
 <body>
 
@@ -3959,9 +3959,6 @@ const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 const sb = (typeof window !== 'undefined' && window.supabase)
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
       auth: {
-        // Désactive le Web Lock qui se bloque lors des changements de visibilité
-        // et provoque des timeouts de synchro (bug connu SDK v2)
-        lock: (name, acquireTimeout, fn) => fn(),
         detectSessionInUrl: true,
         persistSession: true,
         autoRefreshToken: true,
@@ -4284,6 +4281,27 @@ function _setSyncState(s) {
 
 let _sbRetryCount = 0;
 const _sbMaxRetries = 3;
+let _sbPaused = false;
+let _sbPauseTimer = null;
+
+// Quand la page revient au premier plan, le SDK Supabase rafraîchit son token
+// et pose un Web Lock qui peut bloquer toute requête pendant ~5s.
+// On attend 3s avant de relancer les synchros pour laisser le SDK se stabiliser.
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    _sbPaused = true;
+    clearTimeout(_sbPauseTimer);
+    _sbPauseTimer = setTimeout(() => {
+      _sbPaused = false;
+      // Relancer une synchro en attente si nécessaire
+      if (currentUser && state.currentTrip && _sbSyncPending) {
+        console.info('[Sync] Page revenue au premier plan — synchro reprise');
+        _sbRetryCount = 0;
+        _doSbSave(state.currentTrip);
+      }
+    }, 3000);
+  }
+});
 
 function save() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
@@ -4297,6 +4315,12 @@ function save() {
 }
 
 function _doSbSave(tripId) {
+  // Si la page vient de revenir au premier plan, attendre la fin du cooldown
+  if (_sbPaused) {
+    console.info('[Sync] SDK en cours de stabilisation — synchro différée');
+    _setSyncState('pending');
+    return;
+  }
   const startTime = Date.now();
   _setSyncState('saving');
   sbSaveTrip(tripId)
