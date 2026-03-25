@@ -3400,7 +3400,7 @@ input[type="checkbox"].fancy-cb {
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.js"></script>
 </head>
 <body>
 
@@ -3957,7 +3957,16 @@ input[type="checkbox"].fancy-cb {
 const SUPABASE_URL  = 'https://xcxrhjtkzvjztnlgecri.supabase.co';
 const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhjeHJoanRrenZqenRubGdlY3JpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MTMyNzAsImV4cCI6MjA4ODk4OTI3MH0.JxH1j9rx_BEJb13PTY9uVbqmxiuTrLpnk9PGEb8SBGI';
 const sb = (typeof window !== 'undefined' && window.supabase)
-  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+      auth: {
+        // Désactive le Web Lock qui se bloque lors des changements de visibilité
+        // et provoque des timeouts de synchro (bug connu SDK v2)
+        lock: (name, acquireTimeout, fn) => fn(),
+        detectSessionInUrl: true,
+        persistSession: true,
+        autoRefreshToken: true,
+      }
+    })
   : null;
 
 // Utilisateur connecté (null = anonyme local)
@@ -4093,10 +4102,16 @@ async function sbSaveTrip(tripId) {
     let result;
     if (_sbId) {
       result = await Promise.race([
-        toPromise(sb.from('trips').update(payload).eq('id', _sbId)),
+        toPromise(
+          sb.from('trips')
+            .update(payload)
+            .eq('id', _sbId)
+            .eq('user_id', currentUser.id)
+            .select('id')
+        ),
         new Promise((_, reject) => setTimeout(() => reject(new Error('Délai dépassé')), timeoutMs))
       ]);
-      console.info(`[Sync] Réponse reçue en ${Date.now()-t0}ms`);
+      console.info(`[Sync] Réponse UPDATE en ${Date.now()-t0}ms — rows: ${result.data?.length ?? 'n/a'}`);
       if (result.error) {
         console.error('[Sync] Erreur Supabase:', result.error.code, result.error.message);
         if (result.error.code === 'PGRST116' || result.error.code === '404' || result.error.message?.includes('0 rows')) {
@@ -4105,12 +4120,18 @@ async function sbSaveTrip(tripId) {
         }
         throw result.error;
       }
+      // Aucune ligne mise à jour → _sbId invalide ou RLS → réinsérer
+      if (!result.data || result.data.length === 0) {
+        console.warn('[Sync] UPDATE n\'a modifié aucune ligne — réinsertion');
+        delete state.trips[tripId]._sbId;
+        return sbSaveTrip(tripId);
+      }
     } else {
       result = await Promise.race([
         toPromise(sb.from('trips').insert(payload).select('id').single()),
         new Promise((_, reject) => setTimeout(() => reject(new Error('Délai dépassé')), timeoutMs))
       ]);
-      console.info(`[Sync] Réponse reçue en ${Date.now()-t0}ms`);
+      console.info(`[Sync] Réponse INSERT en ${Date.now()-t0}ms — id: ${result.data?.id ?? 'n/a'}`);
       if (result.error) {
         console.error('[Sync] Erreur Supabase:', result.error.code, result.error.message);
         throw result.error;
