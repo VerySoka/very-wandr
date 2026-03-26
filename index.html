@@ -5897,8 +5897,21 @@ function renderDays() {
       const fromIdx = parseInt(e.dataTransfer.getData('text/plain'));
       const toIdx = parseInt(div.dataset.idx);
       if (isNaN(fromIdx) || fromIdx === toIdx) return;
-      const [moved] = trip().days.splice(fromIdx, 1);
-      trip().days.splice(toIdx, 0, moved);
+      const days = trip().days;
+
+      // Extraire les dates de chaque position avant le réordonnement
+      const dates = days.map(d => ({ dateFrom: d.dateFrom, dateTo: d.dateTo }));
+
+      // Réordonner le tableau complet
+      const [moved] = days.splice(fromIdx, 1);
+      days.splice(toIdx, 0, moved);
+
+      // Réappliquer les dates à chaque position (les dates restent fixées à leur slot)
+      days.forEach((d, i) => {
+        d.dateFrom = dates[i].dateFrom;
+        d.dateTo   = dates[i].dateTo;
+      });
+
       save(); renderDays();
     });
     cont.appendChild(div);
