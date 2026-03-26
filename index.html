@@ -4567,9 +4567,18 @@ async function init() {
   // Écouter les changements d'état auth
   if (sb) {
     sb.auth.onAuthStateChange(async (event, session) => {
+      const prevUser = currentUser;
       currentUser = session?.user || null;
       renderAuthBar();
-      if (event === 'SIGNED_IN') {
+
+      if (event === 'TOKEN_REFRESHED') {
+        // Simple rafraîchissement de token après inactivité — rien à faire
+        console.info('[Auth] Token rafraîchi');
+        return;
+      }
+
+      if (event === 'SIGNED_IN' && !prevUser) {
+        // Connexion réelle (pas un simple refresh) — charger les voyages
         closeLoginModal();
         await sbSyncLocalTrips();
         await sbLoadTrips();
@@ -4582,6 +4591,7 @@ async function init() {
           renderAuthBar();
         }
       }
+
       if (event === 'SIGNED_OUT') {
         _stopSbKeepAlive();
       }
