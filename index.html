@@ -6352,12 +6352,24 @@ function renderCities() {
 
       <div class="city-cover-wrap" id="city-cover-${city.id}">
         ${city.image
-          ? `<img class="city-cover-img" id="city-img-${city.id}" src="${escHtml(city.image)}" alt="${escHtml(city.name)}" style="object-position:center ${city.imagePos != null ? city.imagePos : 50}%" onerror="this.style.display='none'" />
+          ? `<img class="city-cover-img" id="city-img-${city.id}" src="${escHtml(city.image)}" alt="${escHtml(city.name)}" style="object-position:center ${city.imagePos != null ? city.imagePos : 50}%"
+               onerror="
+                 this.style.display='none';
+                 document.querySelector('#city-cover-${city.id} .city-cover-actions').style.display='none';
+                 document.querySelector('#city-cover-${city.id} .city-cover-error').style.display='flex';
+               " />
              <div class="city-cover-reposition-hint">↕ Glissez pour recadrer</div>
              <div class="city-cover-actions">
                <button class="city-cover-btn" onclick="startReposition('${city.id}')">⇅ Recadrer</button>
                <button class="city-cover-btn" onclick="toggleCityImageInput('${city.id}')">✎ Modifier</button>
                <button class="city-cover-btn" onclick="removeCityImage('${city.id}')">✕</button>
+             </div>
+             <div class="city-cover-error" style="display:none;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;padding:1rem;background:rgba(166,61,47,0.06);min-height:60px">
+               <span style="font-size:0.78rem;color:var(--rust)">⚠ Image inaccessible</span>
+               <div style="display:flex;gap:0.4rem">
+                 <button class="city-cover-btn" style="position:static;opacity:1" onclick="toggleCityImageInput('${city.id}')">✎ Modifier l'URL</button>
+                 <button class="city-cover-btn" style="position:static;opacity:1" onclick="removeCityImage('${city.id}')">✕ Supprimer</button>
+               </div>
              </div>
              <div class="city-cover-repo-actions">
                <button class="city-cover-btn" style="background:var(--jade)" onclick="saveReposition('${city.id}')">✓ Valider</button>
