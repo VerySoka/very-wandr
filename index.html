@@ -4092,7 +4092,7 @@ async function sbSaveTrip(tripId) {
     });
   }
 
-  const timeoutMs = 25000;
+  const timeoutMs = 60000;
   const t0 = Date.now();
 
   try {
@@ -4117,12 +4117,26 @@ async function sbSaveTrip(tripId) {
         }
         throw result.error;
       }
-      // Aucune ligne mise à jour → _sbId invalide ou RLS → réinsérer
-      if (!result.data || result.data.length === 0) {
-        console.warn('[Sync] UPDATE n\'a modifié aucune ligne — réinsertion');
-        delete state.trips[tripId]._sbId;
-        return sbSaveTrip(tripId);
-      }
+
+// Aucune ligne modifiée : vérifier si la ligne existe réellement
+if (!result.data || result.data.length === 0) {
+
+  const { data: check, error: checkErr } = await sb
+    .from('trips')
+    .select('id')
+    .eq('id', _sbId)
+    .maybeSingle();
+
+  if (!check) {
+    // Row inexistante → OK réinsérer proprement
+    delete state.trips[tripId]._sbId;
+    return sbSaveTrip(tripId);
+  }
+
+  // Row existe mais UPDATE non appliqué → réessayer UPDATE
+  return sbSaveTrip(tripId);
+}
+
     } else {
       result = await Promise.race([
         toPromise(sb.from('trips').insert(payload).select('id').single()),
@@ -4280,7 +4294,7 @@ function _setSyncState(s) {
 }
 
 let _sbRetryCount = 0;
-const _sbMaxRetries = 3;
+const _sbMaxRetries = 2;
 let _sbPaused = false;
 let _sbPauseTimer = null;
 
@@ -4288,19 +4302,16 @@ let _sbPauseTimer = null;
 // et pose un Web Lock qui peut bloquer toute requête pendant ~5s.
 // On attend 3s avant de relancer les synchros pour laisser le SDK se stabiliser.
 document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') {
-    _sbPaused = true;
-    clearTimeout(_sbPauseTimer);
-    _sbPauseTimer = setTimeout(() => {
-      _sbPaused = false;
-      // Relancer une synchro en attente si nécessaire
-      if (currentUser && state.currentTrip && _sbSyncPending) {
-        console.info('[Sync] Page revenue au premier plan — synchro reprise');
+
+_sbPauseTimer = setTimeout(() => {
+    _sbPaused = false;
+    if (currentUser && state.currentTrip && _sbSyncPending) {
+        console.info('[Sync] Reprise après retour onglet');
         _sbRetryCount = 0;
         _doSbSave(state.currentTrip);
-      }
-    }, 3000);
-  }
+    }
+}, 5500);
+
 });
 
 function save() {
@@ -4310,7 +4321,7 @@ function save() {
     clearTimeout(_sbSaveTimer);
     _sbRetryCount = 0;
     _setSyncState('pending');
-    _sbSaveTimer = setTimeout(() => _doSbSave(state.currentTrip), 1000);
+    _sbSaveTimer = setTimeout(() => _doSbSave(state.currentTrip), 600);
   }
 }
 
@@ -4325,6 +4336,7 @@ function _doSbSave(tripId) {
   _setSyncState('saving');
   sbSaveTrip(tripId)
     .then(() => {
+	  _sbSyncPending = false;
       _sbRetryCount = 0;
       const ms = Date.now() - startTime;
       console.info(`[Sync] ✓ Voyage "${state.trips[tripId]?.name}" sauvegardé en ${ms}ms`);
@@ -4334,6 +4346,7 @@ function _doSbSave(tripId) {
       if (el) el.title = '';
     })
     .catch(err => {
+	  _sbSyncPending = true;
       const ms = Date.now() - startTime;
       const isTimeout = err.message?.includes('Délai') || err.name === 'AbortError';
       const tripName = state.trips[tripId]?.name || tripId;
