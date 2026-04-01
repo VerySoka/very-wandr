@@ -1879,7 +1879,7 @@ input[type="checkbox"].fancy-cb {
   }
   .budget-expense-row {
     display: grid;
-    grid-template-columns: 2.5fr 0.8fr 0.7fr 1.5fr 1fr auto;
+    grid-template-columns: 2.5fr 0.8fr 0.7fr 1.5fr 1fr 0.8fr auto;
     gap: 0.5rem;
     align-items: center;
     padding: 0.5rem 0.8rem;
@@ -1888,6 +1888,10 @@ input[type="checkbox"].fancy-cb {
     transition: background 0.12s;
   }
   .exp-row-mid { display: contents; }
+  .exp-row-mid-top { display: contents; }
+  .exp-row-mid-bottom { display: contents; }
+  /* Desktop: split cell aligns naturally in grid */
+  .exp-split-cell { display: flex; align-items: center; }
   .exp-row-label {
     display: flex;
     align-items: center;
@@ -1905,7 +1909,28 @@ input[type="checkbox"].fancy-cb {
     flex-shrink: 0;
     margin-right: 0.4rem;
   }
-  .exp-currency { font-size: 0.8rem; color: var(--muted); }
+  .exp-split-btn {
+    font-size: 0.62rem;
+    padding: 0.2rem 0.45rem;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: white;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: var(--font-body);
+    transition: all 0.15s;
+    color: var(--muted);
+  }
+  .exp-split-btn.split-all {
+    border-color: var(--jade);
+    color: var(--jade);
+    background: rgba(61,81,102,0.06);
+  }
+  .exp-split-btn.split-personal {
+    border-color: var(--gold);
+    color: #a06830;
+    background: rgba(232,146,124,0.08);
+  }
   .exp-date-wrap input {
     font-family: var(--font-body);
     font-size: 0.75rem;
@@ -1935,8 +1960,8 @@ input[type="checkbox"].fancy-cb {
   .budget-expense-row:hover { background: rgba(201,151,58,0.03); }
   .budget-expense-header {
     display: grid;
-    grid-template-columns: 2.5fr 0.8fr 0.7fr 1.5fr 1fr auto;
-    gap: 0.8rem;
+    grid-template-columns: 2.5fr 0.8fr 0.7fr 1.5fr 1fr 0.8fr auto;
+    gap: 0.5rem;
     font-size: 0.62rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -2691,10 +2716,11 @@ input[type="checkbox"].fancy-cb {
     /* ── Titres ── */
     .page-title { font-size: 1.25rem !important; }
     .overview-title-input { font-size: 1.55rem !important; }
+    .city-edit-name { font-size: 1.5rem !important; }
     .card-title { font-size: 1rem; margin-bottom: 0.4rem; }
 
     /* ── Inputs — éviter zoom iOS (min 16px) ── */
-    input, select, textarea {
+    input:not(.city-edit-name):not(.overview-title-input), select, textarea {
       font-size: 14px !important;
     }
     .budget-amount-input,
@@ -2843,13 +2869,32 @@ input[type="checkbox"].fancy-cb {
       color: var(--ink);
     }
     .exp-row-label .drag-handle { display: flex; align-items: center; color: var(--sand); font-size: 1rem; }
-    /* Ligne 2 : date + montant + type + payeur sur une ligne */
+    /* Mobile: exp-row-mid devient flex colonne */
     .exp-row-mid {
       display: flex !important;
+      flex-direction: column !important;
       width: 100%;
-      padding: 0.4rem 0.5rem 0.45rem;
+      padding: 0 !important;
+      box-sizing: border-box;
+      gap: 0;
+    }
+    /* Mobile: sous-lignes en flex */
+    .exp-row-mid-top {
+      display: flex !important;
+      width: 100%;
+      padding: 0.4rem 0.5rem 0.3rem;
       box-sizing: border-box;
       gap: 10px;
+      align-items: center;
+    }
+    .exp-row-mid-bottom {
+      display: flex !important;
+      width: 100%;
+      padding: 0.2rem 0.5rem 0.45rem;
+      box-sizing: border-box;
+      gap: 8px;
+      align-items: center;
+      border-top: 1px solid rgba(43,58,74,0.04);
     }
     .exp-row-mid > div {
       flex: initial !important;
@@ -2860,18 +2905,18 @@ input[type="checkbox"].fancy-cb {
       width: 100%;
       box-sizing: border-box;
     }
-    /* Hauteur uniforme pour tous les champs de la ligne */
-    .exp-row-mid .csel-trigger,
-    .exp-row-mid .budget-amount-input,
-    .exp-row-mid .budget-input {
+    /* Hauteur uniforme pour les champs */
+    .exp-row-mid-top .budget-amount-input,
+    .exp-row-mid-bottom .csel-trigger,
+    .exp-row-mid-bottom .budget-input {
       height: 26px !important;
       min-height: 26px !important;
       max-height: 26px !important;
       line-height: 26px !important;
       box-sizing: border-box !important;
     }
-    /* Date : hauteur libre pour iOS qui a besoin de plus d'espace */
-    .exp-row-mid .budget-date-input {
+    /* Date : hauteur libre pour iOS */
+    .exp-row-mid-top .budget-date-input {
       height: 26px;
       min-height: 26px;
       line-height: normal;
@@ -2881,6 +2926,7 @@ input[type="checkbox"].fancy-cb {
 .exp-date-wrap {
   position: relative;
   min-width: 90px;
+  flex-shrink: 0;
 }
 
 .exp-date-wrap .budget-date-input {
@@ -2911,6 +2957,9 @@ input[type="checkbox"].fancy-cb {
 .exp-amount-wrap {
   flex: 1 1 auto !important;
   min-width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
     .exp-amount-wrap::before { display: none; }
     .exp-amount-wrap .budget-amount-input {
@@ -2921,7 +2970,7 @@ input[type="checkbox"].fancy-cb {
       padding: 0 !important;
     }
     .exp-currency { font-size: 0.7rem; color: var(--muted); flex-shrink: 0; margin-left: 8px; }
-    /* Catégorie */
+    /* Catégorie — flex 0 dans la ligne 2b */
 .exp-cat-wrap {
   flex: 0 0 auto !important;
 }
@@ -2940,8 +2989,7 @@ input[type="checkbox"].fancy-cb {
     /* Payé par */
 .exp-row-person-del {
   flex: 1 1 auto !important;
-  min-width: 60px;
-  max-width: 45%;
+  min-width: 0;
   overflow: hidden;
 }
 .exp-row-person-del input {
@@ -2952,6 +3000,19 @@ input[type="checkbox"].fancy-cb {
 }
     .exp-row-person-del::before { display: none; }
     .exp-row-person { display: none !important; }
+    /* Ligne 2b : payé par prend la place disponible */
+    .exp-row-person-del {
+      flex: 1 1 auto !important;
+      min-width: 0;
+      overflow: hidden;
+    }
+    /* Bouton partage — flex fixe à droite */
+    .exp-split-cell { flex: 0 0 auto; }
+    .exp-split-btn {
+      font-size: 0.65rem !important;
+      padding: 0.2rem 0.5rem !important;
+      white-space: nowrap;
+    }
     .exp-row-mid-person { flex: 1; min-width: 0; }
     .exp-row-mid-person .csel { display: inline-block !important; width: 100% !important; max-width: 100% !important; }
     .exp-row-mid-person .csel-trigger {
@@ -3419,7 +3480,7 @@ input[type="checkbox"].fancy-cb {
 <header id="app-header" class="no-trip">
   <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Menu">&#9776;</button>
   <div class="header-brand" onclick="handleBrandClick()" style="cursor:pointer" title="Accueil">
-    <img src="https://i.goopics.net/vf22dr.png" alt="logo" style="width:140px; height:140px; object-fit:contain;">
+    <img src="https://i.goopics.net/vf22dr.png" alt="logo" style="height:38px; width:auto; object-fit:contain; display:block;">
   </div>
   <div class="header-pill" id="header-pill">
     <div class="search-wrap" id="search-wrap">
@@ -3719,6 +3780,7 @@ input[type="checkbox"].fancy-cb {
           <div style="text-align:right;padding-right:0.3rem">Montant</div>
           <div>Catégorie</div>
           <div>Payé par</div>
+          <div>Partage</div>
           <div></div>
         </div>
         <div id="budget-expenses-list"></div>
@@ -4634,6 +4696,24 @@ function renderAll() {
   renderDocuments();
   renderJournal();
 }
+
+// Désactiver le correcteur orthographique sur tous les champs de saisie
+(function disableSpellcheck() {
+  function applyNoSpellcheck(root) {
+    (root.querySelectorAll ? root.querySelectorAll('input:not([type="date"]):not([type="time"]):not([type="number"]):not([type="file"]):not([type="checkbox"]):not([type="email"]), textarea') : [])
+      .forEach(el => { el.spellcheck = false; });
+  }
+  // Appliquer sur le document existant
+  applyNoSpellcheck(document);
+  // Écouter les nouveaux éléments ajoutés dynamiquement
+  new MutationObserver(mutations => {
+    mutations.forEach(m => m.addedNodes.forEach(node => {
+      if (node.nodeType !== 1) return;
+      if (node.matches('input, textarea')) node.spellcheck = false;
+      else applyNoSpellcheck(node);
+    }));
+  }).observe(document.body, { childList: true, subtree: true });
+})();
 
 function syncTripSelects() {
   const main   = document.getElementById('trip-select');
@@ -6881,7 +6961,8 @@ function renderBudget() {
   // Compteur sidebar
   const sidebarTotal = document.getElementById('sidebar-budget-total');
   if (sidebarTotal) sidebarTotal.textContent = total > 0 ? fmtAmt(total, cur) : '';
-  const perPerson = persons.length ? total / persons.length : 0;
+  const sharedTotal = expenses.filter(e => (e.split||'all') === 'all').reduce((s, e) => s + (parseFloat(e.amount)||0), 0);
+  const perPerson = persons.length ? sharedTotal / persons.length : 0;
   const summaryEl = document.getElementById('budget-summary');
   if (summaryEl) {
     summaryEl.innerHTML = `
@@ -6930,27 +7011,32 @@ function renderBudget() {
           <textarea class="budget-input budget-label-ta" placeholder="Intitulé de la dépense" rows="1" oninput="updateExpense(${i},'label',this.value);autoResizeTA(this)"></textarea>
         </div>
         <div class="exp-row-mid exp-row-all-fields">
+          <div class="exp-row-mid-top">
 <div class="exp-date-wrap">
   <input
     type="date"
     class="budget-date-input"
     value="${exp.date || ''}"
-	placeholder=""
+    placeholder=""
     onchange="updateExpense(${i},'date',this.value)"
   />
 </div>
-          <div class="exp-amount-wrap">
-            <input class="budget-amount-input" type="number" min="0" step="0.01" value="${exp.amount||''}" placeholder="0" onchange="updateExpense(${i},'amount',this.value)" />
-            <span class="exp-currency">${cur}</span>
+            <div class="exp-amount-wrap">
+              <input class="budget-amount-input" type="number" min="0" step="0.01" value="${exp.amount||''}" placeholder="0" onchange="updateExpense(${i},'amount',this.value)" />
+              <span class="exp-currency">${cur}</span>
+            </div>
           </div>
-          <div class="csel-cat-cell exp-cat-wrap">
-            <span class="cat-dot" style="background:${catColor(exp.category||'divers')}"></span>
-          </div>
-          <div class="exp-row-person-del csel-person-cell">
-            ${persons.length
-              ? ``
-              : `<input class="budget-input" value="${escHtml(exp.person||'')}" placeholder="Payé par…" onchange="updateExpense(${i},'person',this.value)" />`
-            }
+          <div class="exp-row-mid-bottom">
+            <div class="csel-cat-cell exp-cat-wrap">
+              <span class="cat-dot" style="background:${catColor(exp.category||'divers')}"></span>
+            </div>
+            <div class="exp-row-person-del csel-person-cell">
+              ${persons.length
+                ? ``
+                : `<input class="budget-input" value="${escHtml(exp.person||'')}" placeholder="Payé par…" onchange="updateExpense(${i},'person',this.value)" />`
+              }
+            </div>
+            <div class="exp-split-cell"></div>
           </div>
         </div>
         <button class="btn-del-row exp-del-btn" onclick="deleteExpense(${i})">✕</button>
@@ -6984,6 +7070,25 @@ function renderBudget() {
           cell.appendChild(createCsel(pOpts, exp.person||'', val => updateExpense(i,'person',val)));
         }
       }
+      // Injecter le bouton split
+      const splitCell = row.querySelector('.exp-split-cell');
+      if (splitCell) {
+        const splitVal = exp.split || 'all';
+        const btn = document.createElement('button');
+        btn.className = 'exp-split-btn ' + (splitVal === 'personal' ? 'split-personal' : 'split-all');
+        btn.title = splitVal === 'personal' ? 'Dépense personnelle (non partagée)' : 'Dépense partagée entre tous';
+        btn.textContent = splitVal === 'personal' ? '👤 Perso' : '👥 Partagé';
+        btn.onclick = () => {
+          const next = (budgetData().expenses[i].split || 'all') === 'all' ? 'personal' : 'all';
+          updateExpense(i, 'split', next);
+          btn.className = 'exp-split-btn ' + (next === 'personal' ? 'split-personal' : 'split-all');
+          btn.textContent = next === 'personal' ? '👤 Perso' : '👥 Partagé';
+          btn.title = next === 'personal' ? 'Dépense personnelle (non partagée)' : 'Dépense partagée entre tous';
+          setTimeout(() => renderBudgetStats(), 30);
+        };
+        splitCell.appendChild(btn);
+      }
+
       // Drag & drop dépenses (souris + tactile)
       row.addEventListener('dragstart', e => {
         e.dataTransfer.effectAllowed = 'move';
@@ -7054,16 +7159,29 @@ function renderBudget() {
     if (persons.length < 2) {
       balanceEl.innerHTML = '<div style="padding:1rem;font-size:0.8rem;color:var(--muted);font-style:italic">Ajoutez au moins 2 voyageurs pour calculer la balance.</div>';
     } else {
-      // Calculate how much each person paid vs their fair share
+      // Calculer ce que chaque personne doit selon le type de dépense
       const paidMap = {};
-      persons.forEach(p => paidMap[p] = 0);
+      const owedMap = {}; // ce que chaque personne doit payer (part)
+      persons.forEach(p => { paidMap[p] = 0; owedMap[p] = 0; });
       expenses.forEach(e => {
-        const p = e.person;
-        if (p && paidMap.hasOwnProperty(p)) paidMap[p] += parseFloat(e.amount)||0;
-        else if (p) { paidMap[p] = parseFloat(e.amount)||0; }
+        const amount = parseFloat(e.amount) || 0;
+        const payer = e.person;
+        const isPersonal = (e.split || 'all') === 'personal';
+        // Enregistrer ce que le payeur a payé
+        if (payer && paidMap.hasOwnProperty(payer)) paidMap[payer] += amount;
+        else if (payer) paidMap[payer] = amount;
+        // Calculer la part due par chacun
+        if (isPersonal) {
+          // Dépense personnelle : seul le payeur en est responsable
+          if (payer && owedMap.hasOwnProperty(payer)) owedMap[payer] += amount;
+          else if (payer) owedMap[payer] = amount;
+        } else {
+          // Dépense partagée : divisée entre tous les voyageurs
+          const share = amount / persons.length;
+          persons.forEach(p => { owedMap[p] = (owedMap[p] || 0) + share; });
+        }
       });
-      const share = total / persons.length;
-      const balances = persons.map(p => ({ name: p, balance: (paidMap[p]||0) - share }));
+      const balances = persons.map(p => ({ name: p, balance: (paidMap[p]||0) - (owedMap[p]||0) }));
 
       // Show each person's balance
       balances.forEach(b => {
@@ -7079,7 +7197,7 @@ function renderBudget() {
           <div class="balance-avatar" style="background:${personColor(b.name)}">${b.name.charAt(0).toUpperCase()}</div>
           <div class="balance-row-info">
             <span class="balance-person">${escHtml(b.name)}</span>
-            <span class="balance-details">payé ${fmtAmt(paidMap[b.name]||0, cur)} · part ${fmtAmt(share, cur)}</span>
+            <span class="balance-details">payé ${fmtAmt(paidMap[b.name]||0, cur)} · doit ${fmtAmt(owedMap[b.name]||0, cur)}</span>
           </div>
           <div class="balance-right">${badge}</div>
         `;
@@ -7180,41 +7298,17 @@ function updateExpense(i, key, val) {
 }
 
 function renderBudgetStats() {
-  // Re-rendre uniquement stats, chart, subtotals, balance — PAS la liste des dépenses
+  // Re-rendre stats, chart, subtotals et balance — PAS la liste des dépenses
+  if (document.getElementById('page-budget')?.classList.contains('active')) {
+    renderBudget();
+    return;
+  }
+  // Si la page budget n'est pas active, mettre à jour uniquement le sidebar
   const b = budgetData();
+  const total = (b.expenses || []).reduce((s, e) => s + (parseFloat(e.amount)||0), 0);
   const cur = b.currency || '€';
-  const expenses = b.expenses || [];
-  const persons = b.persons || [];
-  const total = expenses.reduce((s, e) => s + (parseFloat(e.amount)||0), 0);
-  const perPerson = persons.length ? total / persons.length : 0;
-
-  // Sidebar total
   const sidebarTotal = document.getElementById('sidebar-budget-total');
   if (sidebarTotal) sidebarTotal.textContent = total > 0 ? fmtAmt(total, cur) : '';
-
-  // Summary stats
-  const summaryEl = document.getElementById('budget-summary');
-  if (summaryEl) {
-    summaryEl.innerHTML = `
-      <div class="budget-stat">
-        <div class="budget-stat-label">Total dépenses</div>
-        <div class="budget-stat-value">${fmtAmt(total, cur)}</div>
-        <div class="budget-stat-sub">${expenses.length} dépense${expenses.length!==1?'s':''}</div>
-      </div>
-      <div class="budget-stat">
-        <div class="budget-stat-label">Part idéale / pers.</div>
-        <div class="budget-stat-value">${persons.length ? fmtAmt(perPerson, cur) : '—'}</div>
-        <div class="budget-stat-sub">${persons.length} voyageur${persons.length!==1?'s':''}</div>
-      </div>
-      <div class="budget-stat">
-        <div class="budget-stat-label">Plus gros payeur</div>
-        <div class="budget-stat-value" style="font-size:1.2rem">${topPayer(expenses, persons, cur)}</div>
-      </div>
-    `;
-  }
-
-  // Chart
-  renderBudgetChart(expenses, cur);
 }
 function updateCurrency(val) { budgetData().currency = val; save(); renderBudget(); }
 
@@ -8831,10 +8925,19 @@ function deleteJournalEntry(i) {
 // ══════════════════════════════════════════
 // FAB — DÉPENSE RAPIDE
 // ══════════════════════════════════════════
+let _fabSplit = 'all';
+
+function fabSetSplit(val) {
+  _fabSplit = val;
+  const btnAll  = document.getElementById('fab-split-all');
+  const btnPers = document.getElementById('fab-split-personal');
+  if (btnAll)  btnAll.className  = 'exp-split-btn' + (val === 'all'      ? ' split-all'      : '');
+  if (btnPers) btnPers.className = 'exp-split-btn' + (val === 'personal' ? ' split-personal' : '');
+}
+
 function openFabExpense() {
   if (!trip()) return;
   const b = budgetData();
-  // Populate category select
   const catSel = document.getElementById('fab-category');
   if (catSel) {
     catSel.innerHTML = '';
@@ -8845,7 +8948,6 @@ function openFabExpense() {
     });
     catSel.value = 'divers';
   }
-  // Populate person select
   const persSel = document.getElementById('fab-person');
   if (persSel) {
     persSel.innerHTML = '';
@@ -8862,11 +8964,10 @@ function openFabExpense() {
       });
     }
   }
-  // Reset fields
   document.getElementById('fab-label').value = '';
   document.getElementById('fab-amount').value = '';
   document.getElementById('fab-date').value = new Date().toISOString().slice(0, 10);
-  // Show sheet
+  fabSetSplit('all');
   document.getElementById('fab-sheet-overlay').classList.add('open');
   setTimeout(() => document.getElementById('fab-label').focus(), 100);
 }
@@ -8889,7 +8990,8 @@ function submitFabExpense() {
     amount: amount,
     category: category,
     person: person,
-    date: date
+    date: date,
+    split: _fabSplit
   });
   save();
   closeFabExpense();
@@ -8953,6 +9055,21 @@ function submitFabExpense() {
           <label>Payé par</label>
           <select id="fab-person"></select>
         </div>
+      </div>
+    </div>
+    <div class="fab-field" style="margin-top:0.7rem;margin-bottom:0">
+      <label>Type de dépense</label>
+      <div style="display:flex;gap:0.5rem;margin-top:0.25rem">
+        <button id="fab-split-all" onclick="fabSetSplit('all')"
+          class="exp-split-btn split-all"
+          style="flex:1;padding:0.45rem;font-size:0.78rem;border-radius:8px">
+          👥 Partagée entre tous
+        </button>
+        <button id="fab-split-personal" onclick="fabSetSplit('personal')"
+          class="exp-split-btn"
+          style="flex:1;padding:0.45rem;font-size:0.78rem;border-radius:8px">
+          👤 Personnelle
+        </button>
       </div>
     </div>
     <button class="fab-submit" onclick="submitFabExpense()">✓ Ajouter la dépense</button>
