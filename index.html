@@ -5325,7 +5325,8 @@ function validateDates() {
   const volsAvecDate = (t.flights||[]).filter(f => f.date);
   // dateAller = date d'arrivée du vol aller (arrivalDate si renseignée, sinon date départ)
   const _fAller   = volsAvecDate.length >= 1 ? volsAvecDate[0] : null;
-  const _fRetour  = volsAvecDate.length >= 2 ? volsAvecDate[volsAvecDate.length-1] : null;
+  // dateRetour = date de départ du PREMIER vol retour (pas forcément le dernier vol)
+  const _fRetour  = volsAvecDate.find(f => f.type === 'Retour') || (volsAvecDate.length >= 2 ? volsAvecDate[volsAvecDate.length-1] : null);
   const isoAller  = _fAller  ? (_fAller.arrivalDate  || _fAller.date)  : null;
   const isoRetour = _fRetour ? _fRetour.date : null;
   const dateAller  = isoAller  ? toDateV(isoAller)  : null;
