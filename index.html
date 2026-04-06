@@ -5504,7 +5504,11 @@ function validateDates() {
     const uncovered = [];
     let d = new Date(dateAller);
     let guard = 0;
-    while (d < dateRetour && guard++ < 400) {
+    // On s'arrête à dateRetour - 1 : le jour du vol retour est le checkout,
+    // pas besoin d'y dormir
+    const lastNight = new Date(dateRetour);
+    lastNight.setDate(lastNight.getDate() - 1);
+    while (d <= lastNight && guard++ < 400) {
       const iso = localISO(d);
       if (!covered.has(iso)) uncovered.push(fmtDV(iso));
       d.setDate(d.getDate()+1);
