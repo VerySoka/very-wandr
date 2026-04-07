@@ -7657,7 +7657,7 @@ async function geocodeAndRender() {
   mapMarkers = [];
   if (mapPolyline) { leafletMap.removeLayer(mapPolyline); mapPolyline = null; }
 
-  const cities = t.cities || [];
+  const cities = (t.cities || []).filter(c => c.name.trim().toLowerCase() !== 'divers');
   if (!cities.length) {
     setMapStatus('Aucune destination — ajoutez des villes via la sidebar.');
     renderCoordTable([]); renderMapLegend([]);
