@@ -7481,7 +7481,7 @@ function initMap() {
   }
   mapInitialized = true;
   leafletMap = L.map('travel-map', { center: [20, 0], zoom: 2, zoomControl: true });
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  L.tileLayer('https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png?key=cb1_2uej_1_c734b2a5c39816f9f4c98373', {
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/">CARTO</a>',
     subdomains: 'abcd', maxZoom: 19
   }).addTo(leafletMap);
@@ -7551,12 +7551,16 @@ async function geocodeAndRender() {
   mapMarkers = [];
   if (mapPolyline) { leafletMap.removeLayer(mapPolyline); mapPolyline = null; }
 
-  const cities = t.cities || [];
-  if (!cities.length) {
-    setMapStatus('Aucune destination — ajoutez des villes via la sidebar.');
-    renderCoordTable([]); renderMapLegend([]);
-    return;
-  }
+const cities = (t.cities || []).filter(city => {
+  return (city.name || '').trim().toLowerCase() !== 'divers';
+});
+
+if (!cities.length) {
+  setMapStatus('Aucune destination — ajoutez des villes via la sidebar.');
+  renderCoordTable([]);
+  renderMapLegend([]);
+  return;
+}
 
   setMapStatus(`Géocodage de ${cities.length} destination(s)…`, true);
   const resolved = [];
