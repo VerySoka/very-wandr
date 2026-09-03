@@ -7481,9 +7481,9 @@ function initMap() {
   }
   mapInitialized = true;
   leafletMap = L.map('travel-map', { center: [20, 0], zoom: 2, zoomControl: true });
-  L.tileLayer('https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png?key=cb1_2uej_1_c734b2a5c39816f9f4c98373', {
+  L.tileLayer('https://basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png?key=cb1_2uej_1_c734b2a5c39816f9f4c98373', {
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/">CARTO</a>',
-    subdomains: 'abcd', maxZoom: 19
+    subdomains: 'abcd', maxZoom: 20
   }).addTo(leafletMap);
   setTimeout(() => { leafletMap.invalidateSize(); geocodeAndRender(); }, 150);
 }
@@ -7551,9 +7551,9 @@ async function geocodeAndRender() {
   mapMarkers = [];
   if (mapPolyline) { leafletMap.removeLayer(mapPolyline); mapPolyline = null; }
 
-const cities = (t.cities || []).filter(city => {
-  return (city.name || '').trim().toLowerCase() !== 'divers';
-});
+const cities = (t.cities || []).filter(
+  city => (city.name || '').trim().toLowerCase() !== 'divers'
+);
 
 if (!cities.length) {
   setMapStatus('Aucune destination — ajoutez des villes via la sidebar.');
