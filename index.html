@@ -3117,7 +3117,6 @@ input[type="checkbox"].fancy-cb {
     }
     /* Bouton imprimer → partage natif sur mobile */
     #btn-print { display: none; font-size: 0.9rem; }
-    .hdr-btn:not(#btn-pill-auth) { display: none !important; }
     .hdr-divider { display: none !important; }
 
     /* ── Pull to refresh ── */
@@ -6246,7 +6245,7 @@ function confirmAddSection() {
   if (addSectionTarget === 'checklist') {
     trip().checklistSections.push({ title: name, items: [] });
     save(); renderChecklist();
-  } else if (addSectionTarget && addSectionTarget.startsWith('city_')) {
+  } else if (addSectionTarget && addSectionTarget.startsWith('city-')) {
     // handled differently
   }
   closeModal('modal-add-section');
@@ -8402,10 +8401,10 @@ function runSearch(q) {
   // Destinations
   (t.cities||[]).forEach(c => {
     if (match(c.name)) {
-      results.push({ section:'Destinations', text:c.name, page:'city_'+c.id, display: hi(c.name) });
+      results.push({ section:'Destinations', text:c.name, page:'city-'+c.id, display: hi(c.name) });
     }
     (c.items||[]).forEach(it => {
-      if (match(it.text)) results.push({ section:`${c.name}`, text:it.text, page:'city_'+c.id, display: hi(it.text) });
+      if (match(it.text)) results.push({ section:`${c.name}`, text:it.text, page:'city-'+c.id, display: hi(it.text) });
     });
   });
 
@@ -8453,9 +8452,8 @@ function runSearch(q) {
     el.innerHTML = `<div class="sr-section">${escHtml(r.section)}</div><div class="sr-text">${r.display}</div>`;
     el.onclick = () => {
       closeSearch();
-      if (r.page.startsWith('city_')) {
-        const cid = r.page.replace('city_','');
-        showPage(cid, null);
+      if (r.page.startsWith('city-')) {
+        showPage(r.page, null);
       } else {
         const link = document.querySelector(`.sidebar-link[data-page="${r.page}"]`);
         showPage(r.page, link);
