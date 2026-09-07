@@ -5404,6 +5404,12 @@ function validateDates() {
   });
 
   // ── Nuits sans hébergement → icône sur le card-title ──
+  function dateToISOlocal(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
   const diffJours = dateAller && dateRetour ? Math.round((dateRetour - dateAller) / 86400000) : 0;
   if (dateAller && dateRetour && dateRetour > dateAller && valides.length > 0 && diffJours <= 365) {
     const covered = new Set();
@@ -5412,13 +5418,13 @@ function validateDates() {
       if (!hci || !hco) return;
       let d = new Date(hci);
       let guard = 0;
-      while (d < hco && guard++ < 400) { covered.add(d.toISOString().slice(0,10)); d.setDate(d.getDate()+1); }
+      while (d < hco && guard++ < 400) { covered.add(dateToISOlocal(d)); d.setDate(d.getDate()+1); }
     });
     const uncovered = [];
     let d = new Date(dateAller);
     let guard = 0;
     while (d < dateRetour && guard++ < 400) {
-      const iso = d.toISOString().slice(0,10);
+      const iso = dateToISOlocal(d);
       if (!covered.has(iso)) uncovered.push(fmtDV(iso));
       d.setDate(d.getDate()+1);
     }
