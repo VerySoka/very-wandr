@@ -5244,8 +5244,14 @@ function validateDates() {
 
   const volsAvecDate = (t.flights||[]).filter(f => f.date);
   // dateAller = date d'arrivée du vol aller (arrivalDate si renseignée, sinon date départ)
-  const _fAller   = volsAvecDate.length >= 1 ? volsAvecDate[0] : null;
-  const _fRetour  = volsAvecDate.length >= 2 ? volsAvecDate[1] : null;
+  // dateRetour = date de départ du PREMIER vol de type 'Retour' (et non du dernier vol
+  // du tableau) : en cas de retour en plusieurs segments (escale, vol de nuit...), c'est
+  // ce premier décollage qui marque la fin du besoin d'hébergement — les nuits passées
+  // en correspondance/transit ne doivent pas être signalées comme "nuit sans hôtel".
+  const allersAvecDate  = volsAvecDate.filter(f => f.type === 'Aller').sort((a,b) => a.date.localeCompare(b.date));
+  const retoursAvecDate = volsAvecDate.filter(f => f.type === 'Retour').sort((a,b) => a.date.localeCompare(b.date));
+  const _fAller   = allersAvecDate.length  ? allersAvecDate[0]  : (volsAvecDate[0] || null);
+  const _fRetour  = retoursAvecDate.length ? retoursAvecDate[0] : (volsAvecDate.length >= 2 ? volsAvecDate[volsAvecDate.length-1] : null);
   const isoAller  = _fAller  ? (_fAller.arrivalDate  || _fAller.date)  : null;
   const isoRetour = _fRetour ? _fRetour.date : null;
   const dateAller  = isoAller  ? toDateV(isoAller)  : null;
