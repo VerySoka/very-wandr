@@ -5404,38 +5404,111 @@ function validateDates() {
   });
 
   // ── Nuits sans hébergement → icône sur le card-title ──
-  function dateToISOlocal(date) {
+
+function dateToISOlocal(date) {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, '0');
   const d = String(date.getDate()).padStart(2, '0');
   return `${y}-${m}-${d}`;
 }
-  const diffJours = dateAller && dateRetour ? Math.round((dateRetour - dateAller) / 86400000) : 0;
-  if (dateAller && dateRetour && dateRetour > dateAller && valides.length > 0 && diffJours <= 365) {
-    const covered = new Set();
-    valides.forEach(({ h }) => {
-      const hci = toDateV(h.checkin), hco = toDateV(h.checkout);
-      if (!hci || !hco) return;
-      let d = new Date(hci);
-      let guard = 0;
-      while (d < hco && guard++ < 400) { covered.add(dateToISOlocal(d)); d.setDate(d.getDate()+1); }
-    });
-    const uncovered = [];
-    let d = new Date(dateAller);
+
+const diffJours =
+  dateAller && dateRetour
+    ? Math.round(
+        (new Date(
+          dateRetour.getFullYear(),
+          dateRetour.getMonth(),
+          dateRetour.getDate()
+        ) -
+        new Date(
+          dateAller.getFullYear(),
+          dateAller.getMonth(),
+          dateAller.getDate()
+        )) / 86400000
+      )
+    : 0;
+
+if (
+  dateAller &&
+  dateRetour &&
+  dateRetour > dateAller &&
+  valides.length > 0 &&
+  diffJours <= 365
+) {
+  const covered = new Set();
+
+  valides.forEach(({ h }) => {
+    const hci = toDateV(h.checkin);
+    const hco = toDateV(h.checkout);
+
+    if (!hci || !hco || hco <= hci) return;
+
+    let d = new Date(
+      hci.getFullYear(),
+      hci.getMonth(),
+      hci.getDate()
+    );
+
+    const checkout = new Date(
+      hco.getFullYear(),
+      hco.getMonth(),
+      hco.getDate()
+    );
+
     let guard = 0;
-    while (d < dateRetour && guard++ < 400) {
-      const iso = dateToISOlocal(d);
-      if (!covered.has(iso)) uncovered.push(fmtDV(iso));
-      d.setDate(d.getDate()+1);
+
+    // Chaque date représente la nuit qui commence ce jour-là.
+    // Le jour du checkout n'est PAS une nuit d'hôtel.
+    while (d < checkout && guard++ < 400) {
+      covered.add(dateToISOlocal(d));
+      d.setDate(d.getDate() + 1);
     }
-    if (uncovered.length > 0 && hotelTitle) {
-      const cell = document.createElement('span');
-      cell.className = 'warn-cell';
-      const label = uncovered.length <= 3 ? uncovered.join(', ') : uncovered.length + ' nuits non couvertes';
-      cell.setAttribute('data-tip', 'Nuit(s) sans hébergement :\n' + label);
-      cell.textContent = ' ⚠️';
-      hotelTitle.appendChild(cell);
+  });
+
+  const uncovered = [];
+
+  let d = new Date(
+    dateAller.getFullYear(),
+    dateAller.getMonth(),
+    dateAller.getDate()
+  );
+
+  const retour = new Date(
+    dateRetour.getFullYear(),
+    dateRetour.getMonth(),
+    dateRetour.getDate()
+  );
+
+  let guard = 0;
+
+  // On vérifie uniquement les nuits du séjour.
+  // La date de retour elle-même n'est PAS une nuit.
+  while (d < retour && guard++ < 400) {
+    const iso = dateToISOlocal(d);
+
+    if (!covered.has(iso)) {
+      uncovered.push(fmtDV(iso));
     }
+
+    d.setDate(d.getDate() + 1);
+  }
+
+  if (uncovered.length > 0 && hotelTitle) {
+    const cell = document.createElement('span');
+    cell.className = 'warn-cell';
+
+    const label =
+      uncovered.length <= 3
+        ? uncovered.join(', ')
+        : uncovered.length + ' nuits non couvertes';
+
+    cell.setAttribute(
+      'data-tip',
+      'Nuit(s) sans hébergement :\n' + label
+    );
+
+    cell.textContent = ' ⚠️';
+    hotelTitle.appendChild(cell);
   }
 }
 
